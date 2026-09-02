@@ -1,0 +1,15 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="triangle-skew-spin" [fullScreen]="true">
+  <p style="color: white"> Učitavanje... </p>
+</ngx-spinner>
+
+<app-header *ngIf="formaZaLeadove"></app-header>
+<div class="container mt-3 mb-3 p-0">
+  <div class="row">
+    <router-outlet></router-outlet>
+  </div>
+  <p-scrollTop></p-scrollTop>
+</div>
+<!-- <app-footer></app-footer> -->
+
+
+

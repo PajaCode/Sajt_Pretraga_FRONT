@@ -1,0 +1,134 @@
+:host ::ng-deep {
+  .row {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    #note {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: medium;
+    }
+
+    p-card.p-element {
+      margin: 3rem auto;
+      padding: 0;
+      width: 30%;
+      box-shadow: 1px 1px 40px 5px rgba(51, 147, 227, 0.2);
+
+      .p-card-header {
+        width: 80% !important;
+        margin: auto;
+        padding-top: 1rem;
+      }
+
+      .p-card-body {
+        padding: 1.25rem !important;
+
+        .p-card-title {
+          text-align: center;
+          margin-bottom: 1rem;
+        }
+
+        .p-card-content {
+          padding: 0;
+          margin-top: 1rem;
+
+          .row {
+            display: flex;
+            flex-wrap: wrap;
+
+            .flex-column {
+              width: 100%;
+              margin-bottom: 1.5em;
+              padding: 0;
+
+              input,
+              .p-password {
+                width: 100%;
+              }
+
+              eyeicon:hover {
+                color: black;
+                opacity: 0.7;
+              }
+            }
+          }
+        }
+
+        .p-card-footer {
+          text-align: center;
+          padding: 0;
+
+          p {
+            margin: 0;
+            font-family: 'AvenirNextDemi', sans-serif;
+          }
+        }
+
+        a {
+          text-decoration: none;
+          color: #3b82f6;
+          font-weight: bold;
+
+          &:hover {
+            letter-spacing: 1px;
+            border-bottom: 2px solid #3b82f6;
+            transform: scale(1.5);
+            transition: all 0.3s ease-in-out;
+          }
+        }
+
+        .p-dialog {
+
+          .p-dialog-header,
+          .p-dialog-content,
+          .p-dialog-footer {
+            padding: 1.15rem;
+          }
+
+          .p-dialog-content {
+            input {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 540px) {
+    p-card.p-element {
+      width: 90% !important;
+    }
+  }
+
+  @media screen and (min-width: 540px) and (max-width: 768px) {
+    p-card.p-element {
+      width: 80% !important;
+    }
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    p-card.p-element {
+      width: 60% !important;
+    }
+  }
+
+  @media screen and (min-width: 1024px) and (max-width: 1200px) {
+    p-card.p-element {
+      width: 50% !important;
+    }
+  }
+
+  @media screen and (min-width: 993px) {
+    .p-card-content .row {
+      justify-content: space-between;
+
+      .ime-prezime-column {
+        width: 45% !important;
+      }
+    }
+  }
+}

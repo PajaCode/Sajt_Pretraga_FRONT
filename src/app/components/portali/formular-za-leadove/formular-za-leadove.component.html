@@ -1,0 +1,90 @@
+<div class="container">
+    <form [formGroup]="problem">
+        <div class="header-section">
+            <img src="/assets/images/Heder.png" class="form-image" >
+            <div class="full-width-section header-section" >
+                <img class="logo" height="150px" style="right: 50px; position: relative;" alt="Globos" src="/assets/images/GlobosMedic.png">
+            </div>
+            <h3>Kontaktirajte nas za ponudu i dodatne informacije</h3>
+        </div>
+        
+        <div class="form-fields" style="margin-top: 20px;">
+            <div class="field-group">
+                <span class="p-float-label">
+                    <input id="imeKompanije" type="text" pInputText formControlName="imeKompanije" style="width: 100%"/>
+                    <label for="imeKompanije">Ime kompanije</label>
+                </span>
+            </div>
+            <div class="field-group">
+                <span class="p-float-label" style="margin-top: 30px;">
+                    <input id="maticniBroj" type="text" pInputText formControlName="maticniBroj" style="width: 100%"/>
+                    <label for="maticniBroj">Matični broj kompanije</label>
+                    <div *ngIf="problem.get('maticniBroj').invalid && problem.get('maticniBroj').touched" class="error" style="margin-top:5px;">
+                        <div *ngIf="problem.get('maticniBroj').errors['required']">
+                            Matični broj je obavezan.
+                        </div>
+                        <div *ngIf="problem.get('maticniBroj').errors['minLength']">
+                            Matični broj mora imati najmanje 13 karaktera.
+                        </div>
+                        <div *ngIf="problem.get('maticniBroj').errors['pattern']">
+                            Matični broj sme sadržati samo brojeve.
+                        </div>
+                    </div>
+                </span>   
+            </div>
+            <div class="field-group">
+                <span class="p-float-label" style="margin-top: 30px;">
+                    <input id="adresa" type="text" pInputText formControlName="adresa" style="width: 100%"/>
+                    <label for="adresa">Adresa</label>
+                </span>
+            </div>
+            <div class="field-group">
+                <span class="p-float-label" style="margin-top: 30px;">
+                    <input id="brojZaposlenih" type="text" pInputText formControlName="brojZaposlenih" style="width: 100%"/>
+                    <label for="brojZaposlenih">Broj zaposlenih</label>
+                </span>
+            </div>
+        </div>
+        <div class="astrodivider"><div class="astrodividermask"></div></div>
+        <div class="form-fields">
+            <div class="field-group">
+                <span class="p-float-label" style="margin-top: 30px;">
+                    <input id="kontaktOsoba" type="text" pInputText formControlName="kontaktOsoba" style="width: 100%"/>
+                    <label for="kontaktOsoba">Ime i prezime kontakt osobe</label>
+                </span>
+            </div>
+            <div class="field-group">
+                <span class="p-float-label" style="margin-top: 30px;">
+                    <input id="kontaktEmail" type="text" pInputText formControlName="kontaktEmail" style="width: 100%"/>
+                    <label for="kontaktEmail">Kontakt email</label>
+                </span>
+            </div>
+            <div class="field-group">
+                <span class="p-float-label" style="margin-top: 30px;">
+                    <input id="kontaktTelefon" type="text" pInputText formControlName="kontaktTelefon" style="width: 100%"/>
+                    <label for="kontaktTelefon">Kontakt telefon</label>
+                </span>
+            </div>
+            <div class="field-group">
+                <span class="p-float-label" style="margin-top: 30px;">
+                    <textarea id="pitanje" rows="5" cols="55" formControlName="pitanje" pInputTextarea style="width: 100%;"></textarea>
+                    <label for="pitanje">Navedite svoje pitanje</label>
+                </span>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" formControlName="saglasnost" id="potvrdi">
+                    <label class="form-check-label" for="potvrdi">
+                        Popunjavanjem ovog kontakt formulara dajete saglasnost da Vas kontaktiramo.
+                    </label>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" (click)="unosFormularaLeader()">Zatražite ponudu</button>
+            &nbsp;
+            <button class="btn btn-secondary" (click)="ponisti()">Poništi</button>
+        </div>
+    </form>
+</div>
+<div class="full-width-section footer-section" >
+    <img src="/assets/images/Futer.png" class="form-image">
+</div>

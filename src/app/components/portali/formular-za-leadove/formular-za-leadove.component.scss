@@ -1,0 +1,83 @@
+::ng-deep {
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #c4daeb94; 
+    border-radius: 10px; 
+  }
+  
+  /* Header & Footer */
+  .full-width-section {
+    width: 100%;
+    //text-align: center;
+    color: white; /* Text color */
+    padding: 20px 0; /* Adjust padding as needed */
+  }
+  
+  .form-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+  }
+
+  // .header-section, .footer-section {
+  //   margin-bottom: 20px;
+  // }
+  
+  .field-group {
+    margin-bottom: 15px;
+  }
+  
+  .field-group input, .field-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .form-actions {
+    text-align: right;
+    margin-top: 20px;
+  }
+  
+  .btn-primary {
+    background-color: #3393e3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .astrodivider {
+    margin: 30px auto;
+    width: 800px; 
+    max-width: 100%;
+    position: relative;
+  }
+  
+  .astrodividermask { 
+    overflow: hidden;
+    height: 20px; 
+  }
+  
+  .astrodividermask:after { 
+    content:''; 
+    display: block;
+    margin: -25px auto 0;
+    width: 100%; 
+    height: 25px;  
+    border-radius: 125px / 12px;
+    box-shadow: 0 0 8px #3393e3;
+  }
+}

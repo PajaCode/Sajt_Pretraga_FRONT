@@ -1,0 +1,47 @@
+<div class="row">
+  <p-card>
+    <!-- header -->
+    <ng-template pTemplate="header">
+      <img alt="Globos osiguranje" src="https://globos.rs/images/logo_194x58.svg" />
+    </ng-template>
+    <!-- body -->
+    <ng-template pTemplate="body">
+      <hr>
+      <!-- ukoliko je aktiviran profil -->
+      <ng-container *ngIf="!decodedToken.Aktivan">
+        <!-- ukoliko token je istekao -->
+        <ng-container *ngIf="tokenExpired">
+          <h3>Neuspešno ste potvrdili vašu e-mail adresu.</h3>
+          <p> Link za potvrdu je istekao. </p>
+        </ng-container>
+        <!-- ukoliko token nije istekao -->
+        <ng-container *ngIf="!tokenExpired">
+          <h3>Proverite vaše poštansko sanduče. </h3>
+          <p> Link za potvrdu je uspešno poslat na vašu e-mail adresu. </p>
+        </ng-container>
+      </ng-container>
+      <!-- ukoliko nije aktiviran profil -->
+      <ng-container *ngIf="decodedToken.Aktivan">
+        <!-- ukoliko token je istekao -->
+        <ng-container *ngIf="tokenExpired">
+          <h3>E-mail adresa je već potvrdjena. </h3>
+        </ng-container>
+        <!-- ukoliko token nije istekao -->
+        <ng-container *ngIf="!tokenExpired">
+          <h3>Uspešno ste potvrdili vašu e-mail adresu. </h3>
+        </ng-container>
+      </ng-container>
+    </ng-template>
+    <!-- footer -->
+    <ng-template pTemplate="footer">
+      <ng-container *ngIf="!decodedToken.Aktivan && tokenExpired">
+        <hr>
+        <p-button label="Posaljite ponovo" (click)="ponoviMejl()" styleClass="p-button-link"></p-button><br>
+      </ng-container>
+      <ng-container *ngIf="decodedToken.Aktivan">
+        <hr>
+        <p-button label="Ulogujte se" routerLink="/login" styleClass="p-button-link"></p-button><br>
+      </ng-container>
+    </ng-template>
+  </p-card>
+</div>

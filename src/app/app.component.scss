@@ -1,0 +1,15 @@
+.row {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+::ng-deep {
+  p-scrolltop {
+    .p-scrolltop {
+      background-color: #3393e3 !important;
+      margin-right: 1rem !important;
+    }
+  }
+
+}

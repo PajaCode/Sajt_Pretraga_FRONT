@@ -1,0 +1,64 @@
+<header>
+  <nav class="navbar navbar-expand-lg position-sticky">
+    <div class="container d-flex justify-content-between align-items-start">
+      <div class="row justify-content-between">
+        <div class="col">
+          <a class="navbar-brand" href="https://globos.rs/sr/zdravstveno-osiguranje" target="_blank">
+            <img class="logo" src="https://globos.rs/images/logo_194x58.svg" height="60px" alt="Globos"
+              pTooltip="Idi na odeljak zdravstvenog osiguranja" tooltipPosition="bottom">
+          </a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+          [ngClass]="{'hide-button': !displayNavbarNavButton}">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- optionLinks sa desne strane -->
+        <div class="col" style="width: 250px !important; margin-left: 830px;">
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown" *ngFor="let link of optionLinks">
+                <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                  [ngClass]="{'active': isDropdownOpen}" (click)="toggleDropdown()">
+                  {{link.name}}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" [ngClass]="{'show': isDropdownOpen}">
+                  <li *ngFor="let submenu of link.subMenu">
+                    <a class="dropdown-item" routerLink="{{submenu.url}}" (click)="handleLinkClick(submenu.url)"
+                      routerLinkActive="router-link-active">{{submenu.name}}</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+        [ngClass]="{'hide-button': !displayNavbarNavButton}">
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+      <div class="d-flex flex-row w-100 justify-content-between">
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="navbar-menu">
+            <ul class="navbar-nav">
+              <li class="nav-item" *ngFor="let link of mainLinks">
+                <a class="nav-link" routerLinkActive="active" [routerLink]="link.url"
+                  (click)="handleLinkClick(link.url)">
+                  {{link.name}}
+                </a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+        <div *ngIf="pokaziHeader">
+          <img class="logoMedic align-self-start" src="/assets/images/Heder.png" alt="Globos" height="250px;">
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

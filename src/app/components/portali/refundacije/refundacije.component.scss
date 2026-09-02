@@ -1,0 +1,136 @@
+::ng-deep {
+
+  .p-fieldset {
+    background-color: rgba(#afd1ebe3, 0.5);
+    .p-fieldset-legend {
+      background-color: rgba(#afd1ebe3, 0.5);
+
+      .p-fieldset-legend-text {
+        font-family: 'Montserrat', sans-serif;
+        line-height: 1.2;
+        font-size: 1.75rem;
+        letter-spacing: 2px;
+      }
+    }
+
+    p-skeleton {
+      width: 30%;
+      margin: auto;
+
+      .p-skeleton {
+        height: 3rem !important;
+        margin-bottom: 1.5em;
+      }
+    }
+
+    .flex-column {
+      .row {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        justify-content: center;
+        gap: 10%;
+
+        .p-inputgroup {
+          margin-bottom: 1.5em;
+          width: 17%;
+          justify-content: center;
+          text-align: center;
+          label {
+            transition: none !important;
+          }
+
+          input {
+            width: 100% !important;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            white-space: break-spaces;
+            overflow: auto;
+            text-overflow: ellipsis;
+
+          }
+
+          .responsive-ikonice-in {
+            display: none
+          }
+
+          .responsive-ikonice-out {
+            display: inline;
+          }
+        }
+      }
+    }
+  }
+
+
+  @media screen and (max-width: 992px) {
+
+    .p-fieldset-legend-text {
+      font-size: 1em !important;
+    }
+
+    p-skeleton {
+      width: 100% !important;
+    }
+
+    .p-inputgroup {
+      width: 100% !important;
+    }
+
+    .p-dialog {
+      .p-dialog-content {
+        padding: 0 !important;
+      }
+    }
+
+    tbody {
+      td {
+        &:hover {
+          background-color: rgba(#3393e3, 0.1);
+        }
+      }
+    }
+    
+
+    .p-button-secondary,
+    .p-button-primary {
+      margin-top: 5px;
+    }
+
+    .logoMedic {
+
+      max-width: 30%;
+      height: auto;
+      margin-top: 35px;
+    }
+
+    .toast-bottom-right {
+      top: 1600px;
+      max-width: 100%;
+    }
+
+  }
+
+  @media screen and (max-width: 993px) {
+    .p-datatable-wrapper {
+      max-height: 47vh !important;
+    }
+  }
+
+  @media screen and (min-width: 993px) {
+    tbody {
+      td {
+        max-width: 200px !important;
+      }
+    }
+  }
+
+  .dugme {
+    color: #ffffff;
+    background: #3393e3;
+    border: #3393e3;
+    &:hover {
+      background: #158aeb;
+    }
+  }
+}

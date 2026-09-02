@@ -1,0 +1,22 @@
+<div class="row justify-content-center">
+  <ng-container *ngIf="skeleton; else carousel">
+    <div class="row">
+      <p-skeleton></p-skeleton>
+    </div>
+  </ng-container>
+  <ng-template #carousel>
+    <div class="background-container">
+      <img class="background-image" [src]="selectedImageSrc" alt="Background Image">
+      <div class="row justify-content-center">
+        <p-galleria [value]="images" [autoPlay]="true" [circular]="true" [changeItemOnIndicatorHover]="true"
+          [showThumbnails]="false" [showIndicators]="true" [showIndicatorsOnItem]="false"
+          [showItemNavigatorsOnHover]="true" [showItemNavigators]="true" [numVisible]="5"
+          [containerStyle]="{ 'max-width': '640px'}" (activeIndexChange)="updateBackground($event)">
+          <ng-template pTemplate="item" let-item>
+            <img [src]="item.itemImageSrc" />
+          </ng-template>
+        </p-galleria>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,103 @@
+:host ::ng-deep {
+  .row {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    p-card.p-element {
+      margin: 3rem auto;
+      padding: 0;
+      width: 40%;
+
+      .p-card-header {
+        width: 80% !important;
+        margin: auto;
+        padding-top: 1rem;
+      }
+
+      .p-card-body {
+        .p-card-content {
+          padding: 0;
+          margin-top: 1rem;
+
+          h3 {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600 !important;
+          }
+
+          p {
+            text-align: center;
+            margin: 0;
+          }
+        }
+
+        .p-card-footer {
+          text-align: center;
+          padding: 0;
+
+          .p-button-link {
+            letter-spacing: 1px;
+            text-decoration: none;
+            color: #3393e3;
+
+            &:hover {
+              letter-spacing: 2px;
+              border: 1px solid #3393e3;
+              text-decoration: underline;
+              transition: all 0.1s ease-in-out;
+              transform: scale(1.1);
+              background-color: #3393e3;
+              color: white;
+            }
+          }
+
+          a {
+            letter-spacing: 1px;
+            text-decoration: none;
+
+            &:hover {
+              letter-spacing: 2px;
+              font-weight: bold;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 540px) {
+    p-card.p-element {
+      width: 90% !important;
+    }
+  }
+
+  @media screen and (min-width: 540px) and (max-width: 768px) {
+    p-card.p-element {
+      width: 80% !important;
+    }
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    p-card.p-element {
+      width: 60% !important;
+    }
+  }
+
+  @media screen and (min-width: 1024px) and (max-width: 1200px) {
+    p-card.p-element {
+      width: 50% !important;
+    }
+  }
+
+  @media screen and (min-width: 1300px) {
+    .p-card-content .row {
+      justify-content: space-between;
+
+      .ime-prezime-column {
+        width: 45% !important;
+      }
+    }
+  }
+}

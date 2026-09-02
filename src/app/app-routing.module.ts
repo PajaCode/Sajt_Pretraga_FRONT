@@ -1,0 +1,44 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './shared/guards/auth.guard';
+import { ResetPassGuard } from './shared/guards/reset-pass.guard';
+
+const guardedRoutes: Routes = [
+  { path: 'home', loadChildren: () => import('./shared/modules/home/home.module').then((m) => m.HomeModule) },
+  { path: 'profil', loadChildren: () => import('./shared/modules/profil/profil.module').then((m) => m.ProfilModule) },
+  { path: 'paketi', loadChildren: () => import('./shared/modules/paketi/paketi.module').then(m => m.PaketiModule) },
+  { path: 'kontaktdzo', loadChildren: () => import('./shared/modules/forma/forma.module').then(m => m.FormaModule) },
+  { path: 'formaZaLeadove', loadChildren: () => import('./shared/modules/forma-za-leadove/forma-za-leadove.module').then((m) => m.FormaZaLeadoveModule )},
+  { path: 'refundacije', loadChildren: () => import('./shared/modules/refundacije/refundacije.module').then((m) => m.RefundacijeModule) }
+
+];
+
+const routes: Routes = [
+  { path: '', redirectTo: '', pathMatch: 'full' },
+  {
+    path: '',
+    children: [
+      // ...guardedRoutes.map(route => ({ ...route, canActivate: [AuthGuard] })),
+      { path: 'home', loadChildren: () => import('./shared/modules/home/home.module').then((m) => m.HomeModule) },
+      { path: 'profil', loadChildren: () => import('./shared/modules/profil/profil.module').then((m) => m.ProfilModule) },
+      { path: 'paketi', loadChildren: () => import('./shared/modules/paketi/paketi.module').then(m => m.PaketiModule) },
+      { path: 'dzo', loadChildren: () => import('./shared/modules/dzo/dzo.module').then((m) => m.DzoModule) },
+      { path: 'kontaktdzo', loadChildren: () => import('./shared/modules/forma/forma.module').then((m) => m.FormaModule )},
+      { path: 'formaZaLeadove', loadChildren: () => import('./shared/modules/forma-za-leadove/forma-za-leadove.module').then((m) => m.FormaZaLeadoveModule )},
+      { path: 'refundacije', loadChildren: () => import('./shared/modules/refundacije/refundacije.module').then((m) => m.RefundacijeModule) }
+
+    ]
+  },
+  { path: 'login', loadChildren: () => import('./shared/modules/login/login.module').then((m) => m.LoginModule) },
+  { path: 'register', loadChildren: () => import('./shared/modules/register/register.module').then((m) => m.RegisterModule) },
+  { path: 'confirm-mail', loadChildren: () => import('./shared/modules/confirm-mail/confirm-mail.module').then((m) => m.ConfirmMailModule) },
+  { path: 'reset-password', loadChildren: () => import('./shared/modules/reset-password/reset-password.module').then((m) => m.ResetPasswordModule), canActivate: [ResetPassGuard] },
+  { path: '**', redirectTo: '' },
+];
+
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

@@ -1,0 +1,177 @@
+<div class="row" *ngIf="isLogged">
+    <!-- fieldset za detalje korisnika -->
+    <p-fieldset legend="Zahtev za refundaciju" class="mb-3">
+        <img src="/assets/images/GlobosMedicIseceno.png" alt="Slika" height="40px" class="logoMedic"
+            style="position: relative; bottom: 85px; left: 25px;">
+        <!-- skeleteon za ucitavanje -->
+        <ng-container *ngIf="skeleton; else userUpdate">
+            <div class="row">
+                <p-skeleton></p-skeleton>
+                <p-skeleton></p-skeleton>
+                <p-skeleton></p-skeleton>
+            </div>
+            <div class="row">
+                <p-skeleton></p-skeleton>
+            </div>
+        </ng-container>
+        <!-- polja za detalje korisnika -->
+        <ng-template #userUpdate>
+            <form [formGroup]="detaljiPolise">
+                <div class="flex flex-column mt-1">
+                    <!-- prvi red -->
+                    <div class="row">
+                        <!-- ime -->
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon">
+                                <i class="pi pi-user"></i>
+                            </span>
+                            <span class="p-float-label">
+                                <input type="text" pInputText formControlName="Ime"
+                                    style="transition: none !important;" />
+                                <label class="floatLabel" for="Ime">Ime</label>
+                            </span>
+                        </div>
+                        <!-- prezime -->
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon">
+                                <i class="pi pi-user"></i>
+                            </span>
+                            <span class="p-float-label">
+                                <input type="text" pInputText formControlName="Prezime" />
+                                <label class="floatLabel" for="Prezime">Prezime</label>
+                            </span>
+                        </div>
+                        <!-- broj polise -->
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon">
+                                <i class="fa fa-align-justify"></i>
+                            </span>
+                            <span class="p-float-label">
+                                <input type="text" pInputText formControlName="brojPolise" />
+                                <label class="floatLabel" for="brojPolise">Broj polise</label>
+                            </span>
+                        </div>
+                        <!-- broj kartice -->
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon">
+                                <i class="fa fa-align-justify"></i>
+                            </span>
+                            <span class="p-float-label">
+                                <input type="text" pInputText formControlName="BrKartice" />
+                                <label class="floatLabel" for="BrKartice">Broj kartice</label>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- drugi red -->
+                    <div class="row">
+                        <!-- pocetak osiguranja -->
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon">
+                                <i class="pi pi-calendar"></i>
+                            </span>
+                            <span class="p-float-label">
+                                <input type="text" id="ime" pInputText formControlName="pocetakOsiguranja" />
+                                <label class="floatLabel" for="pocetakOsiguranja">Početak osiguranja</label>
+                            </span>
+                        </div>
+                        <!-- kraj osiguranja -->
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon">
+                                <i class="pi pi-calendar"></i>
+                            </span>
+                            <span class="p-float-label">
+                                <input type="text" pInputText formControlName="krajOsiguranja" />
+                                <label class="floatLabel" for="krajOsiguranja">Kraj osiguranja</label>
+                            </span>
+                        </div>
+                        <!-- datum rođenja -->
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon">
+                                <i class="pi pi-calendar"></i>
+                            </span>
+                            <span class="p-float-label">
+                                <input type="text" pInputText formControlName="datRodjenja" />
+                                <label class="floatLabel" for="datRodjenja">Datum rođenja</label>
+                            </span>
+                        </div>
+                        <!-- broj telefona -->
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon">
+                                <i class="pi pi-phone"></i>
+                            </span>
+                            <span class="p-float-label">
+                                <input type="text" pInputText formControlName="brTelefona" />
+                                <label class="floatLabel" for="brTelefona">Broj telefona</label>
+                            </span>
+                        </div>
+                        <!-- firma -->
+                        <div class="p-inputgroup" style="width: 44%;">
+                            <span class="p-inputgroup-addon">
+                                <i class="far fa-building"></i>
+                            </span>
+                            <span class="p-float-label">
+                                <input type="text" id="ime" pInputText formControlName="firma" />
+                                <label class="floatLabel" for="firma">Ugovarač osiguranja</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-template>
+        <div class="col">
+            Poslovno ime osiguravača: GLOBOS osiguranje a.d.o.
+        </div>
+    </p-fieldset>
+</div>
+
+<div form [formGroup]="refundacijeGroup" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col">
+            Šta je potrebno za refundaciju ?
+            <br>
+            <br>
+            <ul>
+                <li>Popunjen Zahtev za prijavu štete dobrovoljnog zdravstvenog osiguranja koji mozete preuzeti sa
+                    <a href="https://www.globos.rs/storage/files/Zahtev_za_prijavu_osiguranog_slu%C4%8Daja_GlobosMedic_dobrovoljnog_zdravstvenog_osiguranja_03-31-2022_11:40:58.pdf" target="_blank">linka</a>.
+                    (Ljubazno vas molimo da pažljivo popunite zahtev )
+                </li>
+                <br>
+                <li>Medicinska dokumentacija – overena pečatom i potpisom lekara koji je pružio uslugu</li> <br>
+                <li>Fiskalni račun za primljene usluge</li> <br>
+            </ul>
+
+            U skladu sa <a
+                href="/assets/docs/Uslovi za kolektivno dobrovoljno zdravstveno osiguranje.pdf"
+                target="_blank">Uslovima osiguranja</a> osiguravač se obavezuje da nadoknadi razumne i uobičajene
+            troškove lečenja medicinski opravdanog tretmana na teritoriji Republike Srbije, maksimalno do iznosa
+            suma osiguranja i pojedinačnih podlimita predviđenih ugovorom o osiguranju.
+            <br><br>
+            Svi iznosi veći od <a
+                href="/assets/docs/Tabela razumnih i uobicajenih troskova.pdf" target="_blank">razumnih i uobičajenih troškova</a> padaju na teret
+            osiguranog lica.
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <label for="fileUpload">Prilog za prateće dokumente</label>
+            <div class="col">
+                <button type="button" class="btn btn-primary" color="primary" (click)="fileInput.click()">Izaberite
+                    fajl</button>
+                <input hidden class="mr-auto" type="file" id="formFile" #fileInput (change)="handleFileInput($event)"
+                    multiple>
+                <div *ngFor="let f of nazivFajla">
+                    <span>&nbsp;&nbsp;{{f}}</span>
+                    <!-- <br> -->
+                    <button type="" class="btn-close btn-sm" aria-label="Close" (click)="removeFile(f)"></button>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <label for="mejl">Slanje mejla Globos Medicu</label>
+            <div class="col">
+                <p-button icon="fa fa-envelope" (onClick)="sendMail()"></p-button>
+            </div>
+        </div>
+    </div>
+</div>

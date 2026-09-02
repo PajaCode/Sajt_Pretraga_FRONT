@@ -1,0 +1,335 @@
+::ng-deep {
+
+  .p-fieldset {
+    background-color: rgba(#afd1ebe3, 0.5);
+
+    .p-fieldset-legend {
+      background-color: rgba(#afd1ebe3, 0.5);
+
+      .p-fieldset-legend-text {
+        font-family: 'Montserrat', sans-serif;
+        line-height: 1.2;
+        font-size: 1.75rem;
+        letter-spacing: 2px;
+      }
+    }
+
+    p-skeleton {
+      width: 30%;
+      margin: auto;
+
+      .p-skeleton {
+        height: 3rem !important;
+        margin-bottom: 1.5em;
+      }
+    }
+
+    .flex-column {
+      .row {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        justify-content: center;
+        gap: 10%;
+
+        .p-inputgroup {
+          margin-bottom: 1.5em;
+          width: 17%;
+          justify-content: center;
+          text-align: center;
+
+          input {
+            width: 100% !important;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            white-space: break-spaces;
+            overflow: auto;
+            text-overflow: ellipsis;
+          }
+
+          .responsive-ikonice-in {
+            display: none
+          }
+
+          .responsive-ikonice-out {
+            display: inline;
+          }
+        }
+      }
+    }
+  }
+
+
+
+  p-card {
+    .p-card-body {
+      padding: 0 !important;
+
+      .p-card-content {
+        padding: 0;
+      }
+    }
+  }
+
+  .table {
+    td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  p-table {
+    .p-datatable {
+      thead {
+        tr {
+          th {
+            padding: 8px;
+            text-align: center !important;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #3393e3 !important;
+            color: white !important;
+
+            &:hover {
+              background-color: rgba(#3393e3, 0.4) !important;
+              color: black !important;
+
+              span {
+                letter-spacing: 0.3px;
+                transform: scale(1.5);
+                transition: all 0.1s ease-in-out;
+              }
+
+              svg {
+                color: black !important;
+                transition: all 0.2s ease-in-out;
+                transform: scale(1.1);
+              }
+            }
+
+
+            &.p-sortable-column {
+              cursor: pointer;
+              background-color: #4b9ee2;
+              color: white !important;
+
+              svg {
+                color: white !important;
+              }
+
+              &:hover {
+                background-color: rgba(#4b9ee2, 0.4) !important;
+                color: black !important;
+
+                span {
+                  letter-spacing: 1px;
+                  transform: scale(1.5);
+                  transition: all 0.2s ease-in-out;
+                }
+
+                svg {
+                  color: black !important;
+                  transition: all 0.2s ease-in-out;
+
+                  transform: scale(1.1);
+                }
+              }
+            }
+
+            &.p-highlight {
+              color: black !important;
+              background-color: rgba(#3393e3, 0.1) !important;
+              border: 1px solid rgba(#3393e3, 0.4) !important;
+
+              svg {
+                color: black !important;
+              }
+            }
+          }
+        }
+      }
+
+      tbody {
+        max-height: 450px !important;
+        overflow: auto !important;
+
+        tr {
+
+          &:hover {
+            background-color: rgba(#3393e3, 0.1) !important;
+            border: 1px solid rgba(#3393e3, 0.4) !important;
+          }
+
+          td {
+            text-align: center !important;
+            font-family: 'Montserrat', sans-serif;
+            vertical-align: middle !important;
+            white-space: pre;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            .p-column-title {
+              text-align: left !important;
+              font-size: large;
+              font-weight: bold;
+              width: 20%;
+            }
+
+            .p-column-text {
+              text-align: right !important;
+              width: 80%;
+              max-width: 45vw;
+              white-space: pre;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+      }
+
+      .p-paginator {
+        bottom: 0;
+        position: sticky;
+      }
+    }
+  }
+
+  .p-dropdown {
+    width: 100%;
+    /* Make the dropdown take full width by default */
+  }
+
+  // .p-dropdown .p-dropdown-panel {
+  //   width: 100% !important; /* Ensure the dropdown panel also takes full width */
+  //   max-height: 200px; /* Limit the height for better visibility */
+  //   overflow-y: auto; /* Enable scrolling if content exceeds max height */
+  // }
+
+  // .p-dropdown .p-dropdown-items {
+  //   max-height: 200px; /* Ensure the dropdown items container is scrollable */
+  //   overflow-y: auto;
+  // }
+
+  .toast-top-center {
+    top: 12px;
+    margin: 0 auto;
+    text-align: center;
+
+  }
+
+  .p-dialog {
+    .p-dialog-header {
+      border-bottom: 1px solid rgba(grey, 0.2);
+    }
+
+    .p-dialog-content {
+      padding: 0 1rem !important;
+    }
+
+    .p-dialog-footer {
+      border-top: 1px solid rgba(grey, 0.2);
+      padding: 1rem !important;
+    }
+  }
+
+  .dropdown-menu {
+    overflow-y: scroll;
+    max-height: 200px;
+  }
+
+
+
+  @media screen and (max-width: 992px) {
+
+    .p-fieldset-legend-text {
+      font-size: 1em !important;
+    }
+
+    p-skeleton {
+      width: 100% !important;
+    }
+
+    .p-inputgroup {
+      width: 100% !important;
+    }
+
+    .p-dialog {
+      .p-dialog-content {
+        padding: 0 !important;
+      }
+    }
+
+    tbody {
+      td {
+        &:hover {
+          background-color: rgba(#3393e3, 0.1);
+        }
+
+        white-space: nowrap;
+        max-width: 30px;
+      }
+    }
+
+    .p-button-secondary,
+    .p-button-primary {
+      margin-top: 5px;
+    }
+
+    #datumPregleda {
+      width: 100% !important;
+    }
+
+    #vremePregleda {
+      width: 100% !important;
+    }
+
+    #idTimeDiv {
+      width: 200px !important;
+    }
+
+    .logoMedic {
+
+      max-width: 30%;
+      height: auto;
+      margin-top: 35px;
+    }
+
+    .table {
+      overflow-x: auto;
+    }
+
+  }
+
+  @media screen and (max-width: 993px) {
+    .p-datatable-wrapper {
+      max-height: 47vh !important;
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+
+
+    .toast-bottom-right {
+      top: 1600px;
+      max-width: 100%;
+    }
+  }
+
+  @media screen and (min-width: 993px) {
+    tbody {
+      td {
+        max-width: 200px !important;
+      }
+    }
+  }
+
+  .dugme {
+    color: #ffffff;
+    background: #3393e3;
+    border: #3393e3;
+
+    &:hover {
+      background: #158aeb;
+    }
+  }
+}

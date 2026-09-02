@@ -1,0 +1,381 @@
+<div class="row" *ngIf="isLogged">
+  <!-- fieldset za detalje korisnika -->
+  <p-fieldset legend="Zahtev za zakazivanje pregleda" class="mb-3">
+    <img src="/assets/images/GlobosMedicIseceno.png" alt="Slika" height="40px" class="logoMedic"
+      style="position: relative; bottom: 85px; left: 25px;">
+    <!-- <div>Poslovno ime osiguravača: Globos</div> -->
+    <!-- skeleteon za ucitavanje -->
+    <ng-container *ngIf="skeleton; else userUpdate">
+      <div class="row">
+        <p-skeleton></p-skeleton>
+        <p-skeleton></p-skeleton>
+        <p-skeleton></p-skeleton>
+      </div>
+      <div class="row">
+        <p-skeleton></p-skeleton>
+      </div>
+    </ng-container>
+    <!-- polja za detalje korisnika -->
+    <ng-template #userUpdate>
+      <form [formGroup]="detaljiLogovan">
+        <div class="flex flex-column mt-1">
+          <!-- prvi red -->
+          <div class="row">
+            <!-- ime -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-user"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="Ime" />
+                <label for="Ime">Ime</label>
+              </span>
+            </div>
+            <!-- prezime -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-user"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="Prezime" />
+                <label for="Prezime">Prezime</label>
+              </span>
+            </div>
+            <!-- broj polise -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="fa fa-align-justify"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="brojPolise" />
+                <label for="brojPolise">Broj polise</label>
+              </span>
+            </div>
+            <!-- broj kartice -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="fa fa-align-justify"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="BrKartice" />
+                <label for="BrKartice">Broj kartice</label>
+              </span>
+            </div>
+          </div>
+          <!-- drugi red -->
+          <div class="row">
+            <!-- pocetak osiguranja -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-calendar"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" id="ime" pInputText formControlName="pocetakOsiguranja" />
+                <label for="pocetakOsiguranja">Početak osiguranja</label>
+              </span>
+            </div>
+            <!-- kraj osiguranja -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-calendar"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="krajOsiguranja" />
+                <label for="krajOsiguranja">Kraj osiguranja</label>
+              </span>
+            </div>
+            <!-- datum rođenja -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-calendar"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="datRodjenja" />
+                <label for="datRodjenja">Datum rođenja</label>
+              </span>
+            </div>
+            <!-- broj telefona -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-phone"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="brTelefona" />
+                <label for="brTelefona">Broj telefona</label>
+              </span>
+            </div>
+            <!-- firma -->
+            <div class="p-inputgroup" style="width: 44%;">
+              <span class="p-inputgroup-addon">
+                <i class="far fa-building"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" id="ime" pInputText formControlName="firma" />
+                <label for="firma">Ugovarač osiguranja</label>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+    <div class="col">
+      Poslovno ime osiguravača: GLOBOS osiguranje a.d.o.
+    </div>
+  </p-fieldset>
+</div>
+
+
+<div class="row" *ngIf="!isLogged">
+  <!-- fieldset za detalje korisnika -->
+  <p-fieldset legend="Zahtev za zakazivanje pregleda" class="mb-3">
+    <img src="/assets/images/GlobosMedicIseceno.png" alt="Slika" height="40px" class="logoMedic"
+      style="position: relative; bottom: 85px; left: 25px;">
+
+    <!-- polja za detalje korisnika -->
+
+    <form [formGroup]="detaljiNijeLogovan">
+      <div class="flex flex-column mt-1">
+        <!-- prvi red -->
+        <div class="row">
+          <!-- ime -->
+          <div class="p-inputgroup" style="width: 25%;">
+            <span class="p-inputgroup-addon">
+              <i class="pi pi-user"></i>
+            </span>
+            <span class="p-float-label">
+              <input type="text" pInputText formControlName="nIme" />
+              <label for="nIme">Ime</label>
+            </span>
+          </div>
+          <!-- prezime -->
+          <div class="p-inputgroup" style="width: 25%;">
+            <span class="p-inputgroup-addon">
+              <i class="pi pi-user"></i>
+            </span>
+            <span class="p-float-label">
+              <input type="text" pInputText formControlName="nPrezime" />
+              <label for="nPrezime">Prezime</label>
+            </span>
+          </div>
+          <!-- broj kartice -->
+          <div class="p-inputgroup" style="width: 25%;">
+            <span class="p-inputgroup-addon">
+              <i class="pi pi-credit-card"></i>
+            </span>
+            <span class="p-float-label">
+              <input type="text" pInputText formControlName="nBrojKartice" />
+              <label for="nBrojKartice">Broj Kartice</label>
+            </span>
+          </div>
+        </div>
+
+        <!-- drugi red -->
+        <div class="row">
+          <!-- pocetak osiguranja -->
+          <div class="p-inputgroup" style="width: 25%;">
+            <span class="p-inputgroup-addon">
+              <i class="pi pi-envelope"></i>
+            </span>
+            <span class="p-float-label">
+              <input type="text" id="ime" pInputText formControlName="nMejl" />
+              <label for="nMejl">Mejl</label>
+            </span>
+          </div>
+          <!-- kraj osiguranja -->
+          <div class="p-inputgroup" style="width: 25%;">
+            <span class="p-inputgroup-addon">
+              <i class="pi pi-phone"></i>
+            </span>
+            <span class="p-float-label">
+              <input type="text" pInputText formControlName="nTelefon" />
+              <label for="nTelefon">Telefon</label>
+            </span>
+          </div>
+          <div class="p-inputgroup" style="width: 25%;">
+            <span class="p-inputgroup-addon">
+              <i class="pi pi-calendar"></i>
+            </span>
+            <span class="p-float-label">
+              <input pInputText placeholder="Datum rođenja" (focus)="d.toggle()" (dateSelect)="d.toggle()" name="dp"
+                ngbDatepicker #d="ngbDatepicker" [minDate]="{year: 1900, month: 1, day: 1}"
+                [maxDate]="{year: getCurrentYear(), month: 12, day: 31}" formControlName="nDatumRodjenja"
+                style="width: 88.8%;" [restoreFocus]="true" readonly="true" />
+              <!--button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i
+                              class="fa-regular fa-calendar"></i></button-->
+              <label for="nDatumRodjenja">Datum rođenja</label>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </form>
+    <div class="col">
+      Poslovno ime osiguravača: GLOBOS osiguranje a.d.o.
+    </div>
+  </p-fieldset>
+</div>
+
+
+<div form [formGroup]="problem">
+  <div class="container">
+    <div class="row">
+      <label for="opisProblema">Opis tegoba</label>
+      <div class="col">
+        <!--input type="text" id="opisProblema" pInputText [(ngModel)]="aa" placeholder="Unesite opis problema" style="width: 100%;" /-->
+        <!--textarea rows="4" cols="154" pInputTextarea [autoResize]="true" [(ngModel)]="aa"></textarea-->
+        <textarea rows="2" style="width: 100%;" pInputTextarea [autoResize]="true" placeholder="Unesite opis tegoba"
+          formControlName="opisProblema"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <label for="vrstaPregleda">Vrsta pregleda / usluge</label>
+      <div class="col">
+        <textarea rows="2" style="width: 100%;" pInputTextarea [autoResize]="true"
+          placeholder="Unesite vrstu pregleda ili usluge koju želite da zakažete"
+          formControlName="vrstaPregleda"></textarea>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+      <div class="col">
+        <label>Grad / Opština</label>
+        <div class="col">
+          <p-dropdown [options]="medUstanoveGradoviOpstine" optionLabel="gradOpstina" [filter]="true"
+            filterBy="gradOpstina" [showClear]="true" placeholder="Pretražite grad / opštinu" id="dropdownMenuButton"
+            formControlName="gradOpstina" aria-haspopup="true" aria-expanded="false" autoWidth="false"
+            [style]="{'width':'70%'}" (onChange)="updateMedUstanove($event)">
+            <ng-template>
+              <div class="flex align-items-center" aria-labelledby="dropdownMenuButton">
+                <li *ngFor="let gradoviOpstine of medUstanoveGradoviOpstine">
+                  {{ gradoviOpstine.gradOpstina }}</li>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="col">
+        <label>Ustanova</label>
+        <div class="col">
+          <p-dropdown [options]="medUstanove" optionLabel="nazivAdresa" [filter]="true" filterBy="nazivAdresa"
+            [showClear]="true" formControlName="izabranaUstanova" placeholder="Pretražite ustanovu"
+            id="dropdownMenuButton2" aria-haspopup="true" aria-expanded="false" autoWidth="false"
+            [style]="{'width':'70%'}" (onChange)="updateMedUstanovaAtribut($event)">
+            <ng-template>
+              <div class="flex align-items-center">
+                <li *ngFor="let medUstanova of medUstanove">{{ medUstanova.nazivAdresa }}</li>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+
+      <div class="col">
+        <label for="datumPregleda">Datum pregleda</label>
+        <div class="col">
+          <input pInputText placeholder="Unesite željeni datum" (focus)="d.toggle()" (dateSelect)="d.toggle()" name="dp"
+            ngbDatepicker #d="ngbDatepicker"
+            [minDate]="{year: getCurrentYear(), month: getCurrentMonth(), day: getCurrentDay()}"
+            [maxDate]="{year: getCurrentYear()+20, month: 12, day: 31}" formControlName="datumPregleda"
+            style="width: 60%;" readonly="true" id="datumPregleda" [restoreFocus]="true" />
+        </div>
+      </div>
+      <div class="col">
+        <label for="vreme">Vreme</label>
+        <div class="col" id="idTimeDiv">
+          <p-calendar [timeOnly]="true" formControlName="vreme" placeholder="HH:MM" [stepMinute]="30" [showClear]="true"
+            [readonlyInput]="true" [defaultDate]="dateNow" id="idTime" [style]="{'width':'60%'}">
+          </p-calendar>
+          <p-button icon="pi pi-check"></p-button>
+          <small class="text-danger"
+            *ngIf="checkInputTime() < this.currentTime &&  formatedDateInput() <=  todayDatePlusOne()"
+            style="float: left;">
+            *Vreme pregleda mora biti najmanje 24h u odnosu na trenutno vreme
+          </small>
+        </div>
+      </div>
+      <div class="col">
+        <label for="fileUpload">Prilog</label>
+        <div class="col">
+          <button type="button" class="btn btn-primary dugme" color="primary" (click)="fileInput.click()">Izaberite
+            fajl</button>
+          <input hidden class="mr-auto" type="file" id="formFile" #fileInput (change)="handleFileInput($event)">
+          <span>&nbsp;&nbsp;{{nazivFajla}}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="container" style="margin-top: 20px;">
+  <div>
+    U slučaju da su nam potrebne dodatne informacije u cilju zakazivanja zdravstvene usluge kontaktiraćemo Vas
+    telefonom. Odgovor možete očekivati u roku od 24h radnim danima.
+    U slučaju zahteva za zakazivanje dijagnostike i dodatnih ili kontrolnih pregleda, neophodno je da nam dostavite i
+    izveštaj lekara sa prethodnog pregleda po kome treba zakazati tražene zdravstvene usluge.
+  </div>
+  <div class="row">
+    <div class="col-8">
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" [(ngModel)]="saglasnost" id="potvrdi">
+        <label class="form-check-label" for="potvrdi">Saglasan/a sam sa obradom <a
+            href="assets\docs\Informacije o obradi podataka o ličnosti.pdf" target="_blank"><u>podataka o
+              ličnosti</u></a> i potvrđujem da sam upoznat/a sa obaveštenjem koje mi je dostavljeno prilikom
+          zaključenja
+          ugovora o osiguranju.</label>
+      </div>
+    </div>
+    <div class="col-4 justify-content-end">
+      <button pButton pRipple label="Istorija" class="p-button-secondary" *ngIf="isLogged" (click)="istorijaUputa()"
+        style="margin-right: 50px;"></button>
+      <button pButton pRipple label="Poništi" click class="p-button-secondary" (click)="ponisti()"
+        style="margin-right: 10px;"></button>
+      <button pButton pRipple label="Pošalji" class="p-button-primary" *ngIf="isLogged" (click)="insertUputaLogged()"
+        style="margin-right: 10px;"></button>
+      <button pButton pRipple label="Pošalji" class="p-button-primary" *ngIf="!isLogged" (click)="insertUputaNot()"
+        style="margin-right: 10px;"></button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <!-- dijalog sa tabelom istorija uputa -->
+  <p-dialog [header]="'Istorija uputa'" [resizable]="false" [modal]="true" [draggable]="false" appendTo="body"
+    [(visible)]="tabelaIstorija" [style]="{width: '90vw'}">
+    <!-- tabela istorija -->
+    <table class="table" *ngIf="istorija && istorija.length > 0">
+      <thead>
+        <tr>
+          <th style="width: 20%;">Opis problema</th>
+          <th style="width: 20%;">Vrsta pregleda/usluge</th>
+          <th style="width: 20%;">Tražena ustanova</th>
+          <th style="width: 15%;">Grad/opština</th>
+          <th style="width: 15%;">Datum</th>
+          <th style="width: 10%;">Vreme</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of istorija">
+          <td [pTooltip]="item.opisProblema">{{ item.opisProblema }}</td>
+          <td [pTooltip]="item.vrstaPregleda">{{ item.vrstaPregleda }}</td>
+          <td [pTooltip]="item.trazenaUstanova">{{ item.trazenaUstanova }}</td>
+          <td>{{ item.gradOpstina }}</td>
+          <td>{{ formatDateIstorija(item.datumPregleda) }}</td>
+          <td>{{ item.vreme }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- footer -->
+    <ng-template pTemplate="footer">
+      <!-- dugme za zatvaranje -->
+      <button type="button" pButton pRipple icon="pi pi-times" (click)="tabelaIstorija = false" label="Zatvori"
+        class="p-button-sm p-button-danger"></button>
+    </ng-template>
+  </p-dialog>
+</div>
+
+<!--div>
+  * Poštovani, povratna informacija u vezi zakazanog pregleda se dobija najkasnije 48h od trenutka prijema mejla. Ukoliko želite povratnu informaciju ranije, najbolje bi bilo da zakažete pregled putom broja telefona sa vaše kartice.
+</div-->

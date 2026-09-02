@@ -1,0 +1,82 @@
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
+@font-face {
+  font-family: 'AvenirNextDemi';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/AvenirNext-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'CamptonMedium';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./fonts/FontsFree-Net-Campton2.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./fonts/Nunito-VariableFont_wght.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Metropolis-Medium';
+  font-style: normal;
+  src: url('./fonts/Metropolis-Medium.otf') format('truetype');
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+}
+
+h1 {
+  font-family: 'CamptonMedium', sans-serif;
+}
+
+h2 {
+  font-family: 'AvenirNextDemi', sans-serif;
+}
+
+h3 {
+  font-family: 'AvenirNextDemi', sans-serif;
+}
+
+a {
+  font-family: 'AvenirNextDemi', sans-serif;
+}
+
+p {
+  font-family: 'Metropolis-Medium', sans-serif;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, transparent, #3393e3, transparent);
+}
+
+.ngx-toastr {
+  font-family: 'AvenirNextDemi', sans-serif;
+}
+
+
+.globosBlue {
+  background-color: #3393e3 !important;
+  color: #fff;
+}
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';

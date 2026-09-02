@@ -1,0 +1,205 @@
+<div class="row">
+  <!-- <p-card header="{{this.url === '/register' ? 'Registracija' : 'Logovanje'}}"> -->
+  <p class="text-justify" id="note">
+    Napominjemo da je sa jednom e mail adresom moguce registrovati samo jedan nalog koji je vezan za karticu<br>
+    dobrovoljnog zdravstvenog osiguranja. Ukoliko ste nosilac osiguranja za članove porodice, potrebno je<br>
+    registrovati svaki nalog posebno. Refundacija troškova je moguća sa naloga nosioca za sve članove porodice. </p>
+  <p-card>
+    <!-- header -->
+    <ng-template pTemplate="header">
+      <img alt="Globos osiguranje" src="https://globos.rs/images/logo_194x58.svg" />
+      <img src="/assets/images/GlobosMedicIseceno.png" alt="Slika" height="30px" class="logoMedic"
+        style="position: relative; top: 25px; width: auto; left: 22%;">
+    </ng-template>
+    <!-- body -->
+    <ng-template pTemplate="body">
+      <hr style="margin: 0 0 1.5rem 0;">
+
+      <form [formGroup]="form">
+        <!-- forma za deo registracije -->
+        <ng-container *ngIf="url == '/register'">
+          <!-- ime i prezime -->
+          <div class="row">
+            <div class="flex flex-column ime-prezime-column">
+              <span class="p-float-label">
+                <input pInputText formControlName="ime" placeholder="Unesite ime" />
+                <label htmlFor="ime">Ime</label>
+              </span>
+              <small class="text-danger" *ngIf="form.controls['ime'].dirty && form.hasError('required', 'ime')">*Ime
+                je obavezno polje.</small>
+            </div>
+            <div class="flex flex-column ime-prezime-column">
+              <span class="p-float-label">
+                <input pInputText formControlName="prezime" placeholder="Unesite prezime" />
+                <label htmlFor="prezime">Prezime</label>
+              </span>
+              <small class="text-danger"
+                *ngIf="form.controls['prezime'].dirty && form.hasError('required', 'prezime')">*Prezime je obavezno
+                polje.</small>
+            </div>
+          </div>
+          <!-- Broj kartice -->
+          <div class="row">
+            <div class="flex flex-column">
+              <span class="p-float-label">
+                <input pInputText formControlName="brKartice" placeholder="Unesite broj kartice" maxlength="8" />
+                <label htmlFor="brKartice">Broj kartice</label>
+              </span>
+              <small class="text-danger" *ngIf="form.controls['brKartice'].hasError('invalidLength')">*Broj kartice je
+                nedovoljne dužine.</small>
+              <small class="text-danger"
+                *ngIf="form.controls['brKartice'].dirty && form.controls['brKartice'].hasError('required')">*Broj
+                kartice je
+                obavezno polje.</small>
+            </div>
+          </div>
+          <!-- Datum rodjenja -->
+          <div class="form-inline">
+            <div class="flex flex-column" style="margin-bottom: 1.5em;">
+              <div class="input-group">
+                <input pInputText placeholder="Datum rođenja" name="dp" ngbDatepicker #d="ngbDatepicker"
+                  [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="{year: getCurrentYear(), month: 12, day: 31}"
+                  formControlName="datumRodjenja" style="width: 88.8%;" [restoreFocus]="true" readonly="true" />
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i
+                    class="fa-regular fa-calendar"></i></button>
+                <small class="text-danger"
+                  *ngIf="form.controls['datumRodjenja'].dirty && form.controls['datumRodjenja'].hasError('required')">*Datum
+                  rođenja je
+                  obavezno polje.</small>
+              </div>
+            </div>
+          </div>
+          <!-- email -->
+          <div class="row">
+            <div class="flex flex-column">
+              <span class="p-float-label">
+                <input pInputText type="email" formControlName="email" placeholder="Unesite e-mail" />
+                  <!-- (blur)="inputChecker(3,'email')"  -->
+                <label htmlFor="email">E-mail</label>
+              </span>
+              <small class="text-danger" *ngIf="form.controls['email'].dirty && form.hasError('email', 'email')">*E-mail
+                je neispravnog formata.</small>
+              <small class="text-danger"
+                *ngIf="form.controls['email'].dirty && form.hasError('required', 'email')">*E-mail
+                je obavezno polje.</small>
+            </div>
+          </div>
+          <!-- broj telefona -->
+          <div class="row">
+            <div class="flex flex-column">
+              <span class="p-float-label">
+                <p-inputMask mask="+381 69-999/999?9" formControlName="brTelefona"></p-inputMask>
+                <label htmlFor="brTelefona">Broj telefona</label>
+              </span>
+              <small class="text-danger"
+                *ngIf="form.controls['brTelefona'].dirty && form.get('brTelefona').value.length < 15">
+                *Broj telefona je nedovoljne dužine.
+              </small>
+              <small class="text-danger"
+                *ngIf="form.controls['brTelefona'].dirty && form.hasError('required', 'brTelefona')">*Broj telefona
+                je obavezno polje.</small>
+            </div>
+          </div>
+        </ng-container>
+        <!-- username -->
+        <div class="row">
+          <div class="flex flex-column">
+            <span class="p-float-label">
+              <input pInputText formControlName="username" placeholder="Unesite korisničko ime"
+                (blur)="inputChecker(1,'username')" />
+              <label htmlFor="username">Korisničko ime</label>
+            </span>
+            <small class="text-danger"
+              *ngIf="form.controls['username'].dirty && form.hasError('required', 'username')">*Korisničko ime je
+              obavezno polje.</small>
+          </div>
+        </div>
+        <!-- password -->
+        <div class="row">
+          <div class="flex flex-column">
+            <span class="p-float-label">
+              <ng-container *ngIf="url === '/register'">
+                <p-password formControlName="password" [toggleMask]="true" [promptLabel]="'Veoma slaba'" class="w-full"
+                  [weakLabel]="'Slaba'" [mediumLabel]="'Srednja'" [strongLabel]="'Jaka'"
+                  placeholder="Unesite novu lozinku">
+                  <ng-template pTemplate="footer">
+                    <p-divider></p-divider>
+                    <p class="mt-2">Sugestije</p>
+                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                      <li>Barem jedno malo slovo</li>
+                      <li>Barem jedno veliko slovo</li>
+                      <li>Barem jedan broj</li>
+                      <li>Minimum 6 karaktera</li>
+                    </ul>
+                  </ng-template>
+                </p-password>
+                <small class="text-danger"
+                  *ngIf="form.controls['password'].dirty && form.controls['password'].hasError('passwordStrength')">
+                  *Lozinka mora imati minimum 6 karaktera, jedno veliko slovo, jedno malo slovo i jedan broj.
+                </small>
+              </ng-container>
+              <ng-container *ngIf="url == '/login'">
+                <p-password formControlName="password" [toggleMask]="true" [feedback]="false" (keyup.enter)="potvrdi()"
+                  placeholder="Enter password"></p-password>
+              </ng-container>
+              <label for="password">Lozinka</label>
+            </span>
+            <small class="text-danger"
+              *ngIf="form.controls['password'].dirty && form.hasError('required', 'password')">*Lozinka
+              je obavezno polje.</small>
+          </div>
+        </div>
+      </form>
+
+      <!-- link za otvaranje modala za resetovanje lozinke -->
+      <p class="mb-4" *ngIf="url == '/login'">
+        <a (click)="visible = true" (keyup.enter)="visible = true" role="button" tabindex="0">
+          Zaboravili ste lozinku?</a>
+      </p>
+
+      <!-- modal za slanje maila za resetovanje lozinke -->
+      <p-dialog header="Resetovanje lozinke" [(visible)]="visible" [modal]="true" [breakpoints]="{ '993px': '75vw' }"
+        [style]="{ width: '25vw' }" [draggable]="false" [resizable]="false">
+        <ng-template pTemplate="body">
+          <form [formGroup]="formReset">
+            <div class="flex flex-column">
+              <span class="p-float-label">
+                <input pInputText type="email" formControlName="emailReset" pAutoFocus [autofocus]="true"
+                  placeholder="Unesite e-mail za resetovanje lozinke" />
+                <label htmlFor="emailReset">E-mail</label>
+              </span>
+              <small class="text-danger"
+                *ngIf="formReset.controls['emailReset'].dirty && formReset.hasError('email', 'emailReset')">*E-mail
+                je neispravnog formata.</small>
+              <small class="text-danger"
+                *ngIf="formReset.controls['emailReset'].dirty && formReset.hasError('required', 'emailReset')">*E-mail
+                je obavezno polje.</small>
+            </div>
+          </form>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <p-button label="Pošalji" (click)="posaljiMail()" [loading]="loadingSendEmail" [disabled]="!formReset.valid"
+            icon="pi pi-send" styleClass="p-button-rounded p-button-sm"></p-button>
+        </ng-template>
+      </p-dialog>
+      <!-- <hr> -->
+    </ng-template>
+    <!-- footer -->
+    <ng-template pTemplate="footer">
+      <p-divider align="center">
+        <!-- dugme za slanje -->
+        <p-button label="{{this.url === '/register' ? 'Registrujte se' : 'Ulogujte se'}}" (click)="potvrdi()"
+          icon="pi {{this.url === '/register' ? 'pi-send' : 'pi-sign-in'}}" styleClass="p-button-rounded"></p-button>
+      </p-divider>
+      <!-- link za promenu url-a -->
+      <div class="row mt-3">
+        <p>{{this.url === '/login' ? 'Nemate' : 'Već imate'}} nalog?
+          <a routerLink="{{changeLoginRegisterUrl()}}">
+            {{this.url === '/login' ?
+            'Registrujte' : 'Ulogujte'}} se
+          </a>
+        </p>
+      </div>
+    </ng-template>
+  </p-card>
+</div>

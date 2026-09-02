@@ -1,0 +1,155 @@
+:host ::ng-deep {
+  header {
+    nav {
+      >.container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .d-flex {
+          align-items: flex-start;
+        }
+
+        .navbar-brand {
+          margin-bottom: 20px;
+          /* Spacing between logo and menu */
+        }
+
+        .navbar-collapse {
+          flex-grow: 1;
+        }
+
+        .logo {
+          align-self: center;
+        }
+
+        .navbar-nav {
+          width: 100%;
+          /* Full width to parent container */
+          display: flex;
+          flex-direction: column;
+          /* Stack links vertically */
+          margin-left: 0;
+          padding-left: 0;
+          align-items: center;
+
+          .nav-item {
+            width: 100%;
+            /* Full width for alignment */
+            border-bottom: 1px solid #ccc;
+            padding: 12px 24px;
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            &>.nav-link {
+              font-weight: bold;
+              color: #232323;
+              background-color: #e9ecef;
+              font-size: 20px;
+            }
+
+            &:not(.dropdown) a:hover {
+              border-bottom: 1px solid #3393e3;
+              color: #3393e3;
+            }
+          }
+
+          .dropdown {
+            .nav-link.dropdown-toggle {
+              display: flex;
+              justify-content: space-between;
+              cursor: pointer;
+            }
+
+            .dropdown-menu {
+              display: none;
+              /* Ensure it's not visible by default */
+              position: static;
+              width: 100%;
+              border-radius: 0;
+              border: none;
+              background-color: transparent;
+              padding: 0;
+              font-size: 20px;
+
+              li {
+                border-bottom: 1px solid #ccc;
+                padding: 8px 0;
+
+                &:last-child {
+                  border-bottom: none;
+                }
+
+                &>.dropdown-item {
+                  color: #232323;
+
+                  &:hover {
+                    color: #3393e3;
+                  }
+                }
+              }
+
+              &.show {
+                display: block;
+                /* Show the menu when it's active */
+              }
+            }
+
+            .dropdown-toggle::after {
+              display: inline-block;
+              /* Ensure the caret is visible */
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 993px) {
+    .navbar-collapse {
+      flex-direction: column;
+    }
+
+    .dropdown-menu.show {
+      position: static;
+      /* Ensure dropdown is aligned within column */
+    }
+
+
+    .navbar {
+      max-width: 100% !important;
+    }
+
+    .col {
+      margin-left: auto !important;
+
+    }
+
+    .logoMedic {
+      max-width: 100% !important;
+      height: auto;
+    }
+
+    .logo {
+      max-width: 100% !important;
+      height: 40px;
+    }
+
+  }
+
+
+  .active {
+    border-bottom: 1px solid #3393e3;
+    color: #3393e3 !important;
+
+    &.dropdown-href {
+      border-bottom: none;
+    }
+  }
+
+  .hide-button {
+    display: none;
+  }
+}

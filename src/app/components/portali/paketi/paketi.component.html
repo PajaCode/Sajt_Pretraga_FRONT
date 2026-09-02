@@ -1,0 +1,302 @@
+<div class="row">
+  <!-- fieldset za detalje korisnika -->
+  <p-fieldset legend="Informacije o ugovorenom pokriću" class="mb-3">
+    <img src="/assets/images/GlobosMedicIseceno.png" alt="Slika" height="40px"
+      style="position: relative; bottom: 85px; left: 25px;" class="logoMedic">
+    <!-- skeleteon za ucitavanje -->
+    <ng-container *ngIf="skeleton; else userUpdate">
+      <div class="row">
+        <p-skeleton></p-skeleton>
+        <p-skeleton></p-skeleton>
+        <p-skeleton></p-skeleton>
+      </div>
+      <div class="row">
+        <p-skeleton></p-skeleton>
+      </div>
+    </ng-container>
+    <!-- polja za detalje korisnika -->
+    <ng-template #userUpdate>
+      <form [formGroup]="detaljiPolise">
+        <div class="flex flex-column mt-1">
+          <!-- prvi red -->
+          <div class="row">
+            <!-- ime -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-user"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="Ime" />
+                <label for="Ime">Ime</label>
+              </span>
+            </div>
+            <!-- prezime -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-user"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="Prezime" />
+                <label for="Prezime">Prezime</label>
+              </span>
+            </div>
+            <!-- broj polise -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="fa fa-align-justify"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="brojPolise" />
+                <label for="brojPolise">Broj polise</label>
+              </span>
+            </div>
+            <!-- broj kartice -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="fa fa-align-justify"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="BrKartice" />
+                <label for="BrKartice">Broj kartice</label>
+              </span>
+            </div>
+          </div>
+          <!-- drugi red -->
+          <div class="row">
+            <!-- pocetak osiguranja -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-calendar"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" id="ime" pInputText formControlName="pocetakOsiguranja" />
+                <label for="pocetakOsiguranja">Početak osiguranja</label>
+              </span>
+            </div>
+            <!-- kraj osiguranja -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-calendar"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="krajOsiguranja" />
+                <label for="krajOsiguranja">Kraj osiguranja</label>
+              </span>
+            </div>
+            <!-- datum rođenja -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-calendar"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="datRodjenja" />
+                <label for="datRodjenja">Datum rođenja</label>
+              </span>
+            </div>
+            <!-- broj telefona -->
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-phone"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="brTelefona" />
+                <label for="brTelefona">Broj telefona</label>
+              </span>
+            </div>
+            <!-- firma -->
+            <div class="p-inputgroup" style="width: 44%;">
+              <span class="p-inputgroup-addon">
+                <i class="far fa-building"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" id="ime" pInputText formControlName="firma" />
+                <label for="firma">Ugovarač osiguranja</label>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+    <div class="col">
+      Poslovno ime osiguravača: GLOBOS osiguranje a.d.o.
+    </div>
+  </p-fieldset>
+  <p-card>
+    <!-- tabela pokrića -->
+
+    <!-- <p-table [value]="paketiPokrica" [tableStyle]="{'min-width': '50rem'}" [(selection)]="selectedPaket"
+      styleClass="p-datatable-sm" [loading]="loadingPokrica" selectionMode="single" (onRowSelect)="selectProduct()"> -->
+    <p-table [value]="paketiPokrica" [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-sm"
+      [loading]="loadingPokrica" selectionMode="single">
+      <!-- head -->
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th pSortableColumn="nazivPokrice" style="width: 32%;">
+            <span> Naziv pokrića </span>
+            <p-sortIcon field="nazivPokrice"></p-sortIcon>
+          </th>
+          <th pSortableColumn="iskorisceno" style="width: 15%;">
+            <span> Iskorišćeno </span>
+            <p-sortIcon field="iskorisceno"></p-sortIcon>
+          </th>
+          <th pSortableColumn="preostalo" style="width: 15%;">
+            <span> Preostalo </span>
+            <p-sortIcon field="preostalo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="suma_osiguranja" style="width: 15%;">
+            <span> Suma </span>
+            <p-sortIcon field="suma_osiguranja"></p-sortIcon>
+          </th>
+          <th pSortableColumn="ucesceOsiguranika" style="width: 15%;">
+            <span> Učešće </span>
+            <p-sortIcon field="ucesceOsiguranika"></p-sortIcon>
+          </th>
+          <th style="width: 8%;">
+            <span> Detalji </span>
+            <!-- <p-header></p-header> -->
+          </th>
+        </tr>
+      </ng-template>
+      <!-- body -->
+      <ng-template pTemplate="body" let-product let-columns="columns">
+        <tr [pSelectableRow]="product" pTooltip="Kliknite na dugme za detalje podpokrića" tooltipPosition="right">
+          <td>
+            <span> {{product.nazivPokrice}} </span>
+          </td>
+          <td>
+            <span> {{product.iskorisceno}} &euro; </span>
+          </td>
+          <td>
+            <span> {{product.preostalo}} &euro; </span>
+          </td>
+          <td>
+            <span> {{product.suma_osiguranja}} &euro; </span>
+          </td>
+          <td>
+            <span> {{product.ucesceOsiguranika}} % </span>
+          </td>
+          <td>
+            <p-button class="p-button-sm" icon="pi pi-file"
+              (onClick)="selectProductOnClick(product.idPaketa, product.nazivPokrice)"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+
+  <!-- dijalog sa tabelom podpokrića -->
+  <p-dialog [header]="'Detalji paketa ' + ' : ' + selectedPaket" [resizable]="false" [modal]="true" [draggable]="false"
+    appendTo="body" [(visible)]="tabelaPodPokrica" [style]="{width: '90vw'}">
+    <!-- tabela podpokrica -->
+    <p-table [value]="paketiPodPokrica" scrollHeight="flex" styleClass="p-datatable-sm p-datatable-striped"
+      [loading]="loadingPodPokrica" [rows]="10" [showCurrentPageReport]="true" [paginator]="true"
+      currentPageReportTemplate="Prikaz {first} do {last} od {totalRecords}" [pageLinks]="3">
+      <!-- head -->
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th pSortableColumn="paket" style="width: 15%;">
+            <span> Naziv paketa </span>
+            <p-sortIcon field="paket"></p-sortIcon>
+          </th>
+          <th style="width: 12%;">
+            <span> Suma osiguranja </span>
+          </th>
+          <th pSortableColumn="nazivPodpokrice" style="width: 23%;">
+            <span> Naziv podpokrića </span>
+            <p-sortIcon field="nazivPodpokrice"></p-sortIcon>
+          </th>
+          <th style="width: 15%;">
+            <span> Vrsta limita </span>
+          </th>
+          <th style="width: 11%;">
+            <span> Limit </span>
+          </th>
+          <th style="width: 12%;">
+            <span> Iskorišćeno </span>
+          </th>
+          <th style="width: 12%;">
+            <span> Preostalo </span>
+          </th>
+        </tr>
+      </ng-template>
+      <!-- body -->
+
+      <ng-template pTemplate="body" let-customer>
+        <div *ngIf="customer.vrsta_Limita ==='Broj odlazaka'; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <tr>
+            <td>
+              <span class="p-column-title">Naziv paketa</span>
+              <span class="p-column-text"> {{customer.paket}} </span>
+            </td>
+            <td>
+              <span class="p-column-title">Suma osiguranja</span>
+              <span class="p-column-text"> {{customer.suma_Osiguranja.toFixed(2)}} &euro; </span>
+            </td>
+            <td pTooltip={{customer.nazivPodpokrica}}>
+              <span class="p-column-title">Naziv podpokrića</span>
+              <span class="p-column-text"> {{customer.nazivPodpokrica}} </span>
+            </td>
+            <td>
+              <span class="p-column-title">Vrsta limita</span>
+              <span class="p-column-text"> {{customer.vrsta_Limita}} </span>
+            </td>
+            <td>
+              <span class="p-column-title">Limit</span>
+              <span class="p-column-text"> {{customer.limit.toFixed(2)}} </span>
+            </td>
+            <td>
+              <span class="p-column-title">Iskorišćeno</span>
+              <span class="p-column-text"> {{customer.iskorisceno.toFixed(2)}}</span>
+            </td>
+            <td>
+              <span class="p-column-title">Preostalo</span>
+              <span class="p-column-text"> {{customer.preostalo}}</span>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template #elseBlock>
+          <tr>
+            <td>
+              <span class="p-column-title">Naziv paketa</span>
+              <span class="p-column-text"> {{customer.paket}} </span>
+            </td>
+            <td>
+              <span class="p-column-title">Suma osiguranja</span>
+              <span class="p-column-text"> {{customer.suma_Osiguranja.toFixed(2)}} &euro; </span>
+            </td>
+            <td pTooltip={{customer.nazivPodpokrica}}>
+              <span class="p-column-title">Naziv podpokrića</span>
+              <span class="p-column-text"> {{customer.nazivPodpokrica}} </span>
+            </td>
+            <td>
+              <span class="p-column-title">Vrsta limita</span>
+              <span class="p-column-text"> {{customer.vrsta_Limita}} </span>
+            </td>
+            <td>
+              <span class="p-column-title">Limit</span>
+              <span class="p-column-text"> {{customer.limit ? customer.limit.toFixed(2) + ' €' : '/' }} </span>
+            </td>
+            <td>
+              <span class="p-column-title">Iskorišćeno</span>
+              <span class="p-column-text"> {{customer.iskorisceno === 'Nema limita' ? customer.iskorisceno :
+                formatNumber(customer.iskorisceno)}}</span>
+            </td>
+            <td>
+              <span class="p-column-title">Preostalo</span>
+              <span class="p-column-text"> {{customer.preostalo === 'Bez limita' ? customer.preostalo :
+                formatNumber(customer.preostalo)}}</span>
+            </td>
+          </tr>
+        </ng-template>
+      </ng-template>
+
+    </p-table>
+    <!-- footer -->
+    <ng-template pTemplate="footer">
+      <!-- dugme za zatvaranje -->
+      <button type="button" pButton pRipple icon="pi pi-times" (click)="tabelaPodPokrica = false" label="Zatvori"
+        class="p-button-sm p-button-danger"></button>
+    </ng-template>
+  </p-dialog>
+</div>

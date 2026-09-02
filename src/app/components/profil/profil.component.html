@@ -1,0 +1,216 @@
+<div class="flex justify-content-center">
+  <p-accordion [activeIndex]="0">
+    <p-accordionTab>
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center">
+          <i class="pi pi-user mr-2"></i>
+          <span class="vertical-align-middle">Osnovni podaci</span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <ng-container *ngIf="skeleton; else userUpdate">
+          <div class="row">
+            <p-skeleton></p-skeleton>
+          </div>
+          <div class="row">
+            <p-skeleton></p-skeleton>
+            <p-skeleton></p-skeleton>
+          </div>
+          <div class="row">
+            <p-skeleton></p-skeleton>
+            <p-skeleton></p-skeleton>
+          </div>
+          <div class="row">
+            <p-skeleton></p-skeleton>
+          </div>
+          <div class="row">
+            <p-skeleton></p-skeleton>
+            <p-skeleton></p-skeleton>
+          </div>
+          <div class="row" style="width: 65%; margin: auto;">
+            <p-skeleton></p-skeleton>
+          </div>
+        </ng-container>
+        <ng-template #userUpdate>
+          <form [formGroup]="osnovniPodaciForm">
+            <div class="flex flex-column mt-1">
+              <div class="row">
+                <div class="p-inputgroup">
+                  <span class="p-inputgroup-addon">
+                    <i class="fas fa-user-circle"></i>
+                  </span>
+                  <span class="p-float-label">
+                    <input type="text" pInputText placeholder="Username" formControlName="username" />
+                    <label for="username">Username</label>
+                  </span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="p-inputgroup">
+                  <span class="p-inputgroup-addon">
+                    <i class="pi pi-id-card"></i>
+                  </span>
+                  <span class="p-float-label">
+                    <input type="text" pInputText placeholder="Matični broj" formControlName="jmbg" />
+                    <label for="jmbg">Matični broj</label>
+                  </span>
+                </div>
+                <div class="p-inputgroup">
+                  <span class="p-inputgroup-addon responsive-ikonice-in">
+                    <i class="pi pi-send"></i>
+                  </span>
+                  <span class="p-float-label">
+                    <input type="email" pInputText placeholder="Email" formControlName="email" />
+                    <label for="email">Email</label>
+                  </span>
+                  <span class="p-inputgroup-addon responsive-ikonice-out">
+                    <i class="pi pi-send"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="p-inputgroup">
+                  <span class="p-inputgroup-addon">
+                    <i class="pi pi-user"></i>
+                  </span>
+                  <span class="p-float-label">
+                    <input type="text" id="ime" pInputText placeholder="Ime" formControlName="ime"
+                      (keyup.enter)="updateUser()" />
+                    <label for="ime">Ime</label>
+                  </span>
+                </div>
+
+                <div class="p-inputgroup">
+                  <span class="p-inputgroup-addon responsive-ikonice-in">
+                    <i class="pi pi-user"></i>
+                  </span>
+                  <span class="p-float-label">
+                    <input type="text" id="prezime" pInputText placeholder="Prezime" formControlName="prezime"
+                      (keyup.enter)="updateUser()" />
+                    <label for="prezime">Prezime</label>
+                  </span>
+                  <span class="p-inputgroup-addon responsive-ikonice-out">
+                    <i class="pi pi-user"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="p-inputgroup">
+                  <span class="p-inputgroup-addon">
+                    <i class="pi pi-phone"></i>
+                  </span>
+                  <span class="p-float-label">
+                    <p-inputMask mask="+381 69-999/999?9" id="brTelefona" formControlName="brTelefona"
+                      (keyup.enter)="updateUser()"></p-inputMask>
+                    <label for="brTelefona">Broj telefona</label>
+                  </span>
+                </div>
+                <!-- </div> -->
+
+                <!-- <div class="row"> -->
+                <div class="p-inputgroup">
+                  <span class="p-inputgroup-addon">
+                    <i class="pi pi-calendar"></i>
+                  </span>
+                  <span class="p-float-label">
+                    <input type="text" pInputText placeholder="Datum kreiranja profila" formControlName="datum" />
+                    <label for="datum">Datum kreiranja profila</label>
+                  </span>
+                </div>
+                <div class="p-inputgroup" style="align-items: center; pointer-events: none;"
+                  [ngStyle]="{'color': isProfileConfirmed ? '#3393e3' : 'red'}">
+                  <span class="p-inputgroup-addon" [ngStyle]="{'border-color': isProfileConfirmed ? '#3393e3' : 'red'}"
+                    style="background-color: transparent; border: 1px solid; border-radius: 50%; height: 100%;">
+                    <i class="pi" [ngClass]="isProfileConfirmed ? 'pi-check' : 'pi-times'"
+                      [ngStyle]="{'color': isProfileConfirmed ? '#3393e3' : 'red'}"></i>
+                  </span>
+                  <span style="margin-left: 5px;">
+                    {{ isProfileConfirmed ? 'Profil je potvrđen' : 'Profil nije potvrđen' }}
+                  </span>
+                </div>
+              </div>
+              <div class="row buttons">
+                <p-button label="Sačuvaj promene" icon="pi pi-send" [loading]="loadingUpdateUser"
+                  styleClass="p-button-rounded p-button-sm p-button-info" [disabled]="!osnovniPodaciForm.valid"
+                  (onClick)="updateUser()"></p-button>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+      </ng-template>
+    </p-accordionTab>
+    <p-accordionTab>
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center">
+          <i class="pi pi-search mr-2"></i>
+          <span class="vertical-align-middle">Promena lozinke</span>
+          <i class="pi pi-unlock ml-2 ml-2"></i>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <ng-container *ngIf="skeleton; else resetPass">
+          <div class="row">
+            <p-skeleton></p-skeleton>
+          </div>
+          <div class="row">
+            <p-skeleton></p-skeleton>
+          </div>
+          <div class="row" style="width: 70%; margin: auto;">
+            <p-skeleton></p-skeleton>
+          </div>
+        </ng-container>
+        <ng-template #resetPass>
+          <form [formGroup]="resetPassForm">
+            <div class="flex flex-column mt-1">
+              <div class="row">
+                <div class="p-inputgroup">
+                  <span class="p-inputgroup-addon">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                  <span class="p-float-label">
+                    <p-password formControlName="oldPassword" id="oldPassword" placeholder="Unesite staru lozinku"
+                      [toggleMask]="true" [feedback]="false" placeholder="Unesite staru lozinku"></p-password>
+                    <label for="oldPassword">Stara lozinka</label>
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="p-inputgroup">
+                  <span class="p-inputgroup-addon">
+                    <i class="fas fa-lock-open"></i>
+                  </span>
+                  <span class="p-float-label">
+                    <p-password formControlName="newPassword" id="newPassword" [toggleMask]="true"
+                      (keyup.enter)="resetPassword()" placeholder="Unesite novu lozinku" [promptLabel]="'Veoma slaba'"
+                      [weakLabel]="'Slaba'" [mediumLabel]="'Srednja'" [strongLabel]="'Jaka'"
+                      placeholder="Unesite novu lozinku">
+                      <ng-template pTemplate="footer">
+                        <p-divider></p-divider>
+                        <p class="mt-2">Sugestije</p>
+                        <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5; text-align: left;">
+                          <li>Barem jedno malo slovo</li>
+                          <li>Barem jedno veliko slovo</li>
+                          <li>Barem jedan broj</li>
+                          <li>Minimum 6 karaktera</li>
+                        </ul>
+                      </ng-template>
+                    </p-password>
+                    <label for="newPassword">Nova lozinka</label>
+                  </span>
+                </div>
+              </div>
+              <div class="row buttons">
+                <p-button label="Sačuvaj novu lozinku" icon="pi pi-send" [loading]="loadingResetPass"
+                  styleClass="p-button-rounded p-button-sm p-button-info" [disabled]="!resetPassForm.valid"
+                  (onClick)="resetPassword()"></p-button>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+      </ng-template>
+    </p-accordionTab>
+  </p-accordion>
+</div>
