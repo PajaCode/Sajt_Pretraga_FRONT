@@ -1,6 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { CurrentUserService } from '../../shared/services/current-user.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
@@ -38,10 +39,20 @@ export class HeaderComponent implements OnInit {
 
   @ViewChild('navbarNavButton') navbarNavButton: ElementRef;
 
+  hasActivePackage: boolean = false;
+
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private currentUserService: CurrentUserService,
   ) {
+    this.currentUserService.user$.subscribe(user => {
+      this.hasActivePackage = !!user?.hasActivePackage;
+      if (this.url) {
+        this.handleNavigation();
+      }
+    });
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.url = event.url;
@@ -70,13 +81,15 @@ export class HeaderComponent implements OnInit {
     const page = this.url.includes('confirm-mail') || this.url.includes('login') || this.url.includes('register') || this.url.includes('reset-password');
 
     if (this.isLoggedIn() && !page) {
-      this.mainLinks = [
+      this.mainLinks = this.hasActivePackage ? [
         //{ name: 'Početna', url: '/home' },
         //{ name: 'DZO', url: '/dzo' },
         //{ name: 'Zatražite ponudu', url: '/formaZaLeadove' },
         { name: 'Informacije o ugovorenom pokriću', url: '/paketi' },
         { name: 'Zahtev za zakazivanje pregleda', url: '/kontaktdzo'},
         { name: 'Refundacije', url: '/refundacije'},
+      ] : [
+        { name: 'Kupovina paketa', url: '/kupovina-paketa' },
       ]
 
       this.optionLinks = [

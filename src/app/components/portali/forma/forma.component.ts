@@ -392,7 +392,7 @@ export class FormaComponent implements OnInit {
   istorijaUputa() {
     this.tabelaIstorija = true;
 
-    this.apiService.istorijaUput(this.loggedUser.id).subscribe(res => {
+    this.apiService.istorijaUput().subscribe(res => {
       if (res.success) {
         this.istorija = res.resultList;
         this.loadingIstorija = false;

@@ -3,6 +3,7 @@ import { DzoService } from './shared/services/dzo.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NavigationEnd, Router } from '@angular/router';
+import { CurrentUserService } from './shared/services/current-user.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,9 +15,14 @@ export class AppComponent implements OnInit {
   formaZaLeadove: boolean = true;
 
   constructor(private config: PrimeNGConfig,
-              private router: Router) { }
+              private router: Router,
+              private currentUserService: CurrentUserService) { }
 
   ngOnInit(): void {
+
+    // Ucitava current-user state jednom na bootstrap/refresh, da header i guard-ovi
+    // ne cekaju svaki svoju kopiju poziva ka /me.
+    this.currentUserService.ensureLoaded().subscribe();
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {

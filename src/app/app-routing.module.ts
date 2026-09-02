@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './shared/guards/auth.guard';
+import { ActivePackageGuard } from './shared/guards/active-package.guard';
 import { ResetPassGuard } from './shared/guards/reset-pass.guard';
 
 const guardedRoutes: Routes = [
@@ -20,8 +21,9 @@ const routes: Routes = [
     children: [
       // ...guardedRoutes.map(route => ({ ...route, canActivate: [AuthGuard] })),
       { path: 'home', loadChildren: () => import('./shared/modules/home/home.module').then((m) => m.HomeModule) },
-      { path: 'profil', loadChildren: () => import('./shared/modules/profil/profil.module').then((m) => m.ProfilModule) },
-      { path: 'paketi', loadChildren: () => import('./shared/modules/paketi/paketi.module').then(m => m.PaketiModule) },
+      { path: 'profil', loadChildren: () => import('./shared/modules/profil/profil.module').then((m) => m.ProfilModule), canActivate: [AuthGuard] },
+      { path: 'paketi', loadChildren: () => import('./shared/modules/paketi/paketi.module').then(m => m.PaketiModule), canActivate: [AuthGuard, ActivePackageGuard] },
+      { path: 'kupovina-paketa', loadChildren: () => import('./shared/modules/kupovina-paketa/kupovina-paketa.module').then(m => m.KupovinaPaketaModule), canActivate: [AuthGuard] },
       { path: 'dzo', loadChildren: () => import('./shared/modules/dzo/dzo.module').then((m) => m.DzoModule) },
       { path: 'kontaktdzo', loadChildren: () => import('./shared/modules/forma/forma.module').then((m) => m.FormaModule )},
       { path: 'formaZaLeadove', loadChildren: () => import('./shared/modules/forma-za-leadove/forma-za-leadove.module').then((m) => m.FormaZaLeadoveModule )},

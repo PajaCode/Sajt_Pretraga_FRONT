@@ -22,8 +22,8 @@ export class ApiService {
     return this.http.post(this.baseApiDb + 'ProveraPolja' + '?parametar=' + parametar + '&vrednost=' + vrednost, { 'headers': headers });
   }
 
-  istorijaUput(id): Observable<any> {
-    return this.http.get(this.baseApiDzo + 'DZO_PrikaziZahteve' + '?IdPortal=' + id);
+  istorijaUput(): Observable<any> {
+    return this.http.get(this.baseApiDzo + 'DZO_PrikaziZahteve');
   }
 
   insertUputa(formData): Observable<any> {

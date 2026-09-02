@@ -1,0 +1,103 @@
+<div class="row">
+  <p-fieldset legend="Kupovina paketa" class="mb-3">
+
+    <!-- korak 1: izbor paketa -->
+    <ng-container *ngIf="step === 'select'">
+      <ng-container *ngIf="loadingPackages; else izborPaketa">
+        <div class="row">
+          <p-skeleton></p-skeleton>
+          <p-skeleton></p-skeleton>
+        </div>
+      </ng-container>
+      <ng-template #izborPaketa>
+        <div class="row" *ngIf="packages.length === 0">
+          <span>Trenutno nema dostupnih paketa.</span>
+        </div>
+        <div class="row" *ngFor="let paket of packages" style="margin-bottom: 12px;">
+          <p-card [header]="paket.naziv">
+            <p>{{paket.opis}}</p>
+            <ul>
+              <li *ngFor="let pokrice of paket.glavnaPokrica">{{pokrice}}</li>
+            </ul>
+            <p><strong>{{paket.cena}} {{paket.valuta}}</strong> / {{paket.trajanjeDana}} dana</p>
+            <button pButton pRipple type="button" label="Kupi paket" class="p-button-sm"
+              [disabled]="loadingPayment" (click)="choosePackage(paket)"></button>
+          </p-card>
+        </div>
+      </ng-template>
+    </ng-container>
+
+    <!-- korak 2: mock placanje -->
+    <ng-container *ngIf="step === 'payment'">
+      <div class="row">
+        <p>Paket: <strong>{{selectedPackage?.naziv}}</strong></p>
+        <p>Iznos za plaćanje: <strong>{{paymentAmount}} {{paymentCurrency}}</strong></p>
+      </div>
+      <div class="row">
+        <button pButton pRipple type="button" label="Simuliraj uspešno plaćanje" class="p-button-sm p-button-success"
+          [disabled]="loadingPayment" (click)="confirmMockPayment(true)"></button>
+        <button pButton pRipple type="button" label="Simuliraj neuspešno plaćanje"
+          class="p-button-sm p-button-danger" [disabled]="loadingPayment" (click)="confirmMockPayment(false)"></button>
+      </div>
+    </ng-container>
+
+    <!-- korak 3: kompletiranje kupovine -->
+    <ng-container *ngIf="step === 'complete'">
+      <form [formGroup]="completeForm" (ngSubmit)="submitComplete()">
+        <div class="flex flex-column mt-1">
+          <div class="row">
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-user"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="ime" />
+                <label for="ime">Ime</label>
+              </span>
+            </div>
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-user"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="prezime" />
+                <label for="prezime">Prezime</label>
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-id-card"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="jmbg" maxlength="13" />
+                <label for="jmbg">JMBG</label>
+              </span>
+            </div>
+            <small class="p-error"
+              *ngIf="completeForm.get('jmbg').touched && completeForm.get('jmbg').invalid">
+              JMBG mora imati tačno 13 cifara.
+            </small>
+          </div>
+          <div class="row">
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-calendar"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="date" pInputText formControlName="datumRodjenja" />
+                <label for="datumRodjenja">Datum rođenja</label>
+              </span>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 12px;">
+            <button pButton pRipple type="submit" label="Aktiviraj paket" class="p-button-sm"
+              [disabled]="loadingComplete"></button>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+
+  </p-fieldset>
+</div>

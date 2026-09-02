@@ -12,6 +12,7 @@ import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct, NgbModule } from '@
 import { NgxBootstrapIconsModule, allIcons } from 'ngx-bootstrap-icons';
 import { JsonPipe } from '@angular/common';
 import { CalendarModule } from 'primeng/calendar';
+import { environment } from 'src/enviroments/environment';
 
 
 // pipes
@@ -21,7 +22,7 @@ import { MedUstanovaPipe } from './shared/pipes/medUstanove.pipe';
 import { AuthGuard } from './shared/guards/auth.guard';
 
 //interceptors
-import { TokenInterceptor } from './shared/interceptors/token.interceptor';
+import { ApiErrorInterceptor } from './shared/interceptors/api-error.interceptor';
 
 //ngx
 import { ToastrModule } from 'ngx-toastr';
@@ -50,6 +51,7 @@ import { PaketiComponent } from './components/portali/paketi/paketi.component';
 import { FormaComponent } from './components/portali/forma/forma.component';
 import { FormularZaLeadoveComponent } from './components/portali/formular-za-leadove/formular-za-leadove.component';
 import { RefundacijeComponent } from './components/portali/refundacije/refundacije.component';
+import { KupovinaPaketaComponent } from './components/portali/kupovina-paketa/kupovina-paketa.component';
 
 export function tokenGetter() {
   return localStorage.getItem('user-token') || null;
@@ -70,7 +72,8 @@ export function tokenGetter() {
     PaketiComponent,
     FormaComponent,
     FormularZaLeadoveComponent,
-    RefundacijeComponent
+    RefundacijeComponent,
+    KupovinaPaketaComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +94,10 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ['servisiapi.globos.rs/dzo', 'localhost:4200/dzo', '82.117.218.146:8002/dzo'],
+        // allowedDomains matches hostname[:port] only (no path) - derived from the
+        // active baseApiUrl so it stays correct whichever backend target is uncommented
+        // in environment.ts, instead of a hardcoded list that never matched.
+        allowedDomains: [new URL(environment.baseApiUrl).host],
       },
     }),
     PrimengModule,
@@ -108,8 +114,8 @@ export function tokenGetter() {
     CalendarModule,
   ],
   providers: [AuthGuard,
-    // { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ApiErrorInterceptor, multi: true }
     , DatePipe, MessageService]
   , bootstrap: [AppComponent]
 })

@@ -87,7 +87,6 @@ export class ResetPasswordComponent implements OnInit {
       newPassword: this.form.get('newPassword').value,
       repeatedNewPassword: this.form.get('repeatedNewPassword').value
     }
-    console.log(resetPasswordModel);
     this.authService.resetForgottenPassword(resetPasswordModel).subscribe(res => {
       if (res.success) {
         this.toster.success(res.message, 'Globos osiguranje');
