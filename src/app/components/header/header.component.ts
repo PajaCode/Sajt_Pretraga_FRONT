@@ -163,6 +163,9 @@ export class HeaderComponent implements OnInit {
 
   // odjavljivanje korisnika
   logout(url?) {
+    // Bez ovoga cache ostaje da drzi starog usera, pa GuestGuard na /login misli
+    // da je korisnik jos uvek ulogovan i vraca ga nazad u portal.
+    this.currentUserService.clear();
     this.authService.signOut(url);
   }
 }

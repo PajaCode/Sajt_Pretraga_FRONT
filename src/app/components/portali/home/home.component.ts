@@ -30,8 +30,12 @@ export class HomeComponent implements OnInit {
       }));
 
       this.skeleton = false;
-      this.selectedImageSrc = this.images[0].itemImageSrc;
-
+      // carousel-images.json je prazan (stare Facebook CDN slike su vracale 403 -
+      // signed URL-ovi su odavno istekli, nema lokalne zamene) - bez ove provere
+      // ovo bi pucalo na praznom nizu.
+      if (this.images.length > 0) {
+        this.selectedImageSrc = this.images[0].itemImageSrc;
+      }
     });
   }
 

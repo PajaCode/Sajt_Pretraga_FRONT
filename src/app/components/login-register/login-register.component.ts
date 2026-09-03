@@ -16,6 +16,7 @@ import * as moment from 'moment';
 import en from '@angular/common/locales/sr';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import { CustomDateParserFormatter } from 'src/app/shared/dateFormating/customDateParserFormatter';
+import { CurrentUserService } from 'src/app/shared/services/current-user.service';
 
 
 @Component({
@@ -46,7 +47,8 @@ export class LoginRegisterComponent implements OnInit {
     private toster: ToastrService,
     private spinner: NgxSpinnerService,
     private jwtHelper: JwtHelperService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private currentUserService: CurrentUserService,
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -211,11 +213,28 @@ export class LoginRegisterComponent implements OnInit {
             this.authService.setToken('user-token', res.token);
             this.spinner.show();
 
-            setTimeout(() => {
-              this.toster.success('Dobrodošao/la ' + decodedToken.Username, 'Globos osiguranje');
-              this.router.navigate(['paketi']);
+            // Ne navigiraj odmah posle login-a - prvo mora da se ucita /api/Master/me
+            // da bi se znalo da li korisnik ima aktivan paket (destinacija zavisi od
+            // stvarnog account state-a, ne salje se svako na home).
+            this.currentUserService.refresh().subscribe(user => {
               this.spinner.hide();
-            }, 500);
+
+              if (!user) {
+                this.toster.error('Nije moguće učitati nalog. Pokušajte ponovo.', 'Globos osiguranje');
+                this.authService.deleteAllTokens();
+                this.currentUserService.clear();
+                return;
+              }
+
+              this.toster.success('Dobrodošao/la ' + decodedToken.Username, 'Globos osiguranje');
+
+              if (this.currentUserService.isBlocked(user)) {
+                this.toster.error('Nalog je blokiran. Kontaktirajte podršku.', 'Globos osiguranje');
+                return;
+              }
+
+              this.router.navigate(this.currentUserService.landingRoute(user));
+            });
           }
           else if (!decodedToken.Aktivan) {
             this.toster.error('Morate potvrditi mail adresu.', 'Globos osiguranje');

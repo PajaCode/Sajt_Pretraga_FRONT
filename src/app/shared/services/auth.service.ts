@@ -110,9 +110,8 @@ export class AuthService {
   signOut(url?: string) {
     console.clear();
     this.deleteAllTokens();
-    if (url)
-      this.router.navigate([url]);
-    else
-      this.router.navigate(['login']);
+    // Apsolutna putanja - relativni navigate (bez '/') iz rute koja nije root
+    // pokusava da otvori podputanju trenutne rute i tiho ne uspeva.
+    this.router.navigate([url ? url : '/login']);
   }
 }

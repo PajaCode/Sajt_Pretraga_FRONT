@@ -45,13 +45,8 @@ export class KupovinaPaketaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const user = this.currentUserService.snapshot;
-    if (user && user.hasActivePackage) {
-      this.toster.info('Već imate aktivan paket.', 'Globos osiguranje');
-      this.router.navigate(['/paketi']);
-      return;
-    }
-
+    // PurchaseGuard vec sprecava pristup korisniku sa aktivnim paketom pre nego sto
+    // se ova komponenta uopste ucita - nema potrebe za istom proverom ovde.
     this.masterService.getPackages().subscribe({
       next: res => {
         this.loadingPackages = false;
@@ -128,9 +123,9 @@ export class KupovinaPaketaComponent implements OnInit {
       next: res => {
         this.loadingComplete = false;
         if (res.success) {
-          this.currentUserService.refresh().subscribe(() => {
+          this.currentUserService.refresh().subscribe(user => {
             this.toster.success('Paket je uspešno aktiviran.', 'Globos osiguranje');
-            this.router.navigate(['/paketi']);
+            this.router.navigate(user ? this.currentUserService.landingRoute(user) : ['/paketi']);
           });
         } else {
           this.toster.error(res.message, 'Globos osiguranje');

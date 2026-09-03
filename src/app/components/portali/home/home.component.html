@@ -5,7 +5,7 @@
     </div>
   </ng-container>
   <ng-template #carousel>
-    <div class="background-container">
+    <div class="background-container" *ngIf="images?.length">
       <img class="background-image" [src]="selectedImageSrc" alt="Background Image">
       <div class="row justify-content-center">
         <p-galleria [value]="images" [autoPlay]="true" [circular]="true" [changeItemOnIndicatorHover]="true"

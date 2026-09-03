@@ -44,6 +44,22 @@ export class CurrentUserService {
     this.state$.next(null);
   }
 
+  // AccountStatus 'Blocked' se trenutno ne generise nigde u backend-u (provereno
+  // kroz sve migracije), ali guard-ovi/login flow ga moraju prepoznati ako se ikad pojavi -
+  // ne sme se tretirati kao obican "nema paket" korisnik.
+  isBlocked(user: CurrentUser | null): boolean {
+    return !!user && user.accountStatus === 'Blocked';
+  }
+
+  // Centralna odluka gde ulogovan (ne-blokiran) korisnik treba da sleti posle
+  // login-a / na '/' / kad rucno otvori '/login'. Package-protected guard-ovi i dalje
+  // koriste hasActivePackage direktno, ovo je samo za landing/redirect odluku.
+  landingRoute(user: CurrentUser): string[] {
+    // '/paketi' ("Informacije o ugovorenom pokricu") je stvarni pocetni ekran za
+    // ActivePackage korisnika u produkciji - '/home' ostaje samo legacy ruta.
+    return user.hasActivePackage ? ['/paketi'] : ['/kupovina-paketa'];
+  }
+
   private fetch(): Observable<CurrentUser | null> {
     if (!this.authService.isLoggedIn()) {
       this.state$.next(null);

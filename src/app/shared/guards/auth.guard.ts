@@ -27,7 +27,10 @@ export class AuthGuard implements CanActivate {
           return true;
         }
 
+        // Bez ovoga cache moze ostati da drzi stari (istekao) user objekat, sto bi
+        // naveo GuestGuard da pogresno vrati korisnika sa /login nazad u portal.
         this.authService.deleteAllTokens();
+        this.currentUserService.clear();
         return this.router.createUrlTree(['/login']);
       })
     );

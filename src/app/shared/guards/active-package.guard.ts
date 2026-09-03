@@ -23,16 +23,23 @@ export class ActivePackageGuard implements CanActivate {
 
     return this.currentUserService.ensureLoaded().pipe(
       map(user => {
-        if (user && user.hasActivePackage) {
-          return true;
-        }
-
         if (!user) {
           return this.router.createUrlTree(['/login']);
         }
 
+        if (this.currentUserService.isBlocked(user)) {
+          this.toster.error('Nalog je blokiran. Kontaktirajte podršku.', 'Globos osiguranje');
+          return this.router.createUrlTree(['/login']);
+        }
+
+        if (user.hasActivePackage) {
+          return true;
+        }
+
         this.toster.warning('Potrebno je da prvo kupite paket.', 'Globos osiguranje');
-        return this.router.createUrlTree(['/paketi']);
+        // Ne '/paketi' - ta ruta je i sama iza ovog istog guard-a, redirect ka njoj
+        // bi napravio beskonacnu petlju za korisnika bez paketa.
+        return this.router.createUrlTree(['/kupovina-paketa']);
       })
     );
   }
