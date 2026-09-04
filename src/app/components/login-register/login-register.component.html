@@ -1,9 +1,8 @@
 <div class="row">
   <!-- <p-card header="{{this.url === '/register' ? 'Registracija' : 'Logovanje'}}"> -->
   <p class="text-justify" id="note">
-    Napominjemo da je sa jednom e mail adresom moguce registrovati samo jedan nalog koji je vezan za karticu<br>
-    dobrovoljnog zdravstvenog osiguranja. Ukoliko ste nosilac osiguranja za članove porodice, potrebno je<br>
-    registrovati svaki nalog posebno. Refundacija troškova je moguća sa naloga nosioca za sve članove porodice. </p>
+    Registrujte se sa e-mail adresom, korisničkim imenom i lozinkom. Nakon registracije potvrdite e-mail adresu<br>
+    unosom aktivacionog koda, a zatim se prijavite i izaberite paket osiguranja. </p>
   <p-card>
     <!-- header -->
     <ng-template pTemplate="header">
@@ -38,37 +37,6 @@
                 polje.</small>
             </div>
           </div>
-          <!-- Broj kartice -->
-          <div class="row">
-            <div class="flex flex-column">
-              <span class="p-float-label">
-                <input pInputText formControlName="brKartice" placeholder="Unesite broj kartice" maxlength="8" />
-                <label htmlFor="brKartice">Broj kartice</label>
-              </span>
-              <small class="text-danger" *ngIf="form.controls['brKartice'].hasError('invalidLength')">*Broj kartice je
-                nedovoljne dužine.</small>
-              <small class="text-danger"
-                *ngIf="form.controls['brKartice'].dirty && form.controls['brKartice'].hasError('required')">*Broj
-                kartice je
-                obavezno polje.</small>
-            </div>
-          </div>
-          <!-- Datum rodjenja -->
-          <div class="form-inline">
-            <div class="flex flex-column" style="margin-bottom: 1.5em;">
-              <div class="input-group">
-                <input pInputText placeholder="Datum rođenja" name="dp" ngbDatepicker #d="ngbDatepicker"
-                  [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="{year: getCurrentYear(), month: 12, day: 31}"
-                  formControlName="datumRodjenja" style="width: 88.8%;" [restoreFocus]="true" readonly="true" />
-                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i
-                    class="fa-regular fa-calendar"></i></button>
-                <small class="text-danger"
-                  *ngIf="form.controls['datumRodjenja'].dirty && form.controls['datumRodjenja'].hasError('required')">*Datum
-                  rođenja je
-                  obavezno polje.</small>
-              </div>
-            </div>
-          </div>
           <!-- email -->
           <div class="row">
             <div class="flex flex-column">
@@ -84,29 +52,12 @@
                 je obavezno polje.</small>
             </div>
           </div>
-          <!-- broj telefona -->
-          <div class="row">
-            <div class="flex flex-column">
-              <span class="p-float-label">
-                <p-inputMask mask="+381 69-999/999?9" formControlName="brTelefona"></p-inputMask>
-                <label htmlFor="brTelefona">Broj telefona</label>
-              </span>
-              <small class="text-danger"
-                *ngIf="form.controls['brTelefona'].dirty && form.get('brTelefona').value.length < 15">
-                *Broj telefona je nedovoljne dužine.
-              </small>
-              <small class="text-danger"
-                *ngIf="form.controls['brTelefona'].dirty && form.hasError('required', 'brTelefona')">*Broj telefona
-                je obavezno polje.</small>
-            </div>
-          </div>
         </ng-container>
         <!-- username -->
         <div class="row">
           <div class="flex flex-column">
             <span class="p-float-label">
-              <input pInputText formControlName="username" placeholder="Unesite korisničko ime"
-                (blur)="inputChecker(1,'username')" />
+              <input pInputText formControlName="username" placeholder="Unesite korisničko ime" />
               <label htmlFor="username">Korisničko ime</label>
             </span>
             <small class="text-danger"
@@ -126,16 +77,13 @@
                     <p-divider></p-divider>
                     <p class="mt-2">Sugestije</p>
                     <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                      <li>Barem jedno malo slovo</li>
-                      <li>Barem jedno veliko slovo</li>
-                      <li>Barem jedan broj</li>
                       <li>Minimum 6 karaktera</li>
                     </ul>
                   </ng-template>
                 </p-password>
                 <small class="text-danger"
                   *ngIf="form.controls['password'].dirty && form.controls['password'].hasError('passwordStrength')">
-                  *Lozinka mora imati minimum 6 karaktera, jedno veliko slovo, jedno malo slovo i jedan broj.
+                  *Lozinka mora imati minimum 6 karaktera.
                 </small>
               </ng-container>
               <ng-container *ngIf="url == '/login'">
@@ -147,6 +95,22 @@
             <small class="text-danger"
               *ngIf="form.controls['password'].dirty && form.hasError('required', 'password')">*Lozinka
               je obavezno polje.</small>
+          </div>
+        </div>
+        <!-- potvrda lozinke -->
+        <div class="row" *ngIf="url === '/register'">
+          <div class="flex flex-column">
+            <span class="p-float-label">
+              <p-password formControlName="confirmPassword" [toggleMask]="true" [feedback]="false"
+                placeholder="Potvrdite lozinku"></p-password>
+              <label for="confirmPassword">Potvrda lozinke</label>
+            </span>
+            <small class="text-danger"
+              *ngIf="form.controls['confirmPassword'].dirty && form.hasError('required', 'confirmPassword')">*Potvrda
+              lozinke je obavezno polje.</small>
+            <small class="text-danger"
+              *ngIf="form.controls['confirmPassword'].dirty && form.hasError('passwordMismatch')">*Lozinke se ne
+              poklapaju.</small>
           </div>
         </div>
       </form>

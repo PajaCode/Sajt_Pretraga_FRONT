@@ -3,8 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ConfirmMailComponent } from 'src/app/components/confirm-mail/confirm-mail.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: ':token', component: ConfirmMailComponent },
+  { path: '', component: ConfirmMailComponent },
 ];
 
 @NgModule({

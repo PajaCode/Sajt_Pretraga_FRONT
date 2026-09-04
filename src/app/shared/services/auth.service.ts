@@ -5,7 +5,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroments/environment';
 import { LoginUser } from '../models/login-user';
-import { RegisterUser } from '../models/register-user';
 
 @Injectable({
   providedIn: 'root'
@@ -25,12 +24,6 @@ export class AuthService {
     this.deleteToken('email-token');
     const headers = { 'content-type': 'application/json' }
     return this.http.post<LoginUser>(this.baseApiAuth + 'Login', user, { 'headers': headers });
-  }
-
-  register(user: any): Observable<RegisterUser[]> {
-    this.deleteToken('email-token');
-    const headers = { 'content-type': 'application/json' }
-    return this.http.post<RegisterUser[]>(this.baseApiAuth + 'Register', user, { 'headers': headers });
   }
 
   updateUser(user): Observable<any> {

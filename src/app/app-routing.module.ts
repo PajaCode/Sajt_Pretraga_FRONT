@@ -26,7 +26,7 @@ const routes: Routes = [
     ]
   },
   { path: 'login', loadChildren: () => import('./shared/modules/login/login.module').then((m) => m.LoginModule), canActivate: [GuestGuard] },
-  { path: 'register', loadChildren: () => import('./shared/modules/register/register.module').then((m) => m.RegisterModule) },
+  { path: 'register', loadChildren: () => import('./shared/modules/register/register.module').then((m) => m.RegisterModule), canActivate: [GuestGuard] },
   { path: 'confirm-mail', loadChildren: () => import('./shared/modules/confirm-mail/confirm-mail.module').then((m) => m.ConfirmMailModule) },
   { path: 'reset-password', loadChildren: () => import('./shared/modules/reset-password/reset-password.module').then((m) => m.ResetPasswordModule), canActivate: [ResetPassGuard] },
   { path: '**', redirectTo: '' },

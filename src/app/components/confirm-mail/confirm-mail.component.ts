@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { EmailService } from 'src/app/shared/services/email.service';
+import { MasterService } from 'src/app/shared/services/master.service';
 
 @Component({
   selector: 'app-confirm-mail',
@@ -12,84 +11,90 @@ import { EmailService } from 'src/app/shared/services/email.service';
 })
 export class ConfirmMailComponent implements OnInit {
 
-  decodedToken: any;
-  tokenExpired: boolean = false;
+  form!: FormGroup;
+  resendForm!: FormGroup;
+
+  loadingConfirm: boolean = false;
+  loadingResend: boolean = false;
+  confirmed: boolean = false;
 
   constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private emailService: EmailService,
-    private jwtHelper: JwtHelperService,
-    private authService: AuthService,
+    private masterService: MasterService,
     private toster: ToastrService
-  ) {
-    this.route.params.subscribe(params => {
-      const token = params['token'];
-      if (token) {
-        try {
-          this.decodedToken = this.jwtHelper.decodeToken(token);
+  ) { }
 
-          if (this.jwtHelper.isTokenExpired(this.route.snapshot.params['token'])) {
-            this.tokenExpired = true;
-          }
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      code: [null, Validators.required]
+    });
 
-        } catch (error) {
-          console.error('Error decoding token: ', error);
+    this.resendForm = this.fb.group({
+      email: [null, [Validators.required, Validators.email]]
+    });
+
+    const email = this.route.snapshot.queryParamMap.get('email');
+    if (email) {
+      this.resendForm.get('email').setValue(email);
+    }
+  }
+
+  // potvrda mejla unosom koda dobijenog na mejl
+  potvrdiKod() {
+    if (this.form.invalid) {
+      this.form.get('code').markAsDirty();
+      return;
+    }
+
+    this.loadingConfirm = true;
+
+    this.masterService.confirmEmail({ activationToken: this.form.get('code').value }).subscribe({
+      next: (res) => {
+        this.loadingConfirm = false;
+
+        if (res.success) {
+          this.confirmed = true;
+          this.toster.success('Uspešno ste potvrdili vašu e-mail adresu.', 'Globos osiguranje');
+        } else {
+          this.toster.error(res.message, 'Globos osiguranje');
+          this.form.get('code').setValue(null);
         }
-      } else {
-        console.error('Token not provided.');
+      },
+      error: () => {
+        this.loadingConfirm = false;
+        this.form.get('code').setValue(null);
       }
     });
   }
 
-  ngOnInit(): void {
-
-    if (!this.decodedToken) {
+  // ponovno slanje aktivacionog koda
+  posaljiKodPonovo() {
+    if (this.resendForm.invalid) {
+      this.resendForm.get('email').markAsDirty();
       return;
     }
 
-    if (!this.decodedToken.Aktivan) {
-      // this.toster.warning('Email nije potvrdjen.', 'Globos osiguranje');
-      return;
-    }
+    this.loadingResend = true;
 
-    if (this.jwtHelper.isTokenExpired(this.route.snapshot.params['token'])) {
-      return;
-    }
+    this.masterService.resendActivationEmail({ email: this.resendForm.get('email').value }).subscribe({
+      next: (res) => {
+        this.loadingResend = false;
 
-    // metoda za updejtovanje mejla u bazi
-    this.emailService.updateConfirmEmail(this.decodedToken.Email).subscribe(
-      (res: any) => {
         if (res.success) {
-          this.authService.deleteToken('email-token');
-          this.toster.success(res.message, 'Globos osiguranje');
-        }
-        else {
-          this.toster.error(res.message, 'Globos osiguranje');
-        }
-      },
-    );
-  }
-
-  // metoda za ponovno slanje mejla
-  ponoviMejl() {
-
-    const emailAgain = {
-      emailRecipient: this.decodedToken.Email,
-      tip: 1
-    }
-
-    this.emailService.sendEmail(emailAgain).subscribe(
-      res => {
-        if (res.success) {
-          this.toster.success(res.message, 'Globos osiguranje');
+          this.toster.success('Ukoliko nalog postoji, kod je ponovo poslat na e-mail adresu.', 'Globos osiguranje');
         } else {
           this.toster.error(res.message, 'Globos osiguranje');
-          this.router.navigate(['login']);
         }
       },
-    );
+      error: () => {
+        this.loadingResend = false;
+      }
+    });
+  }
 
-    this.authService.deleteToken('email-token');
+  idiNaLogin() {
+    this.router.navigate(['/login']);
   }
 }

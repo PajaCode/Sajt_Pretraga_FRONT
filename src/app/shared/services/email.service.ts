@@ -17,10 +17,6 @@ export class EmailService {
     return this.http.post(this.baseApiEmail + 'SendEmail', emailUlaz, { 'headers': headers });
   }
 
-  updateConfirmEmail(email: string): Observable<any> {
-    return this.http.post(this.baseApiEmail + 'UpdateConfirmEmail' + '?email=' + email, { Headers: { 'content-type': 'application/json' } });
-  }
-
   SendEmailRefund(formData): Observable<any> {
     return this.http.post(this.baseApiEmail + 'SendEmailRefund', formData);
   }

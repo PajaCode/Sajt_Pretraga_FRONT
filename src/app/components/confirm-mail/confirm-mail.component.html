@@ -7,40 +7,43 @@
     <!-- body -->
     <ng-template pTemplate="body">
       <hr>
-      <!-- ukoliko je aktiviran profil -->
-      <ng-container *ngIf="!decodedToken.Aktivan">
-        <!-- ukoliko token je istekao -->
-        <ng-container *ngIf="tokenExpired">
-          <h3>Neuspešno ste potvrdili vašu e-mail adresu.</h3>
-          <p> Link za potvrdu je istekao. </p>
-        </ng-container>
-        <!-- ukoliko token nije istekao -->
-        <ng-container *ngIf="!tokenExpired">
-          <h3>Proverite vaše poštansko sanduče. </h3>
-          <p> Link za potvrdu je uspešno poslat na vašu e-mail adresu. </p>
-        </ng-container>
+
+      <ng-container *ngIf="!confirmed">
+        <h3>Potvrda e-mail adrese</h3>
+        <p>Unesite kod koji ste dobili na e-mail adresu prilikom registracije.</p>
+
+        <form [formGroup]="form" (ngSubmit)="potvrdiKod()">
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="code" placeholder="Kod za potvrdu"
+              [class.is-invalid]="form.get('code').invalid && form.get('code').dirty" />
+          </div>
+          <button type="submit" class="btn btn-primary" [disabled]="loadingConfirm">
+            {{ loadingConfirm ? 'Potvrđivanje...' : 'Potvrdi' }}
+          </button>
+        </form>
+
+        <hr>
+        <p>Niste dobili kod ili je istekao?</p>
+        <form [formGroup]="resendForm" (ngSubmit)="posaljiKodPonovo()">
+          <div class="form-group">
+            <input type="email" class="form-control" formControlName="email" placeholder="E-mail adresa"
+              [class.is-invalid]="resendForm.get('email').invalid && resendForm.get('email').dirty" />
+          </div>
+          <button type="submit" class="btn btn-link" [disabled]="loadingResend">
+            {{ loadingResend ? 'Slanje...' : 'Pošalji kod ponovo' }}
+          </button>
+        </form>
       </ng-container>
-      <!-- ukoliko nije aktiviran profil -->
-      <ng-container *ngIf="decodedToken.Aktivan">
-        <!-- ukoliko token je istekao -->
-        <ng-container *ngIf="tokenExpired">
-          <h3>E-mail adresa je već potvrdjena. </h3>
-        </ng-container>
-        <!-- ukoliko token nije istekao -->
-        <ng-container *ngIf="!tokenExpired">
-          <h3>Uspešno ste potvrdili vašu e-mail adresu. </h3>
-        </ng-container>
+
+      <ng-container *ngIf="confirmed">
+        <h3>Uspešno ste potvrdili vašu e-mail adresu.</h3>
       </ng-container>
     </ng-template>
     <!-- footer -->
     <ng-template pTemplate="footer">
-      <ng-container *ngIf="!decodedToken.Aktivan && tokenExpired">
+      <ng-container *ngIf="confirmed">
         <hr>
-        <p-button label="Posaljite ponovo" (click)="ponoviMejl()" styleClass="p-button-link"></p-button><br>
-      </ng-container>
-      <ng-container *ngIf="decodedToken.Aktivan">
-        <hr>
-        <p-button label="Ulogujte se" routerLink="/login" styleClass="p-button-link"></p-button><br>
+        <p-button label="Ulogujte se" (click)="idiNaLogin()" styleClass="p-button-link"></p-button><br>
       </ng-container>
     </ng-template>
   </p-card>

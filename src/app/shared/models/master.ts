@@ -1,4 +1,33 @@
-// Mora se poklapati sa Saj_Pretraga_API/Models/Master/PackageDtos.cs, PaymentDtos.cs, PurchaseDtos.cs
+// Mora se poklapati sa Saj_Pretraga_API/Models/Master/PackageDtos.cs, PaymentDtos.cs, PurchaseDtos.cs, RegistrationDtos.cs
+
+export interface RegisterRequest {
+  ime: string;
+  prezime: string;
+  email: string;
+  username: string;
+  password: string;
+}
+
+export interface RegisterResult {
+  portalUserId: number;
+}
+
+export interface ConfirmEmailRequest {
+  activationToken: string;
+}
+
+export interface ConfirmEmailResult {
+  portalUserId: number;
+  confirmed: boolean;
+}
+
+export interface ResendActivationEmailRequest {
+  email: string;
+}
+
+export interface ResendActivationEmailResult {
+  portalUserId: number;
+}
 
 export interface PackageListItem {
   id: number;
