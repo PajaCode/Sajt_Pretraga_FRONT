@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { timeout } from 'rxjs';
-import { ApiService } from 'src/app/shared/services/api.service';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { MasterService } from 'src/app/shared/services/master.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -15,8 +11,12 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 })
 export class ResetPasswordComponent implements OnInit {
 
-  form!: FormGroup
-  decodedToken: any;
+  form!: FormGroup;
+
+  // Token iz rute se drzi samo u memoriji (component field) - nikad u localStorage/
+  // sessionStorage/console.log. Frontend ga ne dekodira radi security odluka -
+  // backend je jedini autoritet (Account Lifecycle).
+  private token: string = '';
 
   loadingResetPass: boolean = false;
 
@@ -24,23 +24,11 @@ export class ResetPasswordComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService,
-    private apiService: ApiService,
+    private masterService: MasterService,
     private toster: ToastrService,
-    private spinner: NgxSpinnerService,
-    private jwtHelper: JwtHelperService
   ) {
     this.route.params.subscribe(params => {
-      const reset_token = params['token'];
-      if (reset_token) {
-        try {
-          this.decodedToken = this.jwtHelper.decodeToken(reset_token);
-        } catch (error) {
-          console.error('Error decoding token: ', error);
-        }
-      } else {
-        console.error('Token not provided.');
-      }
+      this.token = params['token'] || '';
     });
 
     this.formGrupa();
@@ -50,11 +38,9 @@ export class ResetPasswordComponent implements OnInit {
 
   formGrupa() {
     this.form = this.fb.group({
-      email: [{ value: this.decodedToken.Email, disabled: true }, [Validators.email, Validators.required]],
       newPassword: [null, [Validators.required, this.passwordValidator()]],
-      repeatedNewPassword: [null, [Validators.required, this.passwordValidator()]]
-    })
-
+      repeatedNewPassword: [null, [Validators.required]]
+    }, { validators: this.passwordsMatchValidator() });
   }
 
   private markAllFormControlsAsDirty(formGroup: FormGroup | FormArray): void {
@@ -71,37 +57,46 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   potvrdi() {
+    this.markAllFormControlsAsDirty(this.form);
 
-    // Check if the form is invalid
+    if (!this.token) {
+      this.toster.error('Link za promenu lozinke nije validan.', 'Globos osiguranje');
+      return;
+    }
+
     if (this.form.get('newPassword').invalid) {
       this.toster.error('Lozinka je neispravnog formata.', 'Globos osiguranje');
       return;
     }
 
-    if (this.form.invalid) return;
+    if (this.form.hasError('passwordMismatch')) {
+      this.toster.error('Lozinke se ne poklapaju.', 'Globos osiguranje');
+      return;
+    }
+
+    if (this.form.invalid || this.loadingResetPass) return;
 
     this.loadingResetPass = true;
 
-    const resetPasswordModel = {
-      email: this.form.get('email').value,
-      newPassword: this.form.get('newPassword').value,
-      repeatedNewPassword: this.form.get('repeatedNewPassword').value
-    }
-    this.authService.resetForgottenPassword(resetPasswordModel).subscribe(res => {
-      if (res.success) {
-        this.toster.success(res.message, 'Globos osiguranje');
-        this.router.navigate(['/login']);
-      }
-      else {
-        this.toster.error(res.message, 'Globos osiguranje');
-        this.form.get('newPassword').setValue(null);
-        this.form.get('repeatedNewPassword').setValue(null);
-        this.form.markAsDirty();
-      }
-      this.loadingResetPass = false;
-    })
+    this.masterService.resetPassword({
+      token: this.token,
+      newPassword: this.form.get('newPassword').value
+    }).subscribe({
+      next: (res) => {
+        this.loadingResetPass = false;
 
-    this.markAllFormControlsAsDirty(this.form);
+        if (res.success) {
+          this.toster.success(res.message, 'Globos osiguranje');
+          this.router.navigate(['/login']);
+        } else {
+          this.toster.error(res.message, 'Globos osiguranje');
+          this.form.reset();
+        }
+      },
+      error: () => {
+        this.loadingResetPass = false;
+      }
+    });
   }
 
   passwordValidator(): ValidatorFn {
@@ -120,6 +115,19 @@ export class ResetPasswordComponent implements OnInit {
       const passwordValid = hasUpperCase && hasLowerCase && hasNumber && isValidLength;
 
       return !passwordValid ? { 'passwordStrength': { value: control.value } } : null;
+    };
+  }
+
+  passwordsMatchValidator(): ValidatorFn {
+    return (group: AbstractControl): { [key: string]: any } | null => {
+      const newPassword = group.get('newPassword')?.value;
+      const repeatedNewPassword = group.get('repeatedNewPassword')?.value;
+
+      if (!repeatedNewPassword) {
+        return null;
+      }
+
+      return newPassword === repeatedNewPassword ? null : { 'passwordMismatch': true };
     };
   }
 }

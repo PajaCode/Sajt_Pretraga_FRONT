@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/enviroments/environment';
 import { ApiResponse } from '../models/api-response';
 import { CurrentUser } from '../models/current-user';
-import { ConfirmEmailRequest, ConfirmEmailResult, PackageListItem, PaymentConfirmMockRequest, PaymentConfirmResult, PaymentInitiateResult, PurchaseCompleteRequest, PurchaseCompleteResult, RegisterRequest, RegisterResult, ResendActivationEmailRequest, ResendActivationEmailResult } from '../models/master';
+import { ConfirmEmailRequest, ConfirmEmailResult, ForgotPasswordRequest, PackageListItem, PaymentConfirmMockRequest, PaymentConfirmResult, PaymentInitiateResult, PurchaseCompleteRequest, PurchaseCompleteResult, RegisterRequest, RegisterResult, ResendActivationEmailRequest, ResendActivationEmailResult, ResetPasswordRequest } from '../models/master';
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +45,13 @@ export class MasterService {
 
   completePurchase(request: PurchaseCompleteRequest): Observable<ApiResponse<PurchaseCompleteResult>> {
     return this.http.post<ApiResponse<PurchaseCompleteResult>>(this.baseApiMaster + 'purchase/complete', request);
+  }
+
+  forgotPassword(request: ForgotPasswordRequest): Observable<ApiResponse<object>> {
+    return this.http.post<ApiResponse<object>>(this.baseApiMaster + 'forgot-password', request);
+  }
+
+  resetPassword(request: ResetPasswordRequest): Observable<ApiResponse<object>> {
+    return this.http.post<ApiResponse<object>>(this.baseApiMaster + 'reset-password', request);
   }
 }

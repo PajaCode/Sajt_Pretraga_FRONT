@@ -7,7 +7,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { EmailService } from 'src/app/shared/services/email.service';
 import { MasterService } from 'src/app/shared/services/master.service';
 import { RegisterRequest } from 'src/app/shared/models/master';
 import { CurrentUserService } from 'src/app/shared/services/current-user.service';
@@ -34,7 +33,6 @@ export class LoginRegisterComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private emailService: EmailService,
     private masterService: MasterService,
     private toster: ToastrService,
     private spinner: NgxSpinnerService,
@@ -107,36 +105,30 @@ export class LoginRegisterComponent implements OnInit {
       return '/login';
   }
 
-  // dugme za slanje mail-a za resetovanje lozinke
+  // dugme za slanje mail-a za resetovanje lozinke (Account Lifecycle - Master forgot-password flow)
   posaljiMail() {
-    this.loadingSendEmail = true;
+    if (this.loadingSendEmail) return;
 
-    const Email = {
-      emailRecipient: this.formReset.get('emailReset').value,
-      tip: 2
+    if (this.formReset.invalid) {
+      this.formReset.get('emailReset').markAsDirty();
+      return;
     }
 
-    const emailReq = {
-      emailSubject: Email,
-      userReg: null,
-      aktivan: true
+    const email = (this.formReset.get('emailReset').value || '').trim();
 
-    };
+    this.loadingSendEmail = true;
 
-    this.emailService.sendEmail(emailReq).subscribe(res => {
-      if (res.success) {
+    this.masterService.forgotPassword({ email }).subscribe({
+      next: (res) => {
+        this.loadingSendEmail = false;
         this.toster.success(res.message, 'Globos osiguranje');
         this.visible = false;
-      }
-      else {
-        this.toster.error(res.message, 'Globos osiguranje');
         this.formReset.reset();
-        this.formReset.get('emailReset').markAsDirty();
+      },
+      error: () => {
+        this.loadingSendEmail = false;
       }
-
-      this.loadingSendEmail = false;
     });
-
   }
 
   // dugme za potvrdu
