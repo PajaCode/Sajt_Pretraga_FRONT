@@ -6,6 +6,8 @@ export interface RegisterRequest {
   email: string;
   username: string;
   password: string;
+  jmbg: string;
+  brTelefona: string;
 }
 
 export interface RegisterResult {
@@ -79,4 +81,15 @@ export interface ForgotPasswordRequest {
 export interface ResetPasswordRequest {
   token: string;
   newPassword: string;
+}
+
+export interface ValidateResetTokenRequest {
+  token: string;
+}
+
+export interface UpdateProfileRequest {
+  ime: string;
+  prezime: string;
+  brTelefona: string;
+  jmbg?: string | null;
 }

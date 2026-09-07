@@ -10,6 +10,8 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { MasterService } from 'src/app/shared/services/master.service';
 import { RegisterRequest } from 'src/app/shared/models/master';
 import { CurrentUserService } from 'src/app/shared/services/current-user.service';
+import { jmbgValidator, tryValidateJmbg } from 'src/app/shared/validators/jmbg.validator';
+import { passwordValidator } from 'src/app/shared/validators/password.validator';
 
 
 @Component({
@@ -59,7 +61,10 @@ export class LoginRegisterComponent implements OnInit {
       prezime: [null],
       email: [null],
       username: [null, Validators.required],
-      password: [null, [Validators.required, this.passwordValidator()]],
+      jmbg: [null],
+      datumRodjenja: [{ value: null, disabled: true }],
+      brTelefona: [null],
+      password: [null, [Validators.required, passwordValidator()]],
       confirmPassword: [null]
     }, { validators: this.passwordsMatchValidator() })
 
@@ -68,12 +73,24 @@ export class LoginRegisterComponent implements OnInit {
       this.form.controls['prezime'].setValidators([Validators.required]);
       this.form.controls['email'].setValidators([Validators.email, Validators.required]);
       this.form.controls['confirmPassword'].setValidators([Validators.required]);
+      this.form.controls['jmbg'].setValidators([Validators.required, jmbgValidator()]);
+      this.form.controls['brTelefona'].setValidators([Validators.required]);
+
+      this.form.controls['jmbg'].valueChanges.subscribe(value => this.onJmbgChange(value));
     }
 
     this.form.controls['ime'].updateValueAndValidity();
     this.form.controls['prezime'].updateValueAndValidity();
     this.form.controls['email'].updateValueAndValidity();
     this.form.controls['confirmPassword'].updateValueAndValidity();
+    this.form.controls['jmbg'].updateValueAndValidity();
+    this.form.controls['brTelefona'].updateValueAndValidity();
+  }
+
+  // JMBG validan -> automatski derivira DatumRodjenja (read-only); JMBG invalid -> ocisti ga.
+  onJmbgChange(value: string): void {
+    const { valid, datumRodjenja } = tryValidateJmbg(value);
+    this.form.controls['datumRodjenja'].setValue(valid ? datumRodjenja : null);
   }
 
   // inicializacija forme za reset password
@@ -214,7 +231,9 @@ export class LoginRegisterComponent implements OnInit {
         prezime: this.form.controls['prezime'].value,
         email: this.form.controls['email'].value,
         username: this.form.controls['username'].value,
-        password: this.form.controls['password'].value
+        password: this.form.controls['password'].value,
+        jmbg: this.form.controls['jmbg'].value,
+        brTelefona: this.form.controls['brTelefona'].value
       }
 
       this.loadingSubmit = true;
@@ -240,18 +259,6 @@ export class LoginRegisterComponent implements OnInit {
     }
 
     this.markAllFormControlsAsDirty(this.form);
-  }
-
-  passwordValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const value = control.value;
-
-      if (!value) {
-        return null; // don't validate empty value
-      }
-
-      return value.length >= 6 ? null : { 'passwordStrength': { value: control.value } };
-    };
   }
 
   passwordsMatchValidator(): ValidatorFn {

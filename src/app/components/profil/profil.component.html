@@ -52,9 +52,12 @@
                     <i class="pi pi-id-card"></i>
                   </span>
                   <span class="p-float-label">
-                    <input type="text" pInputText placeholder="Matični broj" formControlName="jmbg" />
-                    <label for="jmbg">Matični broj</label>
+                    <input type="text" pInputText maxlength="13" placeholder="Matični broj" formControlName="jmbg" />
+                    <label for="jmbg">Matični broj (JMBG)</label>
                   </span>
+                  <small class="text-danger"
+                    *ngIf="osnovniPodaciForm.controls['jmbg'].dirty && osnovniPodaciForm.controls['jmbg'].hasError('jmbg')">*JMBG
+                    nije ispravan.</small>
                 </div>
                 <div class="p-inputgroup">
                   <span class="p-inputgroup-addon responsive-ikonice-in">
@@ -108,27 +111,26 @@
                     <label for="brTelefona">Broj telefona</label>
                   </span>
                 </div>
-                <!-- </div> -->
 
-                <!-- <div class="row"> -->
                 <div class="p-inputgroup">
                   <span class="p-inputgroup-addon">
                     <i class="pi pi-calendar"></i>
                   </span>
                   <span class="p-float-label">
-                    <input type="text" pInputText placeholder="Datum kreiranja profila" formControlName="datum" />
-                    <label for="datum">Datum kreiranja profila</label>
+                    <input type="text" pInputText placeholder="Datum rođenja"
+                      [value]="osnovniPodaciForm.controls['datumRodjenja'].value | date:'dd.MM.yyyy'" readonly />
+                    <label for="datumRodjenja">Datum rođenja</label>
                   </span>
                 </div>
-                <div class="p-inputgroup" style="align-items: center; pointer-events: none;"
-                  [ngStyle]="{'color': isProfileConfirmed ? '#3393e3' : 'red'}">
-                  <span class="p-inputgroup-addon" [ngStyle]="{'border-color': isProfileConfirmed ? '#3393e3' : 'red'}"
-                    style="background-color: transparent; border: 1px solid; border-radius: 50%; height: 100%;">
-                    <i class="pi" [ngClass]="isProfileConfirmed ? 'pi-check' : 'pi-times'"
-                      [ngStyle]="{'color': isProfileConfirmed ? '#3393e3' : 'red'}"></i>
+              </div>
+              <div class="row">
+                <div class="p-inputgroup" style="align-items: center; pointer-events: none; color: #3393e3;">
+                  <span class="p-inputgroup-addon" style="background-color: transparent; border: 1px solid #3393e3;
+                    border-radius: 50%; height: 100%;">
+                    <i class="pi pi-check" style="color: #3393e3;"></i>
                   </span>
                   <span style="margin-left: 5px;">
-                    {{ isProfileConfirmed ? 'Profil je potvrđen' : 'Profil nije potvrđen' }}
+                    Status naloga: Aktivan
                   </span>
                 </div>
               </div>

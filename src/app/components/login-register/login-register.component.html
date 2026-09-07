@@ -52,6 +52,38 @@
                 je obavezno polje.</small>
             </div>
           </div>
+          <!-- JMBG i datum rodjenja -->
+          <div class="row">
+            <div class="flex flex-column ime-prezime-column">
+              <span class="p-float-label">
+                <input pInputText formControlName="jmbg" maxlength="13" placeholder="Unesite JMBG" />
+                <label htmlFor="jmbg">JMBG</label>
+              </span>
+              <small class="text-danger" *ngIf="form.controls['jmbg'].dirty && form.hasError('required', 'jmbg')">*JMBG
+                je obavezno polje.</small>
+              <small class="text-danger" *ngIf="form.controls['jmbg'].dirty && form.hasError('jmbg', 'jmbg')">*JMBG
+                nije ispravan.</small>
+            </div>
+            <div class="flex flex-column ime-prezime-column">
+              <span class="p-float-label">
+                <input pInputText [value]="form.controls['datumRodjenja'].value | date:'dd.MM.yyyy'"
+                  placeholder="Datum rođenja" readonly />
+                <label htmlFor="datumRodjenja">Datum rođenja</label>
+              </span>
+            </div>
+          </div>
+          <!-- telefon -->
+          <div class="row">
+            <div class="flex flex-column">
+              <span class="p-float-label">
+                <input pInputText formControlName="brTelefona" placeholder="Unesite broj telefona" />
+                <label htmlFor="brTelefona">Broj telefona</label>
+              </span>
+              <small class="text-danger"
+                *ngIf="form.controls['brTelefona'].dirty && form.hasError('required', 'brTelefona')">*Broj telefona
+                je obavezno polje.</small>
+            </div>
+          </div>
         </ng-container>
         <!-- username -->
         <div class="row">

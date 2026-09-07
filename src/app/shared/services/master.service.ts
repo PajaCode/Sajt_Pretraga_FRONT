@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/enviroments/environment';
 import { ApiResponse } from '../models/api-response';
 import { CurrentUser } from '../models/current-user';
-import { ConfirmEmailRequest, ConfirmEmailResult, ForgotPasswordRequest, PackageListItem, PaymentConfirmMockRequest, PaymentConfirmResult, PaymentInitiateResult, PurchaseCompleteRequest, PurchaseCompleteResult, RegisterRequest, RegisterResult, ResendActivationEmailRequest, ResendActivationEmailResult, ResetPasswordRequest } from '../models/master';
+import { ConfirmEmailRequest, ConfirmEmailResult, ForgotPasswordRequest, PackageListItem, PaymentConfirmMockRequest, PaymentConfirmResult, PaymentInitiateResult, PurchaseCompleteRequest, PurchaseCompleteResult, RegisterRequest, RegisterResult, ResendActivationEmailRequest, ResendActivationEmailResult, ResetPasswordRequest, UpdateProfileRequest, ValidateResetTokenRequest } from '../models/master';
 
 @Injectable({
   providedIn: 'root'
@@ -53,5 +53,13 @@ export class MasterService {
 
   resetPassword(request: ResetPasswordRequest): Observable<ApiResponse<object>> {
     return this.http.post<ApiResponse<object>>(this.baseApiMaster + 'reset-password', request);
+  }
+
+  validateResetToken(request: ValidateResetTokenRequest): Observable<ApiResponse<object>> {
+    return this.http.post<ApiResponse<object>>(this.baseApiMaster + 'validate-reset-token', request);
+  }
+
+  updateProfile(request: UpdateProfileRequest): Observable<ApiResponse<object>> {
+    return this.http.post<ApiResponse<object>>(this.baseApiMaster + 'update-profile', request);
   }
 }

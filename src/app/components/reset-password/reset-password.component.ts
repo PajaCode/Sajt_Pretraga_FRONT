@@ -3,6 +3,11 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MasterService } from 'src/app/shared/services/master.service';
+import { passwordValidator } from 'src/app/shared/validators/password.validator';
+
+// Reset UX - proverava se pre nego sto se prikaze forma za novu lozinku, da korisnik
+// ne mora prvo da unese lozinku da bi saznao da je link nevalidan/istekao.
+type TokenState = 'loading' | 'valid' | 'invalid';
 
 @Component({
   selector: 'app-reset-password',
@@ -19,6 +24,7 @@ export class ResetPasswordComponent implements OnInit {
   private token: string = '';
 
   loadingResetPass: boolean = false;
+  tokenState: TokenState = 'loading';
 
   constructor(
     private fb: FormBuilder,
@@ -34,11 +40,29 @@ export class ResetPasswordComponent implements OnInit {
     this.formGrupa();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    if (!this.token) {
+      this.tokenState = 'invalid';
+      return;
+    }
+
+    this.masterService.validateResetToken({ token: this.token }).subscribe({
+      next: (res) => {
+        this.tokenState = res.success ? 'valid' : 'invalid';
+      },
+      error: () => {
+        this.tokenState = 'invalid';
+      }
+    });
+  }
+
+  noviZahtev(): void {
+    this.router.navigate(['/login']);
+  }
 
   formGrupa() {
     this.form = this.fb.group({
-      newPassword: [null, [Validators.required, this.passwordValidator()]],
+      newPassword: [null, [Validators.required, passwordValidator()]],
       repeatedNewPassword: [null, [Validators.required]]
     }, { validators: this.passwordsMatchValidator() });
   }
@@ -97,25 +121,6 @@ export class ResetPasswordComponent implements OnInit {
         this.loadingResetPass = false;
       }
     });
-  }
-
-  passwordValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const value = control.value;
-
-      if (!value) {
-        return null; // don't validate empty value
-      }
-
-      const hasUpperCase = /[A-Z]/.test(value);
-      const hasLowerCase = /[a-z]/.test(value);
-      const hasNumber = /\d/.test(value);
-      const isValidLength = value.length >= 6;
-
-      const passwordValid = hasUpperCase && hasLowerCase && hasNumber && isValidLength;
-
-      return !passwordValid ? { 'passwordStrength': { value: control.value } } : null;
-    };
   }
 
   passwordsMatchValidator(): ValidatorFn {
