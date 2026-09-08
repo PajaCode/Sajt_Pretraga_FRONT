@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroments/environment';
 import { ApiResponse } from '../models/api-response';
 import { CurrentUser } from '../models/current-user';
-import { BookAppointmentRequest, BookAppointmentResult, ConfirmEmailRequest, ConfirmEmailResult, CoveredService, ForgotPasswordRequest, InstitutionForService, MyAppointment, PackageDetails, PackageListItem, PaymentConfirmMockRequest, PaymentConfirmResult, PaymentInitiateResult, PurchaseCompleteRequest, PurchaseCompleteResult, RegisterRequest, RegisterResult, ResendActivationEmailRequest, ResendActivationEmailResult, ResetPasswordRequest, UpdateProfileRequest, ValidateResetTokenRequest } from '../models/master';
+import { BookAppointmentRequest, BookAppointmentResult, ConfirmEmailRequest, ConfirmEmailResult, CoveredService, DocumentListItem, ForgotPasswordRequest, InstitutionForService, MyAppointment, PackageDetails, PackageListItem, PaymentConfirmMockRequest, PaymentConfirmResult, PaymentInitiateResult, PurchaseCompleteRequest, PurchaseCompleteResult, RegisterRequest, RegisterResult, ResendActivationEmailRequest, ResendActivationEmailResult, ResetPasswordRequest, SyncDocumentationItem, UpdateProfileRequest, ValidateResetTokenRequest } from '../models/master';
 
 @Injectable({
   providedIn: 'root'
@@ -81,5 +81,20 @@ export class MasterService {
 
   getMyAppointments(): Observable<ApiResponse<MyAppointment[]>> {
     return this.http.get<ApiResponse<MyAppointment[]>>(this.baseApiMaster + 'my-appointments');
+  }
+
+  syncDocumentation(): Observable<ApiResponse<SyncDocumentationItem[]>> {
+    return this.http.post<ApiResponse<SyncDocumentationItem[]>>(this.baseApiMaster + 'sync-documentation', {});
+  }
+
+  getAppointmentDocuments(pregledStatusId: number): Observable<ApiResponse<DocumentListItem[]>> {
+    return this.http.get<ApiResponse<DocumentListItem[]>>(this.baseApiMaster + 'pregledi/' + pregledStatusId + '/documents');
+  }
+
+  downloadDocument(documentId: number): Observable<HttpResponse<Blob>> {
+    return this.http.get(this.baseApiMaster + 'documents/' + documentId + '/download', {
+      observe: 'response',
+      responseType: 'blob',
+    });
   }
 }

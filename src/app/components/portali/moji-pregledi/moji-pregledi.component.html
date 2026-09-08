@@ -33,9 +33,12 @@
               <td>{{pregled.datumPregleda ? (pregled.datumPregleda | date:'dd.MM.yyyy') : '—'}}</td>
               <td>{{pregled.vreme || '—'}}</td>
               <td><p-tag [value]="pregled.status" [severity]="statusSeverity(pregled.status)"></p-tag></td>
-              <td>
-                <span *ngIf="pregled.canDownloadDocuments">Dokumentacija dostupna</span>
-                <span *ngIf="!pregled.canDownloadDocuments">—</span>
+              <td class="akcije">
+                <button pButton type="button" label="Osveži status" class="p-button-text p-button-sm"
+                  *ngIf="mozeOsvezitiStatus(pregled)" [disabled]="syncing" (click)="osveziStatus()"></button>
+                <button pButton type="button" label="Dokumenta" class="p-button-text p-button-sm"
+                  *ngIf="pregled.canDownloadDocuments" (click)="otvoriDokumenta(pregled)"></button>
+                <span *ngIf="!mozeOsvezitiStatus(pregled) && !pregled.canDownloadDocuments">—</span>
               </td>
             </tr>
           </ng-template>
@@ -45,3 +48,44 @@
 
   </p-fieldset>
 </div>
+
+<p-dialog header="Dokumentacija pregleda" [(visible)]="documentsDialogVisible" [modal]="true" [style]="{width: '40rem'}">
+  <ng-container *ngIf="selectedAppointment">
+    <p class="mb-2">Broj uputa: <strong>{{selectedAppointment.uputBroj}}</strong></p>
+  </ng-container>
+
+  <ng-container *ngIf="documentsLoading; else documentsSadrzaj">
+    <p-skeleton></p-skeleton>
+    <p-skeleton></p-skeleton>
+  </ng-container>
+
+  <ng-template #documentsSadrzaj>
+    <p *ngIf="documentsError" class="text-danger">{{documentsError}}</p>
+
+    <ng-container *ngIf="!documentsError">
+      <p *ngIf="documents.length === 0">Za ovaj pregled trenutno nema dostupnih dokumenata.</p>
+
+      <p-table *ngIf="documents.length > 0" [value]="documents" styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Naziv</th>
+            <th>Tip</th>
+            <th>Datum</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-doc>
+          <tr>
+            <td>{{doc.nazivFajla}}</td>
+            <td>{{doc.tipDokumenta || '—'}}</td>
+            <td>{{doc.createdAt | date:'dd.MM.yyyy'}}</td>
+            <td>
+              <button pButton type="button" icon="pi pi-download" label="Preuzmi" class="p-button-text p-button-sm"
+                [disabled]="downloadingId === doc.id" (click)="preuzmiDokument(doc)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </ng-container>
+  </ng-template>
+</p-dialog>
