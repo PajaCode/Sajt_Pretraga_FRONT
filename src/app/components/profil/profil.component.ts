@@ -6,7 +6,7 @@ import { CurrentUserService } from 'src/app/shared/services/current-user.service
 import { MasterService } from 'src/app/shared/services/master.service';
 import { CurrentUser } from 'src/app/shared/models/current-user';
 import { jmbgValidator, tryValidateJmbg } from 'src/app/shared/validators/jmbg.validator';
-import { passwordValidator } from 'src/app/shared/validators/password.validator';
+import { passwordValidator, PASSWORD_POLICY_HINT } from 'src/app/shared/validators/password.validator';
 
 @Component({
   selector: 'app-profil',
@@ -25,6 +25,8 @@ export class ProfilComponent implements OnInit {
   user: CurrentUser | null = null;
 
   skeleton = true;
+
+  readonly passwordPolicyHint = PASSWORD_POLICY_HINT;
 
   constructor(
     private fb: FormBuilder,

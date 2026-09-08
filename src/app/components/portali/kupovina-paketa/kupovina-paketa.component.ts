@@ -137,7 +137,7 @@ export class KupovinaPaketaComponent implements OnInit {
     this.masterService.initiatePayment(this.selectedPackage.id).subscribe({
       next: initiateRes => {
         if (!initiateRes.success || !initiateRes.data) {
-          this.paymentFailed();
+          this.paymentFailed(initiateRes.message);
           return;
         }
 
@@ -146,14 +146,14 @@ export class KupovinaPaketaComponent implements OnInit {
         this.masterService.confirmMockPayment({ internalTransactionId, success: true }).subscribe({
           next: confirmRes => {
             if (!confirmRes.success || confirmRes.data?.status !== 'Paid') {
-              this.paymentFailed();
+              this.paymentFailed(confirmRes.message);
               return;
             }
 
             this.masterService.completePurchase({ internalTransactionId }).subscribe({
               next: completeRes => {
                 if (!completeRes.success) {
-                  this.paymentFailed();
+                  this.paymentFailed(completeRes.message);
                   return;
                 }
 
@@ -172,8 +172,8 @@ export class KupovinaPaketaComponent implements OnInit {
     });
   }
 
-  private paymentFailed(): void {
-    this.toster.error('Plaćanje nije uspešno. Pokušajte ponovo.', 'Globos osiguranje');
+  private paymentFailed(message?: string): void {
+    this.toster.error(message || 'Plaćanje nije uspešno. Pokušajte ponovo.', 'Globos osiguranje');
     this.step = 'payment';
     this.processingMessage = null;
   }

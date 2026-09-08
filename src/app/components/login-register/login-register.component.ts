@@ -11,7 +11,7 @@ import { MasterService } from 'src/app/shared/services/master.service';
 import { RegisterRequest } from 'src/app/shared/models/master';
 import { CurrentUserService } from 'src/app/shared/services/current-user.service';
 import { jmbgValidator, tryValidateJmbg } from 'src/app/shared/validators/jmbg.validator';
-import { passwordValidator } from 'src/app/shared/validators/password.validator';
+import { passwordValidator, PASSWORD_POLICY_HINT } from 'src/app/shared/validators/password.validator';
 
 
 @Component({
@@ -30,6 +30,10 @@ export class LoginRegisterComponent implements OnInit {
 
   loadingSendEmail: boolean = false;
   loadingSubmit: boolean = false;
+
+  // Registration validation errors se ne prikazuju dok korisnik kuca - tek na submit.
+  registerSubmitted: boolean = false;
+  readonly passwordPolicyHint = PASSWORD_POLICY_HINT;
 
   constructor(
     private fb: FormBuilder,
@@ -56,6 +60,8 @@ export class LoginRegisterComponent implements OnInit {
 
   // inicializacija forme za login i register
   formGrupa() {
+    this.registerSubmitted = false;
+
     this.form = this.fb.group({
       ime: [null],
       prezime: [null],
@@ -208,6 +214,8 @@ export class LoginRegisterComponent implements OnInit {
     }
     // ako je url register onda se poziva register funkcija
     else if (this.url === '/register') {
+
+      this.registerSubmitted = true;
 
       if (this.form.get('password').invalid) {
         this.toster.error('Lozinka je neispravnog formata.', 'Globos osiguranje');

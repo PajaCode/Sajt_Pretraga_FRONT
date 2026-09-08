@@ -121,7 +121,6 @@ export class MojiPreglediComponent implements OnInit {
       },
       error: () => {
         this.downloadingId = null;
-        this.toster.error('Preuzimanje dokumenta nije uspelo.', 'Globos osiguranje');
       },
     });
   }

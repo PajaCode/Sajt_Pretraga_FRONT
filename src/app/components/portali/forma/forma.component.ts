@@ -398,7 +398,7 @@ export class FormaComponent implements OnInit {
         this.loadingIstorija = false;
       }
       else {
-        this.toster.error('Došlo je do greške');
+        this.toster.error(res.message, 'Globos osiguranje');
       }
 
     });
@@ -452,7 +452,7 @@ export class FormaComponent implements OnInit {
       if (res.success) {
         this.medUstanoveGradoviOpstine = res.resultList;
       } else {
-        this.toster.error('Greška');
+        this.toster.error(res.message, 'Globos osiguranje');
       }
     })
 
@@ -465,7 +465,7 @@ export class FormaComponent implements OnInit {
       if (res.success) {
         this.medUstanove = res.resultList;
       } else {
-        this.toster.error('Greška');
+        this.toster.error(res.message, 'Globos osiguranje');
       }
     });
   }

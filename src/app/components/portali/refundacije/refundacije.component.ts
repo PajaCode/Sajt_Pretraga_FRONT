@@ -97,12 +97,11 @@ export class RefundacijeComponent implements OnInit {
           this.toster.success('Uspešno poslat mejl');
           this.clearFiles();
         } else {
-          this.toster.error('Došlo je do greške');
+          this.toster.error(res.message, 'Globos osiguranje');
         }
       },
       error: () => {
         this.sending = false;
-        this.toster.error('Došlo je do greške');
       },
     });
   }

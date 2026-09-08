@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MasterService } from 'src/app/shared/services/master.service';
-import { passwordValidator } from 'src/app/shared/validators/password.validator';
+import { passwordValidator, PASSWORD_POLICY_HINT } from 'src/app/shared/validators/password.validator';
 
 // Reset UX - proverava se pre nego sto se prikaze forma za novu lozinku, da korisnik
 // ne mora prvo da unese lozinku da bi saznao da je link nevalidan/istekao.
@@ -25,6 +25,7 @@ export class ResetPasswordComponent implements OnInit {
 
   loadingResetPass: boolean = false;
   tokenState: TokenState = 'loading';
+  readonly passwordPolicyHint = PASSWORD_POLICY_HINT;
 
   constructor(
     private fb: FormBuilder,

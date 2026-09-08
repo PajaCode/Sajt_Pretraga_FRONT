@@ -24,7 +24,7 @@
                 <input pInputText formControlName="ime" placeholder="Unesite ime" />
                 <label htmlFor="ime">Ime</label>
               </span>
-              <small class="text-danger" *ngIf="form.controls['ime'].dirty && form.hasError('required', 'ime')">*Ime
+              <small class="text-danger" *ngIf="registerSubmitted && form.hasError('required', 'ime')">*Ime
                 je obavezno polje.</small>
             </div>
             <div class="flex flex-column ime-prezime-column">
@@ -33,7 +33,7 @@
                 <label htmlFor="prezime">Prezime</label>
               </span>
               <small class="text-danger"
-                *ngIf="form.controls['prezime'].dirty && form.hasError('required', 'prezime')">*Prezime je obavezno
+                *ngIf="registerSubmitted && form.hasError('required', 'prezime')">*Prezime je obavezno
                 polje.</small>
             </div>
           </div>
@@ -45,26 +45,26 @@
                   <!-- (blur)="inputChecker(3,'email')"  -->
                 <label htmlFor="email">E-mail</label>
               </span>
-              <small class="text-danger" *ngIf="form.controls['email'].dirty && form.hasError('email', 'email')">*E-mail
+              <small class="text-danger" *ngIf="registerSubmitted && form.hasError('email', 'email')">*E-mail
                 je neispravnog formata.</small>
               <small class="text-danger"
-                *ngIf="form.controls['email'].dirty && form.hasError('required', 'email')">*E-mail
+                *ngIf="registerSubmitted && form.hasError('required', 'email')">*E-mail
                 je obavezno polje.</small>
             </div>
           </div>
           <!-- JMBG i datum rodjenja -->
           <div class="row">
-            <div class="flex flex-column ime-prezime-column">
+            <div class="flex flex-column jmbg-column">
               <span class="p-float-label">
                 <input pInputText formControlName="jmbg" maxlength="13" placeholder="Unesite JMBG" />
                 <label htmlFor="jmbg">JMBG</label>
               </span>
-              <small class="text-danger" *ngIf="form.controls['jmbg'].dirty && form.hasError('required', 'jmbg')">*JMBG
+              <small class="text-danger" *ngIf="registerSubmitted && form.hasError('required', 'jmbg')">*JMBG
                 je obavezno polje.</small>
-              <small class="text-danger" *ngIf="form.controls['jmbg'].dirty && form.hasError('jmbg', 'jmbg')">*JMBG
+              <small class="text-danger" *ngIf="registerSubmitted && form.hasError('jmbg', 'jmbg')">*JMBG
                 nije ispravan.</small>
             </div>
-            <div class="flex flex-column ime-prezime-column">
+            <div class="flex flex-column datum-rodjenja-column">
               <span class="p-float-label">
                 <input pInputText [value]="form.controls['datumRodjenja'].value | date:'dd.MM.yyyy'"
                   placeholder="Datum rođenja" readonly />
@@ -80,7 +80,7 @@
                 <label htmlFor="brTelefona">Broj telefona</label>
               </span>
               <small class="text-danger"
-                *ngIf="form.controls['brTelefona'].dirty && form.hasError('required', 'brTelefona')">*Broj telefona
+                *ngIf="registerSubmitted && form.hasError('required', 'brTelefona')">*Broj telefona
                 je obavezno polje.</small>
             </div>
           </div>
@@ -93,7 +93,7 @@
               <label htmlFor="username">Korisničko ime</label>
             </span>
             <small class="text-danger"
-              *ngIf="form.controls['username'].dirty && form.hasError('required', 'username')">*Korisničko ime je
+              *ngIf="(url === '/login' ? form.controls['username'].dirty : registerSubmitted) && form.hasError('required', 'username')">*Korisničko ime je
               obavezno polje.</small>
           </div>
         </div>
@@ -109,13 +109,13 @@
                     <p-divider></p-divider>
                     <p class="mt-2">Sugestije</p>
                     <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                      <li>Minimum 6 karaktera</li>
+                      <li>{{passwordPolicyHint}}</li>
                     </ul>
                   </ng-template>
                 </p-password>
                 <small class="text-danger"
-                  *ngIf="form.controls['password'].dirty && form.controls['password'].hasError('passwordStrength')">
-                  *Lozinka mora imati minimum 6 karaktera.
+                  *ngIf="registerSubmitted && form.controls['password'].hasError('passwordStrength')">
+                  *{{passwordPolicyHint}}
                 </small>
               </ng-container>
               <ng-container *ngIf="url == '/login'">
@@ -125,7 +125,7 @@
               <label for="password">Lozinka</label>
             </span>
             <small class="text-danger"
-              *ngIf="form.controls['password'].dirty && form.hasError('required', 'password')">*Lozinka
+              *ngIf="(url === '/login' ? form.controls['password'].dirty : registerSubmitted) && form.hasError('required', 'password')">*Lozinka
               je obavezno polje.</small>
           </div>
         </div>
@@ -138,10 +138,10 @@
               <label for="confirmPassword">Potvrda lozinke</label>
             </span>
             <small class="text-danger"
-              *ngIf="form.controls['confirmPassword'].dirty && form.hasError('required', 'confirmPassword')">*Potvrda
+              *ngIf="registerSubmitted && form.hasError('required', 'confirmPassword')">*Potvrda
               lozinke je obavezno polje.</small>
             <small class="text-danger"
-              *ngIf="form.controls['confirmPassword'].dirty && form.hasError('passwordMismatch')">*Lozinke se ne
+              *ngIf="registerSubmitted && form.hasError('passwordMismatch')">*Lozinke se ne
               poklapaju.</small>
           </div>
         </div>
