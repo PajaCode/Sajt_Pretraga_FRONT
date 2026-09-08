@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/enviroments/environment';
 import { ApiResponse } from '../models/api-response';
 import { CurrentUser } from '../models/current-user';
-import { ConfirmEmailRequest, ConfirmEmailResult, ForgotPasswordRequest, PackageListItem, PaymentConfirmMockRequest, PaymentConfirmResult, PaymentInitiateResult, PurchaseCompleteRequest, PurchaseCompleteResult, RegisterRequest, RegisterResult, ResendActivationEmailRequest, ResendActivationEmailResult, ResetPasswordRequest, UpdateProfileRequest, ValidateResetTokenRequest } from '../models/master';
+import { ConfirmEmailRequest, ConfirmEmailResult, ForgotPasswordRequest, PackageDetails, PackageListItem, PaymentConfirmMockRequest, PaymentConfirmResult, PaymentInitiateResult, PurchaseCompleteRequest, PurchaseCompleteResult, RegisterRequest, RegisterResult, ResendActivationEmailRequest, ResendActivationEmailResult, ResetPasswordRequest, UpdateProfileRequest, ValidateResetTokenRequest } from '../models/master';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +33,10 @@ export class MasterService {
 
   getPackages(): Observable<ApiResponse<PackageListItem[]>> {
     return this.http.get<ApiResponse<PackageListItem[]>>(this.baseApiMaster + 'packages');
+  }
+
+  getPackageDetails(id: number): Observable<ApiResponse<PackageDetails>> {
+    return this.http.get<ApiResponse<PackageDetails>>(this.baseApiMaster + 'packages/' + id);
   }
 
   initiatePayment(paketId: number): Observable<ApiResponse<PaymentInitiateResult>> {

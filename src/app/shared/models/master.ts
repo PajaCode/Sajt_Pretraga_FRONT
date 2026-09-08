@@ -42,6 +42,40 @@ export interface PackageListItem {
   glavnaPokrica: string[];
 }
 
+export interface PackageCoveredService {
+  medUslugaId: number;
+  nazivUsluge: string;
+  kategorija: string | null;
+}
+
+export interface PackageSubCoverage {
+  id: number;
+  nazivPodpokrica: string;
+  vrstaLimita: string;
+  limitVrednost: number | null;
+  sumaOsiguranja: number | null;
+  usluge: PackageCoveredService[];
+}
+
+export interface PackageCoverage {
+  id: number;
+  nazivPokrice: string;
+  sumaOsiguranja: number | null;
+  ucesceProcenat: number | null;
+  podpokrica: PackageSubCoverage[];
+}
+
+export interface PackageDetails {
+  id: number;
+  code: string;
+  naziv: string;
+  opis: string | null;
+  cena: number;
+  valuta: string;
+  trajanjeDana: number;
+  glavnaPokrica: PackageCoverage[];
+}
+
 export interface PaymentInitiateResult {
   internalTransactionId: string;
   amount: number;
@@ -61,10 +95,6 @@ export interface PaymentConfirmResult {
 
 export interface PurchaseCompleteRequest {
   internalTransactionId: string;
-  ime: string;
-  prezime: string;
-  jmbg: string;
-  datumRodjenja: string;
 }
 
 export interface PurchaseCompleteResult {

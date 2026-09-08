@@ -20,84 +20,173 @@
               <li *ngFor="let pokrice of paket.glavnaPokrica">{{pokrice}}</li>
             </ul>
             <p><strong>{{paket.cena}} {{paket.valuta}}</strong> / {{paket.trajanjeDana}} dana</p>
-            <button pButton pRipple type="button" label="Kupi paket" class="p-button-sm"
-              [disabled]="loadingPayment" (click)="choosePackage(paket)"></button>
+            <div class="flex" style="gap: 8px;">
+              <button pButton pRipple type="button" label="Detaljna pokrića" class="p-button-sm p-button-outlined"
+                (click)="openDetails(paket)"></button>
+              <button pButton pRipple type="button" label="Izaberi paket" class="p-button-sm"
+                (click)="choosePackage(paket)"></button>
+            </div>
           </p-card>
         </div>
       </ng-template>
     </ng-container>
 
-    <!-- korak 2: mock placanje -->
-    <ng-container *ngIf="step === 'payment'">
+    <!-- korak 2: pregled osiguranika -->
+    <ng-container *ngIf="step === 'review' && selectedPackage">
       <div class="row">
-        <p>Paket: <strong>{{selectedPackage?.naziv}}</strong></p>
-        <p>Iznos za plaćanje: <strong>{{paymentAmount}} {{paymentCurrency}}</strong></p>
+        <p-card header="Izabrani paket">
+          <p><strong>{{selectedPackage.naziv}}</strong></p>
+          <p>{{selectedPackage.cena}} {{selectedPackage.valuta}} / {{selectedPackage.trajanjeDana}} dana</p>
+        </p-card>
       </div>
-      <div class="row">
-        <button pButton pRipple type="button" label="Simuliraj uspešno plaćanje" class="p-button-sm p-button-success"
-          [disabled]="loadingPayment" (click)="confirmMockPayment(true)"></button>
-        <button pButton pRipple type="button" label="Simuliraj neuspešno plaćanje"
-          class="p-button-sm p-button-danger" [disabled]="loadingPayment" (click)="confirmMockPayment(false)"></button>
+
+      <div class="row" style="margin-top: 12px;">
+        <p-card header="Podaci osiguranika">
+          <p><strong>Ime i prezime:</strong> {{user?.ime}} {{user?.prezime}}</p>
+          <p><strong>Email:</strong> {{user?.email}}</p>
+          <p><strong>JMBG:</strong> {{user?.jmbg || '—'}}</p>
+          <p><strong>Datum rođenja:</strong> {{user?.datumRodjenja ? (user?.datumRodjenja | date:'dd.MM.yyyy') : '—'}}</p>
+          <p><strong>Telefon:</strong> {{user?.telefon || '—'}}</p>
+        </p-card>
+      </div>
+
+      <div class="row" style="margin-top: 12px;" *ngIf="!profileComplete">
+        <small class="p-error">Profil nije kompletan. Dopunite profil pre nego što nastavite na plaćanje.</small>
+        <div>
+          <button pButton pRipple type="button" label="Dopuni profil" class="p-button-sm p-button-warning"
+            (click)="goToProfile()"></button>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 12px;">
+        <button pButton pRipple type="button" label="Nazad" class="p-button-sm p-button-secondary"
+          (click)="backToSelect()"></button>
+        <button pButton pRipple type="button" label="Nastavi na plaćanje" class="p-button-sm"
+          [disabled]="!profileComplete" (click)="continueToPayment()"></button>
       </div>
     </ng-container>
 
-    <!-- korak 3: kompletiranje kupovine -->
-    <ng-container *ngIf="step === 'complete'">
-      <form [formGroup]="completeForm" (ngSubmit)="submitComplete()">
+    <!-- korak 3: placanje -->
+    <ng-container *ngIf="step === 'payment' && selectedPackage">
+      <form [formGroup]="cardForm" (ngSubmit)="pay()">
         <div class="flex flex-column mt-1">
           <div class="row">
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="pi pi-user"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" pInputText formControlName="ime" />
-                <label for="ime">Ime</label>
-              </span>
-            </div>
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="pi pi-user"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" pInputText formControlName="prezime" />
-                <label for="prezime">Prezime</label>
-              </span>
-            </div>
+            <p>Paket: <strong>{{selectedPackage.naziv}}</strong></p>
+            <p>Iznos za plaćanje: <strong>{{selectedPackage.cena}} {{selectedPackage.valuta}}</strong></p>
           </div>
+
           <div class="row">
             <div class="p-inputgroup">
               <span class="p-inputgroup-addon">
-                <i class="pi pi-id-card"></i>
+                <i class="pi pi-credit-card"></i>
               </span>
               <span class="p-float-label">
-                <input type="text" pInputText formControlName="jmbg" maxlength="13" />
-                <label for="jmbg">JMBG</label>
+                <input type="text" pInputText formControlName="brojKartice" maxlength="19"
+                  placeholder="0000 0000 0000 0000" (input)="onCardNumberInput($event)" />
+                <label for="brojKartice">Broj kartice</label>
               </span>
             </div>
             <small class="p-error"
-              *ngIf="completeForm.get('jmbg').touched && completeForm.get('jmbg').invalid">
-              JMBG mora imati tačno 13 cifara.
+              *ngIf="cardForm.get('brojKartice').touched && cardForm.get('brojKartice').invalid">
+              Broj kartice nije ispravan.
             </small>
           </div>
+
           <div class="row">
             <div class="p-inputgroup">
               <span class="p-inputgroup-addon">
                 <i class="pi pi-calendar"></i>
               </span>
               <span class="p-float-label">
-                <input type="date" pInputText formControlName="datumRodjenja" />
-                <label for="datumRodjenja">Datum rođenja</label>
+                <input type="text" pInputText formControlName="vaziDo" maxlength="5" placeholder="MM/YY"
+                  (input)="onExpiryInput($event)" />
+                <label for="vaziDo">Važi do (MM/YY)</label>
               </span>
             </div>
+            <small class="p-error" *ngIf="cardForm.get('vaziDo').touched && cardForm.get('vaziDo').invalid">
+              Datum isteka nije ispravan.
+            </small>
+
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-lock"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="password" pInputText formControlName="cvv" maxlength="3" placeholder="CVV" />
+                <label for="cvv">CVV</label>
+              </span>
+            </div>
+            <small class="p-error" *ngIf="cardForm.get('cvv').touched && cardForm.get('cvv').invalid">
+              CVV mora imati tačno 3 cifre.
+            </small>
           </div>
+
+          <div class="row">
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                <i class="pi pi-user"></i>
+              </span>
+              <span class="p-float-label">
+                <input type="text" pInputText formControlName="imeNaKartici" />
+                <label for="imeNaKartici">Ime na kartici</label>
+              </span>
+            </div>
+            <small class="p-error"
+              *ngIf="cardForm.get('imeNaKartici').touched && cardForm.get('imeNaKartici').invalid">
+              Ime na kartici je obavezno.
+            </small>
+          </div>
+
           <div class="row" style="margin-top: 12px;">
-            <button pButton pRipple type="submit" label="Aktiviraj paket" class="p-button-sm"
-              [disabled]="loadingComplete"></button>
+            <button pButton pRipple type="button" label="Nazad" class="p-button-sm p-button-secondary"
+              (click)="backToReview()"></button>
+            <button pButton pRipple type="submit" [label]="'PLATI ' + selectedPackage.cena + ' ' + selectedPackage.valuta"
+              class="p-button-sm p-button-success"></button>
           </div>
         </div>
       </form>
     </ng-container>
 
+    <!-- korak 4: obrada placanja -->
+    <ng-container *ngIf="step === 'processing'">
+      <div class="row" style="text-align: center;">
+        <p-progressSpinner></p-progressSpinner>
+        <p>{{processingMessage}}</p>
+      </div>
+    </ng-container>
+
   </p-fieldset>
 </div>
+
+<!-- dijalog detaljnih pokrića -->
+<p-dialog [header]="'Detaljna pokrića'" [modal]="true" [(visible)]="showDetailsDialog" [style]="{width: '70vw'}">
+  <ng-container *ngIf="loadingDetails; else detaljiPokrica">
+    <p-skeleton></p-skeleton>
+  </ng-container>
+  <ng-template #detaljiPokrica>
+    <div *ngIf="packageDetails">
+      <p>{{packageDetails.opis}}</p>
+      <div *ngFor="let pokrice of packageDetails.glavnaPokrica" style="margin-bottom: 16px;">
+        <h4>{{pokrice.nazivPokrice}}</h4>
+        <p *ngIf="pokrice.sumaOsiguranja">Suma osiguranja: {{pokrice.sumaOsiguranja}}</p>
+        <p *ngIf="pokrice.ucesceProcenat">Učešće osiguranika: {{pokrice.ucesceProcenat}}%</p>
+        <p-table [value]="pokrice.podpokrica" styleClass="p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Podpokriće</th>
+              <th>Vrsta limita</th>
+              <th>Limit</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-podpokrice>
+            <tr>
+              <td>{{podpokrice.nazivPodpokrica}}</td>
+              <td>{{podpokrice.vrstaLimita}}</td>
+              <td>{{podpokrice.limitVrednost || podpokrice.sumaOsiguranja || '—'}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

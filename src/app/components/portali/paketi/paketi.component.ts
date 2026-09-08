@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { ApiService } from 'src/app/shared/services/api.service';
 import { DzoService } from 'src/app/shared/services/dzo.service';
+import { CurrentUserService } from 'src/app/shared/services/current-user.service';
 import * as moment from 'moment';
 
 
@@ -16,7 +16,6 @@ import * as moment from 'moment';
 export class PaketiComponent implements OnInit {
   skeleton = true;
   JMBG: string;
-  brojTelefona: string;
 
   loadingPokrica: boolean = true;
   loadingPodPokrica: boolean = true;
@@ -32,7 +31,7 @@ export class PaketiComponent implements OnInit {
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
     private dzoService: DzoService,
-    private apiService: ApiService,
+    private currentUserService: CurrentUserService,
     private toster: ToastrService,
   ) {
     this.formGrupe();
@@ -56,41 +55,45 @@ export class PaketiComponent implements OnInit {
     });
   }
 
-
+  // Sprint 2: identitet/polisa dolaze iz CurrentUserService (trusted MR podaci,
+  // vec ucitani preko PurchaseGuard/AuthGuard), ne iz legacy ApiService.getUserDetails.
+  // Iskoriscenost po paketima/podpokricima ostaje na postojecem DzoService toku (JMBG).
   getDetaljiPolise() {
-    this.apiService.getUserDetails().subscribe(res => {
-      if (res.success) {
-        this.JMBG = res.resultList[0].jmbg;
-        this.brojTelefona = res.resultList[0].brTelefona;
-        this.dzoService.getOsnovniPodaci(this.JMBG).subscribe(res => {
-          if (res.success) {
-            this.skeleton = false;
-
-            this.detaljiPolise.patchValue({
-              Ime: res.resultList[0].ime,
-              Prezime: res.resultList[0].prezime,
-              BrKartice: res.resultList[0].brKartice,
-              brojPolise: res.resultList[0].brPolise,
-              pocetakOsiguranja: res.resultList[0].pocetakOsiguranja.substring(0, 10).split('-').reverse().join('.') + '.',
-              krajOsiguranja: res.resultList[0].krajOsiguranja.substring(0, 10).split('-').reverse().join('.') + '.',
-              datRodjenja: moment(res.resultList[0].datumRodjenja).format('DD.MM.YYYY'),
-              brTelefona: this.brojTelefona,
-              firma: res.resultList[0].ugovarac,
-            });
-          }
-          if (!res.success)
-            this.toster.error(res.message, 'Globos osiguranje');
-        });
-
-        this.dzoService.getIskoriscenostPoPaketima(this.JMBG).subscribe(res => {
-          if (res.success) {
-            this.loadingPokrica = false;
-            this.paketiPokrica = res.resultList;
-          }
-          else
-            this.toster.error(res.message, 'Globos osiguranje');
-        });
+    this.currentUserService.ensureLoaded().subscribe(user => {
+      if (!user) {
+        this.toster.error('Nije moguće učitati podatke o osiguranju.', 'Globos osiguranje');
+        return;
       }
+
+      this.JMBG = user.jmbg;
+      this.skeleton = false;
+
+      this.detaljiPolise.patchValue({
+        Ime: user.ime,
+        Prezime: user.prezime,
+        BrKartice: user.brKartice,
+        brojPolise: user.brPolise,
+        pocetakOsiguranja: user.packageActivatedAt ? moment(user.packageActivatedAt).format('DD.MM.YYYY') : null,
+        krajOsiguranja: user.packageExpiresAt ? moment(user.packageExpiresAt).format('DD.MM.YYYY') : null,
+        datRodjenja: user.datumRodjenja ? moment(user.datumRodjenja).format('DD.MM.YYYY') : null,
+        brTelefona: user.telefon,
+        // Master self-purchase: korisnik je sam sebi ugovarac osiguranja.
+        firma: `${user.ime} ${user.prezime}`,
+      });
+
+      if (!this.JMBG) {
+        this.loadingPokrica = false;
+        return;
+      }
+
+      this.dzoService.getIskoriscenostPoPaketima(this.JMBG).subscribe(res => {
+        if (res.success) {
+          this.loadingPokrica = false;
+          this.paketiPokrica = res.resultList;
+        }
+        else
+          this.toster.error(res.message, 'Globos osiguranje');
+      });
     });
   }
   // Metoda je zamenjena sa selectProductOnClick metodom (event klik na dugme detalji)

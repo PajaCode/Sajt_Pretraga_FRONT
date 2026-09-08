@@ -28,6 +28,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { GalleriaModule } from 'primeng/galleria';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { GalleriaModule } from 'primeng/galleria';
     SkeletonModule,
     ScrollPanelModule,
     GalleriaModule,
+    ProgressSpinnerModule,
   ]
 })
 export class PrimengModule { }
