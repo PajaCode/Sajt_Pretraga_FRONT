@@ -1,11 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { ApiService } from 'src/app/shared/services/api.service';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { DzoService } from 'src/app/shared/services/dzo.service';
+import { CurrentUserService } from 'src/app/shared/services/current-user.service';
 import { EmailService } from 'src/app/shared/services/email.service';
 
 @Component({
@@ -19,104 +14,35 @@ export class RefundacijeComponent implements OnInit {
 
   fileToUpload: File[] = [];
   nazivFajla: string[] = [];
-  refundacijeGroup!: FormGroup;
-  isLogged: any;
+  sending: boolean = false;
 
-  skeleton: any;
-  detaljiPolise!: FormGroup;
-  loggedUser: any;
-  JMBG: any;
-  brTelefona: any;
-  datumRodjenja: any;
-  imeKorisnika: any;
-  prezimeKorisnika: any;
-  emailKorisnika: any;
-  brKartice: any;
-
-
-
-
+  // Prefill iz CurrentUserService (trusted /me) - backend ionako ignorise ove
+  // vrednosti iz FormData i uvek ih prepisuje trenutnim korisnikom, ali ih
+  // saljemo radi kompatibilnosti sa postojecim EmailManager.SendEmailRefund potpisom.
+  ime: string | null = null;
+  prezime: string | null = null;
+  email: string | null = null;
+  telefon: string | null = null;
+  brKartice: string | null = null;
 
   constructor(
-    private fb: FormBuilder,
-    private spinner: NgxSpinnerService,
-    private dzoService: DzoService,
-    private apiService: ApiService,
-    private toster: ToastrService,
-    private authService: AuthService,
+    private currentUserService: CurrentUserService,
     private emailService: EmailService,
-
-  ) {
-    this.formaLogovan();
-    this.initForm();
-
-  }
-
+    private toster: ToastrService,
+  ) { }
 
   ngOnInit(): void {
+    this.currentUserService.ensureLoaded().subscribe(user => {
+      if (!user) {
+        return;
+      }
 
-    this.isLogged = this.isLoggedIn();
-
-    if (this.isLogged) {
-      this.getDetaljiPolise();
-    }
-
-  }
-
-  isLoggedIn() {
-    return this.authService.isLoggedIn();
-  }
-
-
-  formaLogovan() {
-    this.detaljiPolise = this.fb.group({
-      Ime: [{ value: null, disabled: true }],
-      Prezime: [{ value: null, disabled: true }],
-      BrKartice: [{ value: null, disabled: true }],
-      brojPolise: [{ value: null, disabled: true }],
-      pocetakOsiguranja: [{ value: null, disabled: true }],
-      krajOsiguranja: [{ value: null, disabled: true }],
-      datRodjenja: [{ value: null, disabled: true }],
-      brTelefona: [{ value: null, disabled: true }],
-      firma: [{ value: null, disabled: true }],
+      this.ime = user.ime;
+      this.prezime = user.prezime;
+      this.email = user.email;
+      this.telefon = user.telefon;
+      this.brKartice = user.brKartice;
     });
-  }
-
-  getDetaljiPolise() {
-
-    if (this.isLoggedIn) {
-      this.apiService.getUserDetails().subscribe(res => {
-        if (res.success) {
-          this.loggedUser = res.resultList[0];
-          this.imeKorisnika = res.resultList[0].ime;
-          this.prezimeKorisnika = res.resultList[0].prezime;
-          this.emailKorisnika = res.resultList[0].email;
-          this.JMBG = res.resultList[0].jmbg;
-          this.brTelefona = res.resultList[0].brTelefona;
-          this.brKartice = res.resultList[0].brKartice;
-          this.dzoService.getOsnovniPodaci(this.JMBG).subscribe(res => {
-            if (res.success) {
-              this.skeleton = false;
-              this.datumRodjenja = res.resultList[0].datumRodjenja;
-              this.detaljiPolise.patchValue({
-                Ime: res.resultList[0].ime,
-                Prezime: res.resultList[0].prezime,
-                BrKartice: res.resultList[0].brKartice,
-                brojPolise: res.resultList[0].brPolise,
-                pocetakOsiguranja: res.resultList[0].pocetakOsiguranja.substring(0, 10).split('-').reverse().join('.') + '.',
-                krajOsiguranja: res.resultList[0].krajOsiguranja.substring(0, 10).split('-').reverse().join('.') + '.',
-                datRodjenja: moment(res.resultList[0].datumRodjenja).format('DD.MM.YYYY'),
-                brTelefona: this.brTelefona,
-                firma: res.resultList[0].ugovarac,
-              });
-            }
-            if (!res.success)
-              this.toster.error(res.message, 'Globos osiguranje');
-          });
-        }
-      });
-    }
-
   }
 
   removeFile(f: any) {
@@ -131,11 +57,9 @@ export class RefundacijeComponent implements OnInit {
         this.fileInput.nativeElement.value = '';
       }
     }
-
   }
 
   handleFileInput(event: Event) {
-
     const target = event.target as HTMLInputElement;
     const files: FileList | null = target.files;
     for (let index = 0; index < files.length; index++) {
@@ -150,59 +74,45 @@ export class RefundacijeComponent implements OnInit {
   }
 
   sendMail() {
-
-    const formData = new FormData();
-
-    this.fileToUpload.forEach((file, index) => {
-      formData.append('files', file, file.name);
-    });
-    formData.append('brojKartice', this.brKartice);
-    formData.append('imeKorisnika', this.imeKorisnika);
-    formData.append('prezimeKorisnika', this.prezimeKorisnika);
-    formData.append('emailKorisnika', this.emailKorisnika);
-    formData.append('brojTelefona', this.brTelefona);
-
-    if (this.fileToUpload.length > 0) {
-      this.emailService.SendEmailRefund(formData).subscribe(res => {
-        if (res.success) {
-          this.toster.success('Uspešno poslat mejl');
-
-          this.clearFiles();
-        }
-        else {
-          this.toster.error('Došlo je do greške');
-        }
-      })
-    } else {
+    if (this.fileToUpload.length === 0) {
       this.toster.error('Morate izabrati barem jedan fajl');
+      return;
     }
 
-  }
+    const formData = new FormData();
+    this.fileToUpload.forEach((file) => {
+      formData.append('files', file, file.name);
+    });
+    formData.append('brojKartice', this.brKartice || '');
+    formData.append('imeKorisnika', this.ime || '');
+    formData.append('prezimeKorisnika', this.prezime || '');
+    formData.append('emailKorisnika', this.email || '');
+    formData.append('brojTelefona', this.telefon || '');
 
-  initForm() {
-    this.refundacijeGroup = this.fb.group({
-      fileUpload: [{ value: null, disabled: true }]
-    })
+    this.sending = true;
+    this.emailService.SendEmailRefund(formData).subscribe({
+      next: res => {
+        this.sending = false;
+        if (res.success) {
+          this.toster.success('Uspešno poslat mejl');
+          this.clearFiles();
+        } else {
+          this.toster.error('Došlo je do greške');
+        }
+      },
+      error: () => {
+        this.sending = false;
+        this.toster.error('Došlo je do greške');
+      },
+    });
   }
 
   clearFiles() {
-
     this.fileToUpload.splice(0);
     this.nazivFajla.splice(0);
 
-    // Reset the file input element
     if (this.fileInput && this.fileInput.nativeElement) {
       this.fileInput.nativeElement.value = '';
     }
-
-    this.refundacijeGroup.patchValue({
-      fileUpload: null
-    });
-
-
   }
-
 }
-
-
-

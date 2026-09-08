@@ -97,7 +97,7 @@ export class HeaderComponent implements OnInit {
         {
           name: 'Opcije', subMenu: [
             { name: 'Profil', url: '/profil' },
-            { name: 'Izloguj se', url: '/login' },
+            { name: 'Odjava', url: '/login' },
           ]
         }
       ]
