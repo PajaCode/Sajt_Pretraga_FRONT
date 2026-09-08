@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/enviroments/environment';
 import { ApiResponse } from '../models/api-response';
 import { CurrentUser } from '../models/current-user';
-import { ConfirmEmailRequest, ConfirmEmailResult, ForgotPasswordRequest, PackageDetails, PackageListItem, PaymentConfirmMockRequest, PaymentConfirmResult, PaymentInitiateResult, PurchaseCompleteRequest, PurchaseCompleteResult, RegisterRequest, RegisterResult, ResendActivationEmailRequest, ResendActivationEmailResult, ResetPasswordRequest, UpdateProfileRequest, ValidateResetTokenRequest } from '../models/master';
+import { BookAppointmentRequest, BookAppointmentResult, ConfirmEmailRequest, ConfirmEmailResult, CoveredService, ForgotPasswordRequest, InstitutionForService, MyAppointment, PackageDetails, PackageListItem, PaymentConfirmMockRequest, PaymentConfirmResult, PaymentInitiateResult, PurchaseCompleteRequest, PurchaseCompleteResult, RegisterRequest, RegisterResult, ResendActivationEmailRequest, ResendActivationEmailResult, ResetPasswordRequest, UpdateProfileRequest, ValidateResetTokenRequest } from '../models/master';
 
 @Injectable({
   providedIn: 'root'
@@ -65,5 +65,21 @@ export class MasterService {
 
   updateProfile(request: UpdateProfileRequest): Observable<ApiResponse<object>> {
     return this.http.post<ApiResponse<object>>(this.baseApiMaster + 'update-profile', request);
+  }
+
+  getMyCoveredServices(): Observable<ApiResponse<CoveredService[]>> {
+    return this.http.get<ApiResponse<CoveredService[]>>(this.baseApiMaster + 'my-covered-services');
+  }
+
+  getInstitutionsForService(medUslugaId: number): Observable<ApiResponse<InstitutionForService[]>> {
+    return this.http.get<ApiResponse<InstitutionForService[]>>(this.baseApiMaster + 'institutions-for-service/' + medUslugaId);
+  }
+
+  bookAppointment(request: BookAppointmentRequest): Observable<ApiResponse<BookAppointmentResult>> {
+    return this.http.post<ApiResponse<BookAppointmentResult>>(this.baseApiMaster + 'book-appointment', request);
+  }
+
+  getMyAppointments(): Observable<ApiResponse<MyAppointment[]>> {
+    return this.http.get<ApiResponse<MyAppointment[]>>(this.baseApiMaster + 'my-appointments');
   }
 }

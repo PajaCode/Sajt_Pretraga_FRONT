@@ -18,6 +18,8 @@ const routes: Routes = [
       { path: 'profil', loadChildren: () => import('./shared/modules/profil/profil.module').then((m) => m.ProfilModule), canActivate: [AuthGuard] },
       { path: 'paketi', loadChildren: () => import('./shared/modules/paketi/paketi.module').then(m => m.PaketiModule), canActivate: [AuthGuard, ActivePackageGuard] },
       { path: 'kupovina-paketa', loadChildren: () => import('./shared/modules/kupovina-paketa/kupovina-paketa.module').then(m => m.KupovinaPaketaModule), canActivate: [AuthGuard, PurchaseGuard] },
+      { path: 'zakazi-pregled', loadChildren: () => import('./shared/modules/zakazi-pregled/zakazi-pregled.module').then(m => m.ZakaziPregledModule), canActivate: [AuthGuard, ActivePackageGuard] },
+      { path: 'moji-pregledi', loadChildren: () => import('./shared/modules/moji-pregledi/moji-pregledi.module').then(m => m.MojiPreglediModule), canActivate: [AuthGuard, ActivePackageGuard] },
       { path: 'dzo', loadChildren: () => import('./shared/modules/dzo/dzo.module').then((m) => m.DzoModule), canActivate: [AuthGuard, ActivePackageGuard] },
       { path: 'kontaktdzo', loadChildren: () => import('./shared/modules/forma/forma.module').then((m) => m.FormaModule ), canActivate: [AuthGuard, ActivePackageGuard] },
       { path: 'formaZaLeadove', loadChildren: () => import('./shared/modules/forma-za-leadove/forma-za-leadove.module').then((m) => m.FormaZaLeadoveModule )},

@@ -1,0 +1,47 @@
+<div class="row">
+  <p-fieldset legend="Moji pregledi" class="mb-3">
+
+    <ng-container *ngIf="loading; else sadrzaj">
+      <p-skeleton></p-skeleton>
+      <p-skeleton></p-skeleton>
+    </ng-container>
+
+    <ng-template #sadrzaj>
+      <div *ngIf="appointments.length === 0; else tabela">
+        <p>Trenutno nemate zakazanih pregleda.</p>
+        <a routerLink="/zakazi-pregled">Zakažite pregled</a>
+      </div>
+
+      <ng-template #tabela>
+        <p-table [value]="appointments" styleClass="p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Broj uputa</th>
+              <th>Usluga</th>
+              <th>Ustanova</th>
+              <th>Datum</th>
+              <th>Vreme</th>
+              <th>Status</th>
+              <th>Akcije</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-pregled>
+            <tr>
+              <td>{{pregled.uputBroj}}</td>
+              <td>{{pregled.nazivUsluge}}</td>
+              <td>{{pregled.nazivUstanove}}</td>
+              <td>{{pregled.datumPregleda ? (pregled.datumPregleda | date:'dd.MM.yyyy') : '—'}}</td>
+              <td>{{pregled.vreme || '—'}}</td>
+              <td><p-tag [value]="pregled.status" [severity]="statusSeverity(pregled.status)"></p-tag></td>
+              <td>
+                <span *ngIf="pregled.canDownloadDocuments">Dokumentacija dostupna</span>
+                <span *ngIf="!pregled.canDownloadDocuments">—</span>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </ng-template>
+    </ng-template>
+
+  </p-fieldset>
+</div>

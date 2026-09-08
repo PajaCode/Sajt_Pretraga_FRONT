@@ -123,3 +123,46 @@ export interface UpdateProfileRequest {
   brTelefona: string;
   jmbg?: string | null;
 }
+
+// Mora se poklapati sa Saj_Pretraga_API/Models/Master/AppointmentDtos.cs
+
+export interface CoveredService {
+  medUslugaId: number;
+  nazivUsluge: string;
+  kategorija: string | null;
+  paketPodpokriceId: number;
+  nazivPodpokrica: string;
+  vrstaLimita: string;
+}
+
+export interface InstitutionForService {
+  medUstanovaId: number;
+  nazivUstanove: string;
+}
+
+export interface BookAppointmentRequest {
+  medUslugaId: number;
+  medUstanovaId: number;
+  datumPregleda: string;
+  vreme: string;
+}
+
+export interface BookAppointmentResult {
+  onlineUputId: number;
+  uputBroj: string;
+  status: string;
+}
+
+export interface MyAppointment {
+  pregledStatusId: number;
+  onlineUputId: number;
+  uputBroj: string;
+  nazivUsluge: string;
+  nazivUstanove: string;
+  datumPregleda: string | null;
+  vreme: string | null;
+  status: string;
+  canDownloadDocuments: boolean;
+  createdAt: string;
+  completedAt: string | null;
+}

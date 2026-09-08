@@ -85,8 +85,9 @@ export class HeaderComponent implements OnInit {
         //{ name: 'Početna', url: '/home' },
         //{ name: 'DZO', url: '/dzo' },
         //{ name: 'Zatražite ponudu', url: '/formaZaLeadove' },
-        { name: 'Informacije o ugovorenom pokriću', url: '/paketi' },
-        { name: 'Zahtev za zakazivanje pregleda', url: '/kontaktdzo'},
+        { name: 'Moje osiguranje', url: '/paketi' },
+        { name: 'Zakaži pregled', url: '/zakazi-pregled' },
+        { name: 'Moji pregledi', url: '/moji-pregledi' },
         { name: 'Refundacije', url: '/refundacije'},
       ] : [
         { name: 'Kupovina paketa', url: '/kupovina-paketa' },

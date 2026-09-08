@@ -52,6 +52,8 @@ import { FormaComponent } from './components/portali/forma/forma.component';
 import { FormularZaLeadoveComponent } from './components/portali/formular-za-leadove/formular-za-leadove.component';
 import { RefundacijeComponent } from './components/portali/refundacije/refundacije.component';
 import { KupovinaPaketaComponent } from './components/portali/kupovina-paketa/kupovina-paketa.component';
+import { ZakaziPregledComponent } from './components/portali/zakazi-pregled/zakazi-pregled.component';
+import { MojiPreglediComponent } from './components/portali/moji-pregledi/moji-pregledi.component';
 
 export function tokenGetter() {
   return localStorage.getItem('user-token') || null;
@@ -73,7 +75,9 @@ export function tokenGetter() {
     FormaComponent,
     FormularZaLeadoveComponent,
     RefundacijeComponent,
-    KupovinaPaketaComponent
+    KupovinaPaketaComponent,
+    ZakaziPregledComponent,
+    MojiPreglediComponent
   ],
   imports: [
     BrowserModule,

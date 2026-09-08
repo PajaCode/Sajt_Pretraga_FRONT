@@ -1,0 +1,64 @@
+<div class="row">
+  <p-fieldset legend="Zakaži pregled" class="mb-3">
+    <form [formGroup]="zakaziForm" (ngSubmit)="zakazi()">
+      <div class="flex flex-column mt-1">
+
+        <div class="row">
+          <label for="medUslugaId">Pokrivena usluga</label>
+          <p-dropdown formControlName="medUslugaId" [options]="coveredServices" optionLabel="nazivUsluge"
+            optionValue="medUslugaId" [filter]="true" filterBy="nazivUsluge" placeholder="Izaberite uslugu"
+            [style]="{width: '100%'}" [disabled]="loadingUsluge"></p-dropdown>
+          <small class="p-error"
+            *ngIf="zakaziForm.get('medUslugaId').touched && zakaziForm.get('medUslugaId').invalid">
+            Usluga je obavezna.
+          </small>
+          <small *ngIf="!loadingUsluge && coveredServices.length === 0">
+            Vaš paket trenutno ne pokriva nijednu uslugu.
+          </small>
+        </div>
+
+        <div class="row">
+          <label for="medUstanovaId">Ustanova</label>
+          <p-dropdown formControlName="medUstanovaId" [options]="institutions" optionLabel="nazivUstanove"
+            optionValue="medUstanovaId" [filter]="true" filterBy="nazivUstanove" placeholder="Izaberite ustanovu"
+            [style]="{width: '100%'}" [showClear]="false"></p-dropdown>
+          <small class="p-error"
+            *ngIf="zakaziForm.get('medUstanovaId').touched && zakaziForm.get('medUstanovaId').invalid">
+            Ustanova je obavezna.
+          </small>
+        </div>
+
+        <div class="row">
+          <label for="datum">Datum pregleda</label>
+          <input type="date" pInputText formControlName="datum" [min]="minDatum" />
+          <small class="p-error" *ngIf="zakaziForm.get('datum').touched && zakaziForm.get('datum').invalid">
+            Datum je obavezan i ne može biti u prošlosti.
+          </small>
+        </div>
+
+        <div class="row">
+          <label for="vreme">Vreme pregleda</label>
+          <input type="time" pInputText formControlName="vreme" />
+          <small class="p-error" *ngIf="zakaziForm.get('vreme').touched && zakaziForm.get('vreme').invalid">
+            Vreme je obavezno.
+          </small>
+        </div>
+
+        <div class="row" style="margin-top: 12px;" *ngIf="pregledSpreman">
+          <p-card header="Pregled izbora">
+            <p><strong>Usluga:</strong> {{izabranaUsluga?.nazivUsluge}}</p>
+            <p><strong>Ustanova:</strong> {{izabranaUstanova?.nazivUstanove}}</p>
+            <p><strong>Datum:</strong> {{zakaziForm.get('datum').value}}</p>
+            <p><strong>Vreme:</strong> {{zakaziForm.get('vreme').value}}</p>
+          </p-card>
+        </div>
+
+        <div class="row" style="margin-top: 12px;">
+          <button pButton pRipple type="submit" label="Zakaži pregled" class="p-button-sm"
+            [disabled]="submitting"></button>
+        </div>
+
+      </div>
+    </form>
+  </p-fieldset>
+</div>
