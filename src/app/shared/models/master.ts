@@ -166,3 +166,20 @@ export interface MyAppointment {
   createdAt: string;
   completedAt: string | null;
 }
+
+// Mora se poklapati sa Saj_Pretraga_API/Models/Master/DocumentationDtos.cs
+
+export interface SyncDocumentationItem {
+  pregledStatusId: number;
+  uputBroj: string;
+  status: string;
+  wasCompletedNow: boolean;
+}
+
+export interface DocumentListItem {
+  id: number;
+  nazivFajla: string;
+  tipDokumenta: string;
+  fileSize: number | null;
+  createdAt: string;
+}
