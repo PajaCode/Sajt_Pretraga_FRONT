@@ -1,0 +1,674 @@
+{
+  ".claude/settings.json": {
+    "mtime": 1787655057.931803,
+    "seen": 1788949133.0755384,
+    "ast_hash": "29fe5e7eed801643dee07ea9862ee4cb",
+    "semantic_hash": ""
+  },
+  ".vscode/extensions.json": {
+    "mtime": 1787655057.9425905,
+    "seen": 1788949133.075544,
+    "ast_hash": "66fd9e60d4633b6099fe02e06a7075ea",
+    "semantic_hash": ""
+  },
+  ".vscode/launch.json": {
+    "mtime": 1787655057.948871,
+    "seen": 1788949133.075546,
+    "ast_hash": "b0e4c93dcac5d8a3e4d078ff07ac0726",
+    "semantic_hash": ""
+  },
+  ".vscode/tasks.json": {
+    "mtime": 1787655058.0296872,
+    "seen": 1788949133.0755475,
+    "ast_hash": "d2fc2624d783980be281b4cf0acc2455",
+    "semantic_hash": ""
+  },
+  "angular.json": {
+    "mtime": 1787655050.3581057,
+    "seen": 1788949133.0755486,
+    "ast_hash": "8e861320bd948b583faabc1e65ca5e57",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1787655050.4425983,
+    "seen": 1788949133.0755494,
+    "ast_hash": "0fc91aa025acd1713a3c2cc888fa7fa5",
+    "semantic_hash": ""
+  },
+  "src/app/app-routing.module.ts": {
+    "mtime": 1788865568.9730842,
+    "seen": 1788949133.0755508,
+    "ast_hash": "5fb660e92155578d77e6e72f056642a6",
+    "semantic_hash": ""
+  },
+  "src/app/app.component.ts": {
+    "mtime": 1788356089.484027,
+    "seen": 1788949133.0755515,
+    "ast_hash": "2cf1000404e0e67c89630806b7044dd1",
+    "semantic_hash": ""
+  },
+  "src/app/app.module.ts": {
+    "mtime": 1788865564.6955817,
+    "seen": 1788949133.0755525,
+    "ast_hash": "ab50b06ff284cc0916c2da3418a77574",
+    "semantic_hash": ""
+  },
+  "src/app/components/confirm-mail/confirm-mail.component.ts": {
+    "mtime": 1788512176.883738,
+    "seen": 1788949133.0755532,
+    "ast_hash": "5689c10ee6ef6736ea5b3c54e9820dd8",
+    "semantic_hash": ""
+  },
+  "src/app/components/footer/footer.component.ts": {
+    "mtime": 1787655575.891495,
+    "seen": 1788949133.0755544,
+    "ast_hash": "940922c88ac416eb28ff2e8469a3f9b8",
+    "semantic_hash": ""
+  },
+  "src/app/components/header/header.component.ts": {
+    "mtime": 1788868279.829777,
+    "seen": 1788949133.0755556,
+    "ast_hash": "a78b983af7116acb7147fd790c37ad2a",
+    "semantic_hash": ""
+  },
+  "src/app/components/login-register/login-register.component.ts": {
+    "mtime": 1788936525.708851,
+    "seen": 1788949133.0755563,
+    "ast_hash": "955f80e6a68684286510728a19ef533e",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/dzo/dzo.component.ts": {
+    "mtime": 1787655575.9705691,
+    "seen": 1788949133.0755575,
+    "ast_hash": "763de7255ef0d3d8febf1f0263b0f474",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/forma/forma.component.ts": {
+    "mtime": 1788936525.714749,
+    "seen": 1788949133.0755584,
+    "ast_hash": "ced1201fda34b738396c7f7693c37f29",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/formular-za-leadove/formular-za-leadove.component.ts": {
+    "mtime": 1787655576.0519636,
+    "seen": 1788949133.0755594,
+    "ast_hash": "e618001004deed4b95b1a549ea6226ab",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/home/home.component.ts": {
+    "mtime": 1788437607.5835795,
+    "seen": 1788949133.0755603,
+    "ast_hash": "d60dbe830d46fb2b95f4ce355daa8bf2",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/kupovina-paketa/kupovina-paketa.component.ts": {
+    "mtime": 1788936525.726354,
+    "seen": 1788949133.0755613,
+    "ast_hash": "14961defa7ce28f181a88f9d3100b50a",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/moji-pregledi/moji-pregledi.component.ts": {
+    "mtime": 1788936525.7273004,
+    "seen": 1788949133.0755622,
+    "ast_hash": "656f4b58af186b8a8d4ebbda88d3e802",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/paketi/paketi.component.ts": {
+    "mtime": 1788864199.0762424,
+    "seen": 1788949133.0755632,
+    "ast_hash": "a03937da979b0b889125e9884dd20de1",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/refundacije/refundacije.component.ts": {
+    "mtime": 1788936525.741091,
+    "seen": 1788949133.0755641,
+    "ast_hash": "75f1ccb16e45256024481fecf4e981df",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/zakazi-pregled/zakazi-pregled.component.ts": {
+    "mtime": 1788865516.322084,
+    "seen": 1788949133.075565,
+    "ast_hash": "ca9074a61a25345f0274656dfcd6ff7c",
+    "semantic_hash": ""
+  },
+  "src/app/components/profil/profil.component.ts": {
+    "mtime": 1788936525.7510421,
+    "seen": 1788949133.0755665,
+    "ast_hash": "edfc0e92468636513e41f89a304786e1",
+    "semantic_hash": ""
+  },
+  "src/app/components/reset-password/reset-password.component.ts": {
+    "mtime": 1788936525.762997,
+    "seen": 1788949133.0755672,
+    "ast_hash": "832c716320845a35c9b5a21a276ac682",
+    "semantic_hash": ""
+  },
+  "src/app/primeng.module.ts": {
+    "mtime": 1788864174.9108827,
+    "seen": 1788949133.0755684,
+    "ast_hash": "a85da9a6ff72f5e20164e3c944415b70",
+    "semantic_hash": ""
+  },
+  "src/app/shared/dateFormating/customDateParserFormatter.ts": {
+    "mtime": 1787655576.2237942,
+    "seen": 1788949133.0755692,
+    "ast_hash": "d81a4552104f116cc5b20a2e936bc606",
+    "semantic_hash": ""
+  },
+  "src/app/shared/guards/active-package.guard.ts": {
+    "mtime": 1788436080.337782,
+    "seen": 1788949133.07557,
+    "ast_hash": "96ad6b8e23efb9374532b4d7254d6329",
+    "semantic_hash": ""
+  },
+  "src/app/shared/guards/auth.guard.ts": {
+    "mtime": 1788436059.5873458,
+    "seen": 1788949133.0755713,
+    "ast_hash": "fbabbd0be760161c27aed67067c11c39",
+    "semantic_hash": ""
+  },
+  "src/app/shared/guards/guest.guard.ts": {
+    "mtime": 1788436096.3560002,
+    "seen": 1788949133.0755723,
+    "ast_hash": "ee112c22298354af3afdff430b7e698a",
+    "semantic_hash": ""
+  },
+  "src/app/shared/guards/purchase.guard.ts": {
+    "mtime": 1788437460.938376,
+    "seen": 1788949133.075573,
+    "ast_hash": "93e15269f78e86e8dc958db4d8b214c9",
+    "semantic_hash": ""
+  },
+  "src/app/shared/guards/reset-pass.guard.ts": {
+    "mtime": 1787655576.2558963,
+    "seen": 1788949133.075574,
+    "ast_hash": "c92d500701729f10bb16d592225f7c90",
+    "semantic_hash": ""
+  },
+  "src/app/shared/guards/root.guard.ts": {
+    "mtime": 1788436087.8605857,
+    "seen": 1788949133.0755749,
+    "ast_hash": "40db2be0cc1988b947b71a8600239c6e",
+    "semantic_hash": ""
+  },
+  "src/app/shared/interceptors/api-error.interceptor.ts": {
+    "mtime": 1788936525.7743335,
+    "seen": 1788949133.0755758,
+    "ast_hash": "f9278a2e09a0de0edae361285a6a4570",
+    "semantic_hash": ""
+  },
+  "src/app/shared/models/api-response.ts": {
+    "mtime": 1788355709.617893,
+    "seen": 1788949133.0755765,
+    "ast_hash": "d7a6337fb4a1d3eb4047498272e6b70a",
+    "semantic_hash": ""
+  },
+  "src/app/shared/models/current-user.ts": {
+    "mtime": 1788355703.3574016,
+    "seen": 1788949133.0755775,
+    "ast_hash": "651e743b449d1ca984b3615761e99975",
+    "semantic_hash": ""
+  },
+  "src/app/shared/models/login-user.ts": {
+    "mtime": 1787655576.2877843,
+    "seen": 1788949133.0755787,
+    "ast_hash": "b96a51a860d123d0a7d8e051103ed5b6",
+    "semantic_hash": ""
+  },
+  "src/app/shared/models/master.ts": {
+    "mtime": 1788948970.8515549,
+    "seen": 1788949133.0755796,
+    "ast_hash": "0f70d2da5ccd4160a8f6dc4ec5b3c004",
+    "semantic_hash": ""
+  },
+  "src/app/shared/models/medUstanova.ts": {
+    "mtime": 1787655576.2978618,
+    "seen": 1788949133.0755804,
+    "ast_hash": "26f08fc3aef846737b8f109b3dd73527",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/confirm-mail/confirm-mail-routing.module.ts": {
+    "mtime": 1788512208.4860196,
+    "seen": 1788949133.0755816,
+    "ast_hash": "8767f25383e3109109035e91abe80fc0",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/confirm-mail/confirm-mail.module.ts": {
+    "mtime": 1787655576.3351035,
+    "seen": 1788949133.0755825,
+    "ast_hash": "e52e8e258fedca09ff1a11753b703a59",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/dzo/dzo-routing.module.ts": {
+    "mtime": 1787655576.3509712,
+    "seen": 1788949133.0755832,
+    "ast_hash": "687de8928a21b583ce1945581bafe350",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/dzo/dzo.module.ts": {
+    "mtime": 1787655576.3509712,
+    "seen": 1788949133.075584,
+    "ast_hash": "619e30b2ed186196b47e8191fad859ca",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/forma-za-leadove/forma-za-leadove-routing.module.ts": {
+    "mtime": 1787655576.3988466,
+    "seen": 1788949133.0755851,
+    "ast_hash": "b551df441ac41106d3fb9664134a4b60",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/forma-za-leadove/forma-za-leadove.module.ts": {
+    "mtime": 1787655576.3988466,
+    "seen": 1788949133.0755863,
+    "ast_hash": "ee46d06c795e7446642396dbf3985ab1",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/forma/forma-routing.module.ts": {
+    "mtime": 1787655576.3688476,
+    "seen": 1788949133.0755873,
+    "ast_hash": "b1667c39711fbb9b99c86b2e877d08c6",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/forma/forma.module.ts": {
+    "mtime": 1787655576.382728,
+    "seen": 1788949133.075588,
+    "ast_hash": "298df74a66717a9f430729666d0fc6ce",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/home/home-routing.module.ts": {
+    "mtime": 1787655576.4307275,
+    "seen": 1788949133.0755892,
+    "ast_hash": "ed5c9a59a5a52fd930990981163fe2fe",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/home/home.module.ts": {
+    "mtime": 1787655576.4356563,
+    "seen": 1788949133.07559,
+    "ast_hash": "592fe4f1d8effec19d351de42529c195",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/kupovina-paketa/kupovina-paketa-routing.module.ts": {
+    "mtime": 1788356162.1595926,
+    "seen": 1788949133.0755906,
+    "ast_hash": "2f23750bd3e449cb3dc54d0aafa50ba2",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/kupovina-paketa/kupovina-paketa.module.ts": {
+    "mtime": 1788356219.6511667,
+    "seen": 1788949133.0755916,
+    "ast_hash": "f3a2b38cd55910fa484cac1fd364efd8",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/login/login-routing.module.ts": {
+    "mtime": 1787655576.4487977,
+    "seen": 1788949133.0755928,
+    "ast_hash": "16985e513a16acd07b6ebbda7861759e",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/login/login.module.ts": {
+    "mtime": 1787655576.4626837,
+    "seen": 1788949133.0755937,
+    "ast_hash": "518413e0c5fa3baace13f1d7861ece9d",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/moji-pregledi/moji-pregledi-routing.module.ts": {
+    "mtime": 1788865555.7094214,
+    "seen": 1788949133.0755944,
+    "ast_hash": "7a8f77dbf553c1cffb0862dc05dc2563",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/moji-pregledi/moji-pregledi.module.ts": {
+    "mtime": 1788865558.4372993,
+    "seen": 1788949133.0755956,
+    "ast_hash": "1589792736c16ba0f06c84866df20b01",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/paketi/paketi-routing.module.ts": {
+    "mtime": 1787655576.4805088,
+    "seen": 1788949133.0755966,
+    "ast_hash": "9494f20633a119f1bcc0e4343e4b43b0",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/paketi/paketi.module.ts": {
+    "mtime": 1787655576.4805088,
+    "seen": 1788949133.0755973,
+    "ast_hash": "547f84b9f988b970f0eddf8d8fd66533",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/profil/profil-routing.module.ts": {
+    "mtime": 1787655576.5023355,
+    "seen": 1788949133.0755982,
+    "ast_hash": "ab0b3369bb56cf71c919349a46a8b227",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/profil/profil.module.ts": {
+    "mtime": 1787655576.510511,
+    "seen": 1788949133.0755994,
+    "ast_hash": "115afa533c49cca0bc5da64e0c72ba64",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/refundacije/refundacije-routing.module.ts": {
+    "mtime": 1787655576.528258,
+    "seen": 1788949133.0756004,
+    "ast_hash": "cae3cad8dba4ebf57bf5476e1b51360f",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/refundacije/refundacije.module.ts": {
+    "mtime": 1787655576.528258,
+    "seen": 1788949133.075601,
+    "ast_hash": "7667a9979c315e0ac9efdc6e379096a3",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/register/register-routing.module.ts": {
+    "mtime": 1787655576.5447488,
+    "seen": 1788949133.0756018,
+    "ast_hash": "19cc90503c3cddd67af14eb889797be8",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/register/register.module.ts": {
+    "mtime": 1787655576.5585072,
+    "seen": 1788949133.075603,
+    "ast_hash": "1ca250cb121533f6b5fb5169c3ce9463",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/reset-password/reset-password-routing.module.ts": {
+    "mtime": 1787655576.5745566,
+    "seen": 1788949133.0756037,
+    "ast_hash": "691424ab5194d01d320eaf7d04009b87",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/reset-password/reset-password.module.ts": {
+    "mtime": 1787655576.5745566,
+    "seen": 1788949133.0756044,
+    "ast_hash": "0d47bb571f18b44422bd098fa4105a05",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/zakazi-pregled/zakazi-pregled-routing.module.ts": {
+    "mtime": 1788865549.4624648,
+    "seen": 1788949133.0756054,
+    "ast_hash": "2a55a65590594e500b4cfff5588e53da",
+    "semantic_hash": ""
+  },
+  "src/app/shared/modules/zakazi-pregled/zakazi-pregled.module.ts": {
+    "mtime": 1788865552.5173097,
+    "seen": 1788949133.0756066,
+    "ast_hash": "5bc22802183b1c369cea84fa2b294a74",
+    "semantic_hash": ""
+  },
+  "src/app/shared/pipes/medUstanove.pipe.ts": {
+    "mtime": 1787655576.6063812,
+    "seen": 1788949133.0756073,
+    "ast_hash": "49a2979b400fab1a543804d0c7b03c54",
+    "semantic_hash": ""
+  },
+  "src/app/shared/services/api.service.ts": {
+    "mtime": 1788355684.7239964,
+    "seen": 1788949133.075608,
+    "ast_hash": "08c8462a35adf0298e6a87b330ea931e",
+    "semantic_hash": ""
+  },
+  "src/app/shared/services/auth.service.ts": {
+    "mtime": 1788512141.9476688,
+    "seen": 1788949133.0756087,
+    "ast_hash": "56b2e78be2826ea15a397cf0ef25e303",
+    "semantic_hash": ""
+  },
+  "src/app/shared/services/current-user.service.ts": {
+    "mtime": 1788437453.7657409,
+    "seen": 1788949133.0756097,
+    "ast_hash": "e373772533cfd1bcaa75937add8d6357",
+    "semantic_hash": ""
+  },
+  "src/app/shared/services/dzo.service.ts": {
+    "mtime": 1787655576.6380777,
+    "seen": 1788949133.0756106,
+    "ast_hash": "5ea28ef8e28222b97de02735e55695d4",
+    "semantic_hash": ""
+  },
+  "src/app/shared/services/email.service.ts": {
+    "mtime": 1788512219.8113103,
+    "seen": 1788949133.0756114,
+    "ast_hash": "c417a744063308705d7aab1db1ce4f33",
+    "semantic_hash": ""
+  },
+  "src/app/shared/services/master.service.ts": {
+    "mtime": 1788867632.8847785,
+    "seen": 1788949133.0756123,
+    "ast_hash": "8cc93c618f11d58885f715bc79bd5dd5",
+    "semantic_hash": ""
+  },
+  "src/app/shared/validators/card.validator.ts": {
+    "mtime": 1788864082.595055,
+    "seen": 1788949133.0756133,
+    "ast_hash": "1cf8ce65155c3217c98ab0beb4bc2c48",
+    "semantic_hash": ""
+  },
+  "src/app/shared/validators/jmbg.validator.ts": {
+    "mtime": 1788850140.3481584,
+    "seen": 1788949133.0756142,
+    "ast_hash": "dcbdf00c3674ae4550eafd89dd909d4f",
+    "semantic_hash": ""
+  },
+  "src/app/shared/validators/password.validator.ts": {
+    "mtime": 1788936525.7795649,
+    "seen": 1788949133.0756152,
+    "ast_hash": "84120945d89ee7acb4001c797ae1cda8",
+    "semantic_hash": ""
+  },
+  "src/assets/images/carousel-images.json": {
+    "mtime": 1788437600.253234,
+    "seen": 1788949133.0756164,
+    "ast_hash": "58e0494c51d30eb3494f7c9198986bb9",
+    "semantic_hash": ""
+  },
+  "src/enviroments/environment.prod.ts": {
+    "mtime": 1788434958.6843302,
+    "seen": 1788949133.0756173,
+    "ast_hash": "ddc12221e5d18c49b8104cbf9393f769",
+    "semantic_hash": ""
+  },
+  "src/enviroments/environment.ts": {
+    "mtime": 1788434964.037097,
+    "seen": 1788949133.0756183,
+    "ast_hash": "188e1f30bc62fa7f0fe26d64ed2528ef",
+    "semantic_hash": ""
+  },
+  "src/main.ts": {
+    "mtime": 1787655575.7229333,
+    "seen": 1788949133.0756197,
+    "ast_hash": "63743f6efb2c8810b7bbb62a6cd45596",
+    "semantic_hash": ""
+  },
+  "src/script.js": {
+    "mtime": 1787655575.7322958,
+    "seen": 1788949133.0756204,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "tsconfig.app.json": {
+    "mtime": 1787655050.474315,
+    "seen": 1788949133.0756214,
+    "ast_hash": "8f361d8f0c811388a626df3ca3fb6a9e",
+    "semantic_hash": ""
+  },
+  "tsconfig.json": {
+    "mtime": 1787655050.4813087,
+    "seen": 1788949133.0756223,
+    "ast_hash": "2eafa807ca53c791f93c2a9ef4696b6c",
+    "semantic_hash": ""
+  },
+  "tsconfig.spec.json": {
+    "mtime": 1787655050.4885278,
+    "seen": 1788949133.0756235,
+    "ast_hash": "544f8f1fe089c61a8d7ac542391ec469",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1787655050.3641143,
+    "seen": 1788949133.0756242,
+    "ast_hash": "8a6643a420fdad6bfb583523bc6cef16",
+    "semantic_hash": ""
+  },
+  "FRONTEND_ACCOUNT_LIFECYCLE_HANDOFF.md": {
+    "mtime": 1788770143.0905185,
+    "seen": 1788949133.0756252,
+    "ast_hash": "d1150ba771a0f7f5cbb93aa67dfbdc20",
+    "semantic_hash": ""
+  },
+  "FRONTEND_BLOCK1_HANDOFF.md": {
+    "mtime": 1788356696.4922917,
+    "seen": 1788949133.075627,
+    "ast_hash": "7fbc74e7796c04a30f418935090a76b6",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1787655050.449855,
+    "seen": 1788949133.075628,
+    "ast_hash": "0fc14f16e1c04581923f49e6708daa2d",
+    "semantic_hash": ""
+  },
+  "src/app/app.component.html": {
+    "mtime": 1787655575.7681599,
+    "seen": 1788949133.0756288,
+    "ast_hash": "eb7609974d698ba861a3591c600b980c",
+    "semantic_hash": ""
+  },
+  "src/app/components/confirm-mail/confirm-mail.component.html": {
+    "mtime": 1788512194.5853999,
+    "seen": 1788949133.0756297,
+    "ast_hash": "918621535f535c29e7dd7ebe408895b5",
+    "semantic_hash": ""
+  },
+  "src/app/components/footer/footer.component.html": {
+    "mtime": 1787655575.8534732,
+    "seen": 1788949133.0756307,
+    "ast_hash": "1e1dc57dfc3e7e9e14b9b008a39b9002",
+    "semantic_hash": ""
+  },
+  "src/app/components/header/header.component.html": {
+    "mtime": 1787655575.891495,
+    "seen": 1788949133.0756316,
+    "ast_hash": "f9d23901ccdf2af6a01cf07da7e666ae",
+    "semantic_hash": ""
+  },
+  "src/app/components/login-register/login-register.component.html": {
+    "mtime": 1788936525.6979003,
+    "seen": 1788949133.0756323,
+    "ast_hash": "1a219c0b1639cd674b67a044b007f53c",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/dzo/dzo.component.html": {
+    "mtime": 1787655575.9547412,
+    "seen": 1788949133.075633,
+    "ast_hash": "2c869b655b1681cd3df314bae4e0b19b",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/forma/forma.component.html": {
+    "mtime": 1787655575.9877532,
+    "seen": 1788949133.0756342,
+    "ast_hash": "f979b7d17ce88eeabefd5c4a79fd2b60",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/formular-za-leadove/formular-za-leadove.component.html": {
+    "mtime": 1787655576.0334868,
+    "seen": 1788949133.075635,
+    "ast_hash": "40ad496d7a41bfd2d5f2cc3abfafa0ae",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/home/home.component.html": {
+    "mtime": 1788437611.4846961,
+    "seen": 1788949133.075636,
+    "ast_hash": "ef41e229f8a29a3fb0016fb5bc1c4bf9",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/kupovina-paketa/kupovina-paketa.component.html": {
+    "mtime": 1788864148.7486725,
+    "seen": 1788949133.0756366,
+    "ast_hash": "adaefcaada1978120cd84a69f6ce975b",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/moji-pregledi/moji-pregledi.component.html": {
+    "mtime": 1788867662.2110722,
+    "seen": 1788949133.0756378,
+    "ast_hash": "bcc75b857919c0af543ee229c3d645b7",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/paketi/paketi.component.html": {
+    "mtime": 1787655576.0963862,
+    "seen": 1788949133.0756388,
+    "ast_hash": "c2df4a05d28fc4140c3a74ad69184871",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/refundacije/refundacije.component.html": {
+    "mtime": 1788868276.8416042,
+    "seen": 1788949133.0756395,
+    "ast_hash": "ceead4acd2392d2f8047bfdd48db5224",
+    "semantic_hash": ""
+  },
+  "src/app/components/portali/zakazi-pregled/zakazi-pregled.component.html": {
+    "mtime": 1788948993.5930123,
+    "seen": 1788949133.0756402,
+    "ast_hash": "59e79eff6c8f1d6a96adb4a2ca4f2d3d",
+    "semantic_hash": ""
+  },
+  "src/app/components/profil/profil.component.html": {
+    "mtime": 1788936525.741091,
+    "seen": 1788949133.0756412,
+    "ast_hash": "39a6152917c68bfcee5b691ea1fd558c",
+    "semantic_hash": ""
+  },
+  "src/app/components/reset-password/reset-password.component.html": {
+    "mtime": 1788936525.7586248,
+    "seen": 1788949133.075642,
+    "ast_hash": "920acba9a0a9d20295c8ff64b6bac535",
+    "semantic_hash": ""
+  },
+  "src/index.html": {
+    "mtime": 1787655575.7162833,
+    "seen": 1788949133.0756428,
+    "ast_hash": "d5772c905debee9296a0ade32b94a802",
+    "semantic_hash": ""
+  },
+  "src/assets/docs/Informacije o obradi podataka o li\u010dnosti.pdf": {
+    "mtime": 1787655576.6719384,
+    "seen": 1788949133.0756512,
+    "ast_hash": "f01f89eac4bf6b13bd8c12a70a000462",
+    "semantic_hash": ""
+  },
+  "src/assets/docs/Tabela razumnih i uobicajenih troskova.pdf": {
+    "mtime": 1787655576.6858459,
+    "seen": 1788949133.0756521,
+    "ast_hash": "289be9371e6b489f6a91858fa8978a40",
+    "semantic_hash": ""
+  },
+  "src/assets/docs/Uslovi za kolektivno dobrovoljno zdravstveno osiguranje.pdf": {
+    "mtime": 1787655576.6858459,
+    "seen": 1788949133.0756528,
+    "ast_hash": "b5e3498440d27e0b389d7da6bf936074",
+    "semantic_hash": ""
+  },
+  "src/assets/images/Futer.png": {
+    "mtime": 1787655576.7195964,
+    "seen": 1788949133.0756538,
+    "ast_hash": "b5cac741cc9545113c5e694f03848631",
+    "semantic_hash": ""
+  },
+  "src/assets/images/GlobosMedic.png": {
+    "mtime": 1787655576.7195964,
+    "seen": 1788949133.0756547,
+    "ast_hash": "c5a584f207dad4081047f1ed1bb2e18f",
+    "semantic_hash": ""
+  },
+  "src/assets/images/GlobosMedicIseceno.png": {
+    "mtime": 1787655576.735425,
+    "seen": 1788949133.0756557,
+    "ast_hash": "bb43523bf05159963f5e734757ab6f84",
+    "semantic_hash": ""
+  },
+  "src/assets/images/Heder.png": {
+    "mtime": 1787655576.7496226,
+    "seen": 1788949133.0756564,
+    "ast_hash": "1b7bd6f2de223c998aaa1af4c8169f59",
+    "semantic_hash": ""
+  }
+}

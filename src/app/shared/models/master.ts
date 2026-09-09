@@ -133,11 +133,15 @@ export interface CoveredService {
   paketPodpokriceId: number;
   nazivPodpokrica: string;
   vrstaLimita: string;
+  remainingAmount: number | null;
+  remainingVisits: number | null;
 }
 
 export interface InstitutionForService {
   medUstanovaId: number;
   nazivUstanove: string;
+  cena: number | null;
+  valuta: string | null;
 }
 
 export interface BookAppointmentRequest {
@@ -151,6 +155,11 @@ export interface BookAppointmentResult {
   onlineUputId: number;
   uputBroj: string;
   status: string;
+  cena: number | null;
+  valuta: string | null;
+  vrstaLimita: string | null;
+  remainingAmount: number | null;
+  remainingVisits: number | null;
 }
 
 export interface MyAppointment {

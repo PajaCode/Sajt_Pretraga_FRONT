@@ -48,6 +48,13 @@
           <p-card header="Pregled izbora">
             <p><strong>Usluga:</strong> {{izabranaUsluga?.nazivUsluge}}</p>
             <p><strong>Ustanova:</strong> {{izabranaUstanova?.nazivUstanove}}</p>
+            <p *ngIf="izabranaUstanova?.cena != null"><strong>Cena:</strong> {{izabranaUstanova?.cena}} {{izabranaUstanova?.valuta}}</p>
+            <p *ngIf="izabranaUsluga?.vrstaLimita === 'Iznos' && izabranaUsluga?.remainingAmount != null">
+              <strong>Preostalo pokriće:</strong> {{izabranaUsluga?.remainingAmount}}
+            </p>
+            <p *ngIf="izabranaUsluga?.vrstaLimita === 'BrojOdlazaka' && izabranaUsluga?.remainingVisits != null">
+              <strong>Preostalo odlazaka:</strong> {{izabranaUsluga?.remainingVisits}}
+            </p>
             <p><strong>Datum:</strong> {{zakaziForm.get('datum').value}}</p>
             <p><strong>Vreme:</strong> {{zakaziForm.get('vreme').value}}</p>
           </p-card>
