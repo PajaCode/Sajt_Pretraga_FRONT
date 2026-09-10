@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -7,6 +7,7 @@ import { LazyLoadEvent, PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { LoginRegisterComponent } from 'src/app/components/login-register/login-register.component';
 import { MedUstanova } from 'src/app/shared/models/medUstanova';
+import { InstitutionForService } from 'src/app/shared/models/master';
 import { DzoService } from 'src/app/shared/services/dzo.service';
 
 @Component({
@@ -14,9 +15,16 @@ import { DzoService } from 'src/app/shared/services/dzo.service';
   templateUrl: './dzo.component.html',
   styleUrls: ['./dzo.component.scss'],
 })
-export class DzoComponent implements OnInit {
+export class DzoComponent implements OnInit, OnChanges {
 
-  medicinskeUstanove: MedUstanova[] = [];
+  // FIX F - institution-picker modal (Zakazi pregled) reuse-uje ovu istu komponentu
+  // umesto duplirane tabele/search-a. selectionMode=true: institutions dolaze kao
+  // @Input (vec filtrirane po usluzi od strane backend-a), bez DZO_GetMedUstanove poziva.
+  @Input() selectionMode: boolean = false;
+  @Input() institutions: InstitutionForService[] = [];
+  @Output() institutionSelected = new EventEmitter<InstitutionForService>();
+
+  medicinskeUstanove: any[] = [];
 
   loadingTable: boolean;
   loadingPDF: boolean;
@@ -33,10 +41,47 @@ export class DzoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (this.selectionMode) {
+      this.loadingTable = false;
+      this.setInstitutions(this.institutions);
+      return;
+    }
 
     this.getTable();
 
     this.loadingTable = true;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.selectionMode && changes['institutions'] && !changes['institutions'].firstChange) {
+      this.setInstitutions(this.institutions);
+    }
+  }
+
+  private setInstitutions(list: InstitutionForService[]): void {
+    this.originalMedicinskeUstanove = (list || []).map(i => ({
+      medUstanovaId: i.medUstanovaId,
+      naziv: i.nazivUstanove,
+      grad: i.grad || '',
+      adresa: i.adresa || '',
+      cena: i.cena,
+      valuta: i.valuta,
+    }));
+    this.gradFilter = '';
+    this.nazivFilter = '';
+    this.adresaFilter = '';
+    this.medicinskeUstanove = [...this.originalMedicinskeUstanove];
+  }
+
+  selectInstitution(row: any): void {
+    this.institutionSelected.emit({
+      medUstanovaId: row.medUstanovaId,
+      nazivUstanove: row.naziv,
+      grad: row.grad,
+      adresa: row.adresa,
+      cena: row.cena,
+      valuta: row.valuta,
+    });
   }
 
   getTable() {

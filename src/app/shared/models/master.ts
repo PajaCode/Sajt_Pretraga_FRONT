@@ -46,6 +46,9 @@ export interface PackageCoveredService {
   medUslugaId: number;
   nazivUsluge: string;
   kategorija: string | null;
+  brojUstanova: number;
+  cenaMin: number | null;
+  cenaMax: number | null;
 }
 
 export interface PackageSubCoverage {
@@ -55,6 +58,9 @@ export interface PackageSubCoverage {
   limitVrednost: number | null;
   sumaOsiguranja: number | null;
   usluge: PackageCoveredService[];
+  iskorisceno: number | null;
+  rezervisano: number | null;
+  preostalo: number | null;
 }
 
 export interface PackageCoverage {
@@ -63,6 +69,21 @@ export interface PackageCoverage {
   sumaOsiguranja: number | null;
   ucesceProcenat: number | null;
   podpokrica: PackageSubCoverage[];
+  iskorisceno: number | null;
+  rezervisano: number | null;
+  preostalo: number | null;
+}
+
+export interface PackageUsageHistoryItem {
+  pregledStatusId: number;
+  datumPregleda: string | null;
+  nazivUsluge: string;
+  nazivUstanove: string | null;
+  cena: number | null;
+  valuta: string | null;
+  status: string;
+  nazivPokrica: string | null;
+  nazivPodpokrica: string | null;
 }
 
 export interface PackageDetails {
@@ -74,6 +95,7 @@ export interface PackageDetails {
   valuta: string;
   trajanjeDana: number;
   glavnaPokrica: PackageCoverage[];
+  istorijaKoriscenja: PackageUsageHistoryItem[] | null;
 }
 
 export interface PaymentInitiateResult {
@@ -140,6 +162,8 @@ export interface CoveredService {
 export interface InstitutionForService {
   medUstanovaId: number;
   nazivUstanove: string;
+  grad: string | null;
+  adresa: string | null;
   cena: number | null;
   valuta: string | null;
 }

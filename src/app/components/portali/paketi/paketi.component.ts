@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { DzoService } from 'src/app/shared/services/dzo.service';
 import { CurrentUserService } from 'src/app/shared/services/current-user.service';
+import { MasterService } from 'src/app/shared/services/master.service';
+import { PackageCoverage, PackageSubCoverage, PackageUsageHistoryItem } from 'src/app/shared/models/master';
 import * as moment from 'moment';
 
 
@@ -15,7 +16,6 @@ import * as moment from 'moment';
 
 export class PaketiComponent implements OnInit {
   skeleton = true;
-  JMBG: string;
 
   loadingPokrica: boolean = true;
   loadingPodPokrica: boolean = true;
@@ -25,12 +25,15 @@ export class PaketiComponent implements OnInit {
   paketiPodPokrica: any[] = []
   selectedPaket: any;
 
+  istorijaKoriscenja: PackageUsageHistoryItem[] = [];
+  loadingIstorija: boolean = true;
+
   detaljiPolise!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
-    private dzoService: DzoService,
+    private masterService: MasterService,
     private currentUserService: CurrentUserService,
     private toster: ToastrService,
   ) {
@@ -55,9 +58,10 @@ export class PaketiComponent implements OnInit {
     });
   }
 
-  // Sprint 2: identitet/polisa dolaze iz CurrentUserService (trusted MR podaci,
-  // vec ucitani preko PurchaseGuard/AuthGuard), ne iz legacy ApiService.getUserDetails.
-  // Iskoriscenost po paketima/podpokricima ostaje na postojecem DzoService toku (JMBG).
+  // FIX G3: identitet/polisa dolaze iz CurrentUserService (trusted MR podaci), a
+  // iskoriscenost/rezervacija/preostalo/istorija dolaze iz GET /api/Master/packages/{id}
+  // (MR_Paket/MR_PregledStatus tok), umesto starog legacy DzoService/JMBG toka koji nikad
+  // nije video preglede zakazane kroz novi Master flow.
   getDetaljiPolise() {
     this.currentUserService.ensureLoaded().subscribe(user => {
       if (!user) {
@@ -65,7 +69,6 @@ export class PaketiComponent implements OnInit {
         return;
       }
 
-      this.JMBG = user.jmbg;
       this.skeleton = false;
 
       this.detaljiPolise.patchValue({
@@ -81,54 +84,68 @@ export class PaketiComponent implements OnInit {
         firma: `${user.ime} ${user.prezime}`,
       });
 
-      if (!this.JMBG) {
+      if (!user.paketId) {
         this.loadingPokrica = false;
+        this.loadingIstorija = false;
         return;
       }
 
-      this.dzoService.getIskoriscenostPoPaketima(this.JMBG).subscribe(res => {
+      this.masterService.getPackageDetails(user.paketId).subscribe(res => {
         if (res.success) {
           this.loadingPokrica = false;
-          this.paketiPokrica = res.resultList;
+          this.loadingIstorija = false;
+          this.paketiPokrica = res.data.glavnaPokrica.map(pokrice => this.mapPokrice(pokrice));
+          this.istorijaKoriscenja = res.data.istorijaKoriscenja ?? [];
         }
-        else
+        else {
+          this.loadingPokrica = false;
+          this.loadingIstorija = false;
           this.toster.error(res.message, 'Globos osiguranje');
+        }
       });
     });
   }
-  // Metoda je zamenjena sa selectProductOnClick metodom (event klik na dugme detalji)
-  selectProduct() {
 
+  private mapPokrice(pokrice: PackageCoverage) {
+    return {
+      idPaketa: pokrice.id,
+      nazivPokrice: pokrice.nazivPokrice,
+      iskorisceno: pokrice.iskorisceno ?? 0,
+      preostalo: pokrice.sumaOsiguranja == null ? 'Bez limita' : (pokrice.preostalo ?? 0),
+      suma_osiguranja: pokrice.sumaOsiguranja ?? 0,
+      ucesceOsiguranika: pokrice.ucesceProcenat ?? 0,
+      podpokrica: pokrice.podpokrica,
+    };
+  }
+
+  private vrstaLimitaLabel(vrstaLimita: string): string {
+    switch (vrstaLimita) {
+      case 'BrojOdlazaka': return 'Broj odlazaka';
+      case 'BezLimita': return 'Bez limita';
+      default: return 'Iznos';
+    }
+  }
+
+  selectProductOnClick(pokrice: any, nazivPokrice: string) {
     this.tabelaPodPokrica = true;
+    this.selectedPaket = nazivPokrice;
+    this.loadingPodPokrica = true;
 
-    this.dzoService.getIskoriscenostPoPodpokricima(this.JMBG, this.selectedPaket.idPaketa).subscribe(res => {
-      if (res.success) {
-        this.paketiPodPokrica = res.resultList;
-        this.loadingPodPokrica = false;
-      }
-      else
-        this.toster.error(res.message, 'Globos osiguranje');
-    });
+    this.paketiPodPokrica = (pokrice.podpokrica as PackageSubCoverage[]).map(pod => ({
+      paket: nazivPokrice,
+      suma_Osiguranja: pod.sumaOsiguranja ?? 0,
+      nazivPodpokrica: pod.nazivPodpokrica,
+      vrsta_Limita: this.vrstaLimitaLabel(pod.vrstaLimita),
+      limit: pod.limitVrednost,
+      iskorisceno: pod.iskorisceno ?? 0,
+      preostalo: pod.sumaOsiguranja == null ? 'Bez limita' : (pod.preostalo ?? 0),
+      usluge: pod.usluge,
+    }));
+    this.loadingPodPokrica = false;
   }
 
   formatNumber(value: string): string {
     return parseFloat(value).toFixed(2) + ' €';
-  }
-
-  selectProductOnClick(idPaketa, nazivPokrice) {
-
-    this.tabelaPodPokrica = true;
-
-    this.dzoService.getIskoriscenostPoPodpokricima(this.JMBG, idPaketa).subscribe(res => {
-      if (res.success) {
-        this.paketiPodPokrica = res.resultList;
-        this.loadingPodPokrica = false;
-        this.selectedPaket = nazivPokrice;
-
-      }
-      else
-        this.toster.error(res.message, 'Globos osiguranje');
-    });
   }
 
 }

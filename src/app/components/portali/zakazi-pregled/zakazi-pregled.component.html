@@ -19,12 +19,17 @@
 
         <div class="row">
           <label for="medUstanovaId">Ustanova</label>
-          <p-dropdown formControlName="medUstanovaId" [options]="institutions" optionLabel="nazivUstanove"
-            optionValue="medUstanovaId" [filter]="true" filterBy="nazivUstanove" placeholder="Izaberite ustanovu"
-            [style]="{width: '100%'}" [showClear]="false"></p-dropdown>
+          <div class="p-inputgroup">
+            <input type="text" pInputText readonly [value]="izabranaUstanovaPrikaz">
+            <button pButton pRipple type="button" label="Izaberi ustanovu" class="p-button-sm"
+              [disabled]="!zakaziForm.get('medUslugaId').value" (click)="openInstitutionModal()"></button>
+          </div>
+          <small *ngIf="!zakaziForm.get('medUslugaId').value">
+            Prvo izaberite pokrivenu uslugu da biste mogli da izaberete ustanovu.
+          </small>
           <small class="p-error"
             *ngIf="zakaziForm.get('medUstanovaId').touched && zakaziForm.get('medUstanovaId').invalid">
-            Ustanova je obavezna.
+            Morate izabrati zdravstvenu ustanovu.
           </small>
         </div>
 
@@ -91,5 +96,15 @@
 
       </div>
     </form>
+
+    <p-dialog header="Izbor zdravstvene ustanove" [(visible)]="institutionModalVisible" [modal]="true"
+      [style]="{width: '70rem'}" [dismissableMask]="true">
+      <app-dzo *ngIf="institutionModalVisible" [selectionMode]="true" [institutions]="institutions"
+        (institutionSelected)="onInstitutionSelected($event)"></app-dzo>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple type="button" label="Zatvori" icon="pi pi-times" class="p-button-text"
+          (click)="institutionModalVisible = false"></button>
+      </ng-template>
+    </p-dialog>
   </p-fieldset>
 </div>

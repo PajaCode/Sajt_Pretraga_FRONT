@@ -114,6 +114,10 @@ export class ZakaziPregledComponent implements OnInit {
   loadingUstanove: boolean = false;
   institutions: InstitutionForService[] = [];
 
+  // FIX F - DZO komponenta se reuse-uje kao institution-picker modal umesto
+  // p-dropdown-a; institutions je vec filtrirano po izabranoj usluzi od backend-a.
+  institutionModalVisible: boolean = false;
+
   loadingRadnoVreme: boolean = false;
   workingHours: WorkingHour[] = [];
 
@@ -133,7 +137,7 @@ export class ZakaziPregledComponent implements OnInit {
   ) {
     this.zakaziForm = this.fb.group({
       medUslugaId: [null, Validators.required],
-      medUstanovaId: [{ value: null, disabled: true }, Validators.required],
+      medUstanovaId: [null, Validators.required],
       datum: [null, [Validators.required, validDateValidator, notPastDateValidator]],
       vreme: [null, [Validators.required, validTimeValidator]],
     });
@@ -157,7 +161,6 @@ export class ZakaziPregledComponent implements OnInit {
       this.zakaziForm.get('medUstanovaId').reset();
 
       if (!medUslugaId) {
-        this.zakaziForm.get('medUstanovaId').disable();
         return;
       }
 
@@ -167,7 +170,6 @@ export class ZakaziPregledComponent implements OnInit {
           this.loadingUstanove = false;
           if (res.success) {
             this.institutions = res.data || [];
-            this.zakaziForm.get('medUstanovaId').enable();
           } else {
             this.toster.error(res.message, 'Globos osiguranje');
           }
@@ -208,6 +210,28 @@ export class ZakaziPregledComponent implements OnInit {
   get izabranaUstanova(): InstitutionForService | undefined {
     const id = this.zakaziForm.get('medUstanovaId').value;
     return this.institutions.find(u => u.medUstanovaId === id);
+  }
+
+  // Prikaz u readonly polju: "Naziv, Adresa, Grad".
+  get izabranaUstanovaPrikaz(): string {
+    const ustanova = this.izabranaUstanova;
+    if (!ustanova) {
+      return 'Nije izabrana zdravstvena ustanova';
+    }
+    return [ustanova.nazivUstanove, ustanova.adresa, ustanova.grad].filter(deo => !!deo).join(', ');
+  }
+
+  openInstitutionModal(): void {
+    if (!this.zakaziForm.get('medUslugaId').value) {
+      return;
+    }
+    this.institutionModalVisible = true;
+  }
+
+  onInstitutionSelected(institution: InstitutionForService): void {
+    this.zakaziForm.get('medUstanovaId').setValue(institution.medUstanovaId);
+    this.zakaziForm.get('medUstanovaId').markAsTouched();
+    this.institutionModalVisible = false;
   }
 
   private get parsedDatum(): moment.Moment | null {
