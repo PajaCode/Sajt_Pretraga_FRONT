@@ -144,6 +144,14 @@ export interface InstitutionForService {
   valuta: string | null;
 }
 
+// FIX D - MR_GetMedUstanovaRadnoVreme. DanUNedelji je ISO 8601 (1=Ponedeljak..7=Nedelja).
+// VremeOd/VremeDo dolaze kao "HH:mm:ss" (TimeSpan serijalizacija).
+export interface WorkingHour {
+  danUNedelji: number;
+  vremeOd: string;
+  vremeDo: string;
+}
+
 export interface BookAppointmentRequest {
   medUslugaId: number;
   medUstanovaId: number;

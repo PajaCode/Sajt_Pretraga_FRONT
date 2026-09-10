@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/enviroments/environment';
 import { ApiResponse } from '../models/api-response';
 import { CurrentUser } from '../models/current-user';
-import { BookAppointmentRequest, BookAppointmentResult, ConfirmEmailRequest, ConfirmEmailResult, CoveredService, DocumentListItem, ForgotPasswordRequest, InstitutionForService, MyAppointment, PackageDetails, PackageListItem, PaymentConfirmMockRequest, PaymentConfirmResult, PaymentInitiateResult, PurchaseCompleteRequest, PurchaseCompleteResult, RegisterRequest, RegisterResult, ResendActivationEmailRequest, ResendActivationEmailResult, ResetPasswordRequest, SyncDocumentationItem, UpdateProfileRequest, ValidateResetTokenRequest } from '../models/master';
+import { BookAppointmentRequest, BookAppointmentResult, ConfirmEmailRequest, ConfirmEmailResult, CoveredService, DocumentListItem, ForgotPasswordRequest, InstitutionForService, MyAppointment, PackageDetails, PackageListItem, PaymentConfirmMockRequest, PaymentConfirmResult, PaymentInitiateResult, PurchaseCompleteRequest, PurchaseCompleteResult, RegisterRequest, RegisterResult, ResendActivationEmailRequest, ResendActivationEmailResult, ResetPasswordRequest, SyncDocumentationItem, UpdateProfileRequest, ValidateResetTokenRequest, WorkingHour } from '../models/master';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +73,10 @@ export class MasterService {
 
   getInstitutionsForService(medUslugaId: number): Observable<ApiResponse<InstitutionForService[]>> {
     return this.http.get<ApiResponse<InstitutionForService[]>>(this.baseApiMaster + 'institutions-for-service/' + medUslugaId);
+  }
+
+  getInstitutionWorkingHours(medUstanovaId: number): Observable<ApiResponse<WorkingHour[]>> {
+    return this.http.get<ApiResponse<WorkingHour[]>>(this.baseApiMaster + 'institutions/' + medUstanovaId + '/working-hours');
   }
 
   bookAppointment(request: BookAppointmentRequest): Observable<ApiResponse<BookAppointmentResult>> {

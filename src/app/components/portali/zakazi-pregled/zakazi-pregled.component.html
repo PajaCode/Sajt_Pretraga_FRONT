@@ -28,19 +28,43 @@
           </small>
         </div>
 
+        <div class="row" *ngIf="izabranaUstanova">
+          <small *ngIf="loadingRadnoVreme">Učitavanje radnog vremena...</small>
+          <small *ngIf="!loadingRadnoVreme && radnoVremePrikaz">{{radnoVremePrikaz}}</small>
+        </div>
+
         <div class="row">
           <label for="datum">Datum pregleda</label>
-          <input type="date" pInputText formControlName="datum" [min]="minDatum" />
-          <small class="p-error" *ngIf="zakaziForm.get('datum').touched && zakaziForm.get('datum').invalid">
-            Datum je obavezan i ne može biti u prošlosti.
+          <p-calendar formControlName="datum" id="datum" dateFormat="dd.mm.yy" placeholder="dd.mm.gggg"
+            [showIcon]="true" [minDate]="minDate" [keepInvalid]="true" dataType="date"
+            (onBlur)="onDatumBlur()" (onSelect)="onDatumBlur()" [style]="{width: '60%'}">
+          </p-calendar>
+          <small class="p-error" *ngIf="zakaziForm.get('datum').touched && zakaziForm.get('datum').hasError('required')">
+            Datum je obavezan.
+          </small>
+          <small class="p-error" *ngIf="zakaziForm.get('datum').touched && zakaziForm.get('datum').hasError('invalidDate')">
+            Datum nije validan. Koristite format dd.mm.gggg.
+          </small>
+          <small class="p-error" *ngIf="zakaziForm.get('datum').touched && zakaziForm.get('datum').hasError('pastDate')">
+            Datum pregleda ne može biti u prošlosti.
           </small>
         </div>
 
         <div class="row">
           <label for="vreme">Vreme pregleda</label>
-          <input type="time" pInputText formControlName="vreme" />
-          <small class="p-error" *ngIf="zakaziForm.get('vreme').touched && zakaziForm.get('vreme').invalid">
+          <p-calendar formControlName="vreme" id="vreme" [timeOnly]="true" hourFormat="24" placeholder="HH:mm"
+            [keepInvalid]="true" dataType="date" (onBlur)="onVremeBlur()" (onSelect)="onVremeBlur()"
+            [disabled]="!izabranaUstanova || (zakaziForm.get('datum').valid && !!zakaziForm.get('datum').value && !radnoVremeZaIzabranDan)"
+            [style]="{width: '60%'}">
+          </p-calendar>
+          <small class="p-error" *ngIf="zakaziForm.get('vreme').touched && zakaziForm.get('vreme').hasError('required')">
             Vreme je obavezno.
+          </small>
+          <small class="p-error" *ngIf="zakaziForm.get('vreme').touched && zakaziForm.get('vreme').hasError('invalidTime')">
+            Vreme nije validno. Koristite format HH:mm (00:00-23:59).
+          </small>
+          <small class="p-error" *ngIf="zakaziForm.get('vreme').value && vremeGreska">
+            {{vremeGreska}}
           </small>
         </div>
 
@@ -55,14 +79,14 @@
             <p *ngIf="izabranaUsluga?.vrstaLimita === 'BrojOdlazaka' && izabranaUsluga?.remainingVisits != null">
               <strong>Preostalo odlazaka:</strong> {{izabranaUsluga?.remainingVisits}}
             </p>
-            <p><strong>Datum:</strong> {{zakaziForm.get('datum').value}}</p>
-            <p><strong>Vreme:</strong> {{zakaziForm.get('vreme').value}}</p>
+            <p><strong>Datum:</strong> {{datumPrikaz}}</p>
+            <p><strong>Vreme:</strong> {{vremeString}}</p>
           </p-card>
         </div>
 
         <div class="row" style="margin-top: 12px;">
           <button pButton pRipple type="submit" label="Zakaži pregled" class="p-button-sm"
-            [disabled]="submitting"></button>
+            [disabled]="submitting || !pregledSpreman"></button>
         </div>
 
       </div>
