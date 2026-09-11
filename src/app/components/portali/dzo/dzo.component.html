@@ -1,18 +1,18 @@
-<!-- <br> -->
-<div class="row">
-  <p-fieldset legend="Zdravstvene ustanove" class="mb-3" *ngIf="!selectionMode">
-    <p> Ovde možete pogledati i pretraživati medicinske ustanove iz GlobosMedic mreže. Kada pronađete ustanovu koja
+<div class="gm-page gm-dzo-page" [ngClass]="{'gm-dzo-page-embedded': selectionMode}">
+  <div class="gm-dzo-intro">
+    <h2 class="gm-section-title">Zdravstvene ustanove</h2>
+    <p class="gm-muted">Ovde možete pogledati i pretraživati medicinske ustanove iz GlobosMedic mreže. Kada pronađete ustanovu koja
       najviše odgovara Vašim potrebama, neophodno je da pozovete GlobosMedic kontakt, kako bi usluga bila odobrena i
       pregled zakazan u terminu koji Vama odgovara.</p>
-    <p>GlobosMedic kontakt centar je dostupan 24 časa dnevno, tokom cele godine na broju telefona
-      <a href="tel:011 36 36 958">011 36 36 958</a>.
+    <p class="gm-muted">GlobosMedic kontakt centar je dostupan 24 časa dnevno, tokom cele godine na broju telefona
+      <a href="tel:0113636939">011/36-36-939</a>.
     </p>
-    <p-divider align="center">
+    <div class="gm-dzo-pdf-footer">
       <p-button label="Spisak zdravstvenih ustanova" icon="pi pi-file-pdf" (onClick)="savePDF()" [loading]="loadingPDF"
         pTooltip="Preuzmite spisak zdravstvenih ustanova u PDF formatu" tooltipPosition="bottom"
-        styleClass="p-button-raised p-button-sm p-button-text p-button-danger"></p-button>
-    </p-divider>
-  </p-fieldset>
+        styleClass="p-button-outlined p-button-sm"></p-button>
+    </div>
+  </div>
 
   <p-card>
     <p-table [value]="medicinskeUstanove" dataKey="id" styleClass="p-datatable-sm p-datatable-striped" [rows]="10"

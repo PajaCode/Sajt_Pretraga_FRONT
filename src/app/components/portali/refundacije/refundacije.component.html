@@ -1,59 +1,56 @@
-<div class="row">
-    <p-fieldset legend="Zahtev za refundaciju" class="mb-3">
+<div class="gm-page gm-refund-page">
+  <h2 class="gm-section-title">Zahtev za refundaciju</h2>
 
-        <p *ngIf="ime">
-            Podnosilac zahteva: <strong>{{ime}} {{prezime}}</strong>
-            <span *ngIf="brKartice"> — kartica {{brKartice}}</span>
-        </p>
+  <p class="gm-refund-applicant" *ngIf="ime">
+    Podnosilac zahteva: <strong>{{ime}} {{prezime}}</strong>
+    <span *ngIf="brKartice"> — kartica {{brKartice}}</span>
+  </p>
 
-        <div class="row">
-            <div class="col">
-                Šta je potrebno za refundaciju ?
-                <br>
-                <br>
-                <ul>
-                    <li>Popunjen Zahtev za prijavu štete dobrovoljnog zdravstvenog osiguranja koji mozete preuzeti sa
-                        <a href="https://www.globos.rs/storage/files/Zahtev_za_prijavu_osiguranog_slu%C4%8Daja_GlobosMedic_dobrovoljnog_zdravstvenog_osiguranja_03-31-2022_11:40:58.pdf" target="_blank">linka</a>.
-                        (Ljubazno vas molimo da pažljivo popunite zahtev )
-                    </li>
-                    <br>
-                    <li>Medicinska dokumentacija – overena pečatom i potpisom lekara koji je pružio uslugu</li> <br>
-                    <li>Fiskalni račun za primljene usluge</li> <br>
-                </ul>
+  <div class="gm-refund-layout">
+    <div class="gm-refund-card gm-refund-info">
+      <h3><i class="pi pi-info-circle"></i>&nbsp;Šta je potrebno za refundaciju?</h3>
+      <ul>
+        <li>
+          Popunjen Zahtev za prijavu štete dobrovoljnog zdravstvenog osiguranja koji možete preuzeti sa
+          <a href="https://www.globos.rs/storage/files/Zahtev_za_prijavu_osiguranog_slu%C4%8Daja_GlobosMedic_dobrovoljnog_zdravstvenog_osiguranja_03-31-2022_11:40:58.pdf" target="_blank">linka</a>.
+          (Ljubazno vas molimo da pažljivo popunite zahtev)
+        </li>
+        <li>Medicinska dokumentacija – overena pečatom i potpisom lekara koji je pružio uslugu</li>
+        <li>Fiskalni račun za primljene usluge</li>
+      </ul>
 
-                U skladu sa <a
-                    href="/assets/docs/Uslovi za kolektivno dobrovoljno zdravstveno osiguranje.pdf"
-                    target="_blank">Uslovima osiguranja</a> osiguravač se obavezuje da nadoknadi razumne i uobičajene
-                troškove lečenja medicinski opravdanog tretmana na teritoriji Republike Srbije, maksimalno do iznosa
-                suma osiguranja i pojedinačnih podlimita predviđenih ugovorom o osiguranju.
-                <br><br>
-                Svi iznosi veći od <a
-                    href="/assets/docs/Tabela razumnih i uobicajenih troskova.pdf" target="_blank">razumnih i uobičajenih troškova</a> padaju na teret
-                osiguranog lica.
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col">
-                <label for="formFile">Prilog za prateće dokumente</label>
-                <div class="col">
-                    <button type="button" class="btn btn-primary" color="primary" (click)="fileInput.click()">Izaberite
-                        fajl</button>
-                    <input hidden class="mr-auto" type="file" id="formFile" #fileInput (change)="handleFileInput($event)"
-                        multiple>
-                    <div *ngFor="let f of nazivFajla">
-                        <span>&nbsp;&nbsp;{{f}}</span>
-                        <button type="button" class="btn-close btn-sm" aria-label="Close" (click)="removeFile(f)"></button>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <label for="mejl">Slanje mejla Globos Medicu</label>
-                <div class="col">
-                    <p-button icon="fa fa-envelope" [disabled]="sending" (onClick)="sendMail()"></p-button>
-                </div>
-            </div>
-        </div>
+      <p class="gm-refund-terms">
+        U skladu sa <a href="/assets/docs/Uslovi za kolektivno dobrovoljno zdravstveno osiguranje.pdf" target="_blank">Uslovima osiguranja</a>
+        osiguravač se obavezuje da nadoknadi razumne i uobičajene troškove lečenja medicinski opravdanog tretmana na
+        teritoriji Republike Srbije, maksimalno do iznosa suma osiguranja i pojedinačnih podlimita predviđenih ugovorom o osiguranju.
+      </p>
+      <p class="gm-refund-terms">
+        Svi iznosi veći od <a href="/assets/docs/Tabela razumnih i uobicajenih troskova.pdf" target="_blank">razumnih i uobičajenih troškova</a>
+        padaju na teret osiguranog lica.
+      </p>
+    </div>
 
-    </p-fieldset>
+    <div class="gm-refund-card gm-refund-upload">
+      <h3><i class="pi pi-upload"></i>&nbsp;Prilog za prateće dokumente</h3>
+
+      <div class="gm-dropzone" [class.gm-dropzone-active]="dragOver"
+        (click)="fileInput.click()"
+        (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+        <i class="pi pi-cloud-upload"></i>
+        <p>Prevucite fajlove ovde ili <span class="gm-dropzone-link">kliknite da izaberete</span></p>
+        <input hidden type="file" id="formFile" #fileInput (change)="handleFileInput($event)" multiple>
+      </div>
+
+      <div class="gm-file-chip" *ngFor="let f of nazivFajla">
+        <i class="pi pi-file"></i>
+        <span [pTooltip]="f" tooltipPosition="top">{{f}}</span>
+        <button type="button" class="gm-file-chip-remove" aria-label="Ukloni fajl" (click)="removeFile(f)">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+
+      <button pButton type="button" label="Pošalji zahtev" icon="pi pi-envelope" class="gm-refund-send"
+        [loading]="sending" [disabled]="sending" (click)="sendMail()"></button>
+    </div>
+  </div>
 </div>

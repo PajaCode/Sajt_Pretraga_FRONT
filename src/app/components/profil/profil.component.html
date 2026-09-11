@@ -1,215 +1,114 @@
-<div class="flex justify-content-center">
-  <p-accordion [activeIndex]="0">
-    <p-accordionTab>
-      <ng-template pTemplate="header">
-        <div class="flex align-items-center">
-          <i class="pi pi-user mr-2"></i>
-          <span class="vertical-align-middle">Osnovni podaci</span>
+<div class="gm-page gm-profile-page">
+  <h2 class="gm-section-title">Profil</h2>
+
+  <ng-container *ngIf="skeleton; else profileContent">
+    <div class="gm-profile-card">
+      <div class="gm-skeleton-line" *ngFor="let i of [1,2,3,4,5]" style="margin-bottom: 14px;"></div>
+    </div>
+  </ng-container>
+
+  <ng-template #profileContent>
+    <form [formGroup]="osnovniPodaciForm">
+      <div class="gm-profile-card">
+        <div class="gm-profile-card-header">
+          <h3><i class="pi pi-user"></i>&nbsp;Lični podaci</h3>
         </div>
-      </ng-template>
-      <ng-template pTemplate="content">
-        <ng-container *ngIf="skeleton; else userUpdate">
-          <div class="row">
-            <p-skeleton></p-skeleton>
+        <div class="gm-profile-grid">
+          <div class="gm-field">
+            <label for="ime">Ime</label>
+            <input type="text" pInputText id="ime" formControlName="ime" (keyup.enter)="updateUser()" />
           </div>
-          <div class="row">
-            <p-skeleton></p-skeleton>
-            <p-skeleton></p-skeleton>
+          <div class="gm-field">
+            <label for="prezime">Prezime</label>
+            <input type="text" pInputText id="prezime" formControlName="prezime" (keyup.enter)="updateUser()" />
           </div>
-          <div class="row">
-            <p-skeleton></p-skeleton>
-            <p-skeleton></p-skeleton>
-          </div>
-          <div class="row">
-            <p-skeleton></p-skeleton>
-          </div>
-          <div class="row">
-            <p-skeleton></p-skeleton>
-            <p-skeleton></p-skeleton>
-          </div>
-          <div class="row" style="width: 65%; margin: auto;">
-            <p-skeleton></p-skeleton>
-          </div>
-        </ng-container>
-        <ng-template #userUpdate>
-          <form [formGroup]="osnovniPodaciForm">
-            <div class="flex flex-column mt-1">
-              <div class="row">
-                <div class="p-inputgroup">
-                  <span class="p-inputgroup-addon">
-                    <i class="fas fa-user-circle"></i>
-                  </span>
-                  <span class="p-float-label">
-                    <input type="text" pInputText placeholder="Username" formControlName="username" />
-                    <label for="username">Username</label>
-                  </span>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="p-inputgroup">
-                  <span class="p-inputgroup-addon">
-                    <i class="pi pi-id-card"></i>
-                  </span>
-                  <span class="p-float-label">
-                    <input type="text" pInputText maxlength="13" placeholder="Matični broj" formControlName="jmbg" />
-                    <label for="jmbg">Matični broj (JMBG)</label>
-                  </span>
-                  <small class="text-danger"
-                    *ngIf="osnovniPodaciForm.controls['jmbg'].dirty && osnovniPodaciForm.controls['jmbg'].hasError('jmbg')">*JMBG
-                    nije ispravan.</small>
-                </div>
-                <div class="p-inputgroup">
-                  <span class="p-inputgroup-addon responsive-ikonice-in">
-                    <i class="pi pi-send"></i>
-                  </span>
-                  <span class="p-float-label">
-                    <input type="email" pInputText placeholder="Email" formControlName="email" />
-                    <label for="email">Email</label>
-                  </span>
-                  <span class="p-inputgroup-addon responsive-ikonice-out">
-                    <i class="pi pi-send"></i>
-                  </span>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="p-inputgroup">
-                  <span class="p-inputgroup-addon">
-                    <i class="pi pi-user"></i>
-                  </span>
-                  <span class="p-float-label">
-                    <input type="text" id="ime" pInputText placeholder="Ime" formControlName="ime"
-                      (keyup.enter)="updateUser()" />
-                    <label for="ime">Ime</label>
-                  </span>
-                </div>
-
-                <div class="p-inputgroup">
-                  <span class="p-inputgroup-addon responsive-ikonice-in">
-                    <i class="pi pi-user"></i>
-                  </span>
-                  <span class="p-float-label">
-                    <input type="text" id="prezime" pInputText placeholder="Prezime" formControlName="prezime"
-                      (keyup.enter)="updateUser()" />
-                    <label for="prezime">Prezime</label>
-                  </span>
-                  <span class="p-inputgroup-addon responsive-ikonice-out">
-                    <i class="pi pi-user"></i>
-                  </span>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="p-inputgroup">
-                  <span class="p-inputgroup-addon">
-                    <i class="pi pi-phone"></i>
-                  </span>
-                  <span class="p-float-label">
-                    <p-inputMask mask="+381 69-999/999?9" id="brTelefona" formControlName="brTelefona"
-                      (keyup.enter)="updateUser()"></p-inputMask>
-                    <label for="brTelefona">Broj telefona</label>
-                  </span>
-                </div>
-
-                <div class="p-inputgroup">
-                  <span class="p-inputgroup-addon">
-                    <i class="pi pi-calendar"></i>
-                  </span>
-                  <span class="p-float-label">
-                    <input type="text" pInputText placeholder="Datum rođenja"
-                      [value]="osnovniPodaciForm.controls['datumRodjenja'].value | date:'dd.MM.yyyy'" readonly />
-                    <label for="datumRodjenja">Datum rođenja</label>
-                  </span>
-                </div>
-              </div>
-              <div class="row">
-                <div class="p-inputgroup" style="align-items: center; pointer-events: none; color: #3393e3;">
-                  <span class="p-inputgroup-addon" style="background-color: transparent; border: 1px solid #3393e3;
-                    border-radius: 50%; height: 100%;">
-                    <i class="pi pi-check" style="color: #3393e3;"></i>
-                  </span>
-                  <span style="margin-left: 5px;">
-                    Status naloga: Aktivan
-                  </span>
-                </div>
-              </div>
-              <div class="row buttons">
-                <p-button label="Sačuvaj promene" icon="pi pi-send" [loading]="loadingUpdateUser"
-                  styleClass="p-button-rounded p-button-sm p-button-info" [disabled]="!osnovniPodaciForm.valid"
-                  (onClick)="updateUser()"></p-button>
-              </div>
-            </div>
-          </form>
-        </ng-template>
-      </ng-template>
-    </p-accordionTab>
-    <p-accordionTab>
-      <ng-template pTemplate="header">
-        <div class="flex align-items-center">
-          <i class="pi pi-search mr-2"></i>
-          <span class="vertical-align-middle">Promena lozinke</span>
-          <i class="pi pi-unlock ml-2 ml-2"></i>
         </div>
-      </ng-template>
-      <ng-template pTemplate="content">
-        <ng-container *ngIf="skeleton; else resetPass">
-          <div class="row">
-            <p-skeleton></p-skeleton>
+      </div>
+
+      <div class="gm-profile-card">
+        <div class="gm-profile-card-header">
+          <h3><i class="pi pi-envelope"></i>&nbsp;Kontakt</h3>
+        </div>
+        <div class="gm-profile-grid">
+          <div class="gm-field gm-field-readonly">
+            <label for="email">Email <span class="gm-badge gm-badge-neutral">read-only</span></label>
+            <input type="email" pInputText id="email" formControlName="email" readonly />
           </div>
-          <div class="row">
-            <p-skeleton></p-skeleton>
+          <div class="gm-field">
+            <label for="brTelefona">Broj telefona</label>
+            <p-inputMask mask="+381 69-999/999?9" id="brTelefona" formControlName="brTelefona"
+              (keyup.enter)="updateUser()"></p-inputMask>
           </div>
-          <div class="row" style="width: 70%; margin: auto;">
-            <p-skeleton></p-skeleton>
+        </div>
+      </div>
+
+      <div class="gm-profile-card">
+        <div class="gm-profile-card-header">
+          <h3><i class="pi pi-id-card"></i>&nbsp;Identifikacija</h3>
+          <span class="gm-badge" [ngClass]="accountStatusBadgeClass">Status naloga: {{accountStatusLabel}}</span>
+        </div>
+        <div class="gm-profile-grid">
+          <div class="gm-field gm-field-readonly">
+            <label for="username">Username <span class="gm-badge gm-badge-neutral">read-only</span></label>
+            <input type="text" pInputText id="username" formControlName="username" readonly />
           </div>
-        </ng-container>
-        <ng-template #resetPass>
-          <form [formGroup]="resetPassForm">
-            <div class="flex flex-column mt-1">
-              <div class="row">
-                <div class="p-inputgroup">
-                  <span class="p-inputgroup-addon">
-                    <i class="fas fa-lock"></i>
-                  </span>
-                  <span class="p-float-label">
-                    <p-password formControlName="oldPassword" id="oldPassword" placeholder="Unesite staru lozinku"
-                      [toggleMask]="true" [feedback]="false" placeholder="Unesite staru lozinku"></p-password>
-                    <label for="oldPassword">Stara lozinka</label>
-                  </span>
-                </div>
-              </div>
-              <div class="row">
-                <div class="p-inputgroup">
-                  <span class="p-inputgroup-addon">
-                    <i class="fas fa-lock-open"></i>
-                  </span>
-                  <span class="p-float-label">
-                    <p-password formControlName="newPassword" id="newPassword" [toggleMask]="true"
-                      (keyup.enter)="resetPassword()" placeholder="Unesite novu lozinku" [promptLabel]="'Veoma slaba'"
-                      [weakLabel]="'Slaba'" [mediumLabel]="'Srednja'" [strongLabel]="'Jaka'"
-                      placeholder="Unesite novu lozinku">
-                      <ng-template pTemplate="footer">
-                        <p-divider></p-divider>
-                        <p class="mt-2">Sugestije</p>
-                        <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5; text-align: left;">
-                          <li>{{passwordPolicyHint}}</li>
-                        </ul>
-                      </ng-template>
-                    </p-password>
-                    <label for="newPassword">Nova lozinka</label>
-                  </span>
-                </div>
-              </div>
-              <div class="row buttons">
-                <p-button label="Sačuvaj novu lozinku" icon="pi pi-send" [loading]="loadingResetPass"
-                  styleClass="p-button-rounded p-button-sm p-button-info" [disabled]="!resetPassForm.valid"
-                  (onClick)="resetPassword()"></p-button>
-              </div>
-            </div>
-          </form>
-        </ng-template>
-      </ng-template>
-    </p-accordionTab>
-  </p-accordion>
+          <div class="gm-field">
+            <label for="jmbg">
+              Matični broj (JMBG)
+              <span class="gm-badge gm-badge-neutral" *ngIf="osnovniPodaciForm.controls['jmbg'].disabled">read-only</span>
+            </label>
+            <input type="text" pInputText id="jmbg" maxlength="13" formControlName="jmbg" />
+            <small class="gm-field-error"
+              *ngIf="osnovniPodaciForm.controls['jmbg'].dirty && osnovniPodaciForm.controls['jmbg'].hasError('jmbg')">
+              JMBG nije ispravan.
+            </small>
+          </div>
+          <div class="gm-field gm-field-readonly">
+            <label for="datumRodjenja">Datum rođenja <span class="gm-badge gm-badge-neutral">read-only</span></label>
+            <input type="text" pInputText id="datumRodjenja" readonly
+              [value]="osnovniPodaciForm.controls['datumRodjenja'].value | date:'dd.MM.yyyy'" />
+          </div>
+        </div>
+      </div>
+
+      <div class="gm-profile-actions">
+        <button pButton type="button" label="Sačuvaj promene" icon="pi pi-check" [loading]="loadingUpdateUser"
+          [disabled]="!osnovniPodaciForm.valid" (click)="updateUser()"></button>
+      </div>
+    </form>
+
+    <form [formGroup]="resetPassForm">
+      <div class="gm-profile-card">
+        <div class="gm-profile-card-header">
+          <h3><i class="pi pi-lock"></i>&nbsp;Bezbednost / Promena lozinke</h3>
+        </div>
+        <div class="gm-profile-grid">
+          <div class="gm-field">
+            <label for="oldPassword">Stara lozinka</label>
+            <p-password formControlName="oldPassword" id="oldPassword" placeholder="Unesite staru lozinku"
+              [toggleMask]="true" [feedback]="false"></p-password>
+          </div>
+          <div class="gm-field">
+            <label for="newPassword">Nova lozinka</label>
+            <p-password formControlName="newPassword" id="newPassword" [toggleMask]="true"
+              (keyup.enter)="resetPassword()" placeholder="Unesite novu lozinku" [promptLabel]="'Veoma slaba'"
+              [weakLabel]="'Slaba'" [mediumLabel]="'Srednja'" [strongLabel]="'Jaka'">
+              <ng-template pTemplate="footer">
+                <p-divider></p-divider>
+                <p class="mt-2">Sugestije</p>
+                <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5; text-align: left;">
+                  <li>{{passwordPolicyHint}}</li>
+                </ul>
+              </ng-template>
+            </p-password>
+          </div>
+        </div>
+      </div>
+
+      <div class="gm-profile-actions">
+        <button pButton type="button" label="Sačuvaj novu lozinku" icon="pi pi-refresh" [loading]="loadingResetPass"
+          [disabled]="!resetPassForm.valid" (click)="resetPassword()"></button>
+      </div>
+    </form>
+  </ng-template>
 </div>

@@ -1,49 +1,53 @@
 <div class="row">
   <p-card>
-    <!-- header -->
     <ng-template pTemplate="header">
-      <img alt="Globos osiguranje" src="https://globos.rs/images/logo_194x58.svg" />
+      <img alt="Globos osiguranje" src="https://globos.rs/images/logo_194x58.svg" height="48px" />
+      <img src="/assets/images/GlobosMedicIseceno.png" alt="GlobosMedic" height="26px" class="logoMedic">
     </ng-template>
-    <!-- body -->
     <ng-template pTemplate="body">
       <hr>
 
       <ng-container *ngIf="!confirmed">
-        <h3>Potvrda e-mail adrese</h3>
-        <p>Unesite kod koji ste dobili na e-mail adresu prilikom registracije.</p>
+        <h3 class="p-card-title">Potvrda e-mail adrese</h3>
+        <p class="gm-muted gm-confirm-intro">Unesite kod koji ste dobili na e-mail adresu prilikom registracije.</p>
 
         <form [formGroup]="form" (ngSubmit)="potvrdiKod()">
-          <div class="form-group">
-            <input type="text" class="form-control" formControlName="code" placeholder="Kod za potvrdu"
-              [class.is-invalid]="form.get('code').invalid && form.get('code').dirty" />
+          <div class="flex flex-column">
+            <span class="p-float-label">
+              <input pInputText type="text" formControlName="code" placeholder="Kod za potvrdu"
+                [class.ng-invalid]="form.get('code').invalid && form.get('code').dirty" />
+              <label for="code">Kod za potvrdu</label>
+            </span>
           </div>
-          <button type="submit" class="btn btn-primary" [disabled]="loadingConfirm">
-            {{ loadingConfirm ? 'Potvrđivanje...' : 'Potvrdi' }}
-          </button>
+          <button pButton type="submit" label="Potvrdi" icon="pi pi-check" [loading]="loadingConfirm"></button>
         </form>
 
         <hr>
-        <p>Niste dobili kod ili je istekao?</p>
+        <p class="gm-muted">Niste dobili kod ili je istekao?</p>
         <form [formGroup]="resendForm" (ngSubmit)="posaljiKodPonovo()">
-          <div class="form-group">
-            <input type="email" class="form-control" formControlName="email" placeholder="E-mail adresa"
-              [class.is-invalid]="resendForm.get('email').invalid && resendForm.get('email').dirty" />
+          <div class="flex flex-column">
+            <span class="p-float-label">
+              <input pInputText type="email" formControlName="email" placeholder="E-mail adresa"
+                [class.ng-invalid]="resendForm.get('email').invalid && resendForm.get('email').dirty" />
+              <label for="email">E-mail adresa</label>
+            </span>
           </div>
-          <button type="submit" class="btn btn-link" [disabled]="loadingResend">
-            {{ loadingResend ? 'Slanje...' : 'Pošalji kod ponovo' }}
-          </button>
+          <button pButton type="submit" label="Pošalji kod ponovo" icon="pi pi-refresh"
+            class="p-button-text" [loading]="loadingResend"></button>
         </form>
       </ng-container>
 
       <ng-container *ngIf="confirmed">
-        <h3>Uspešno ste potvrdili vašu e-mail adresu.</h3>
+        <div class="gm-confirm-success">
+          <i class="pi pi-check-circle"></i>
+          <h3>Uspešno ste potvrdili vašu e-mail adresu.</h3>
+        </div>
       </ng-container>
     </ng-template>
-    <!-- footer -->
     <ng-template pTemplate="footer">
       <ng-container *ngIf="confirmed">
         <hr>
-        <p-button label="Ulogujte se" (click)="idiNaLogin()" styleClass="p-button-link"></p-button><br>
+        <p-button label="Ulogujte se" (click)="idiNaLogin()" styleClass="p-button-link"></p-button>
       </ng-container>
     </ng-template>
   </p-card>

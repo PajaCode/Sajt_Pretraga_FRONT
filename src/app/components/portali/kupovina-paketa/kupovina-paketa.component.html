@@ -1,176 +1,202 @@
-<div class="row">
-  <p-fieldset legend="Kupovina paketa" class="mb-3">
+<div class="gm-page gm-purchase-page">
+  <h2 class="gm-section-title">Kupovina paketa</h2>
 
-    <!-- korak 1: izbor paketa -->
-    <ng-container *ngIf="step === 'select'">
-      <ng-container *ngIf="loadingPackages; else izborPaketa">
-        <div class="row">
-          <p-skeleton></p-skeleton>
-          <p-skeleton></p-skeleton>
+  <!-- Progress kroz korake kupovine -->
+  <div class="gm-checkout-steps" *ngIf="step !== 'processing'">
+    <div class="gm-checkout-step" [ngClass]="{'gm-step-active': step === 'select', 'gm-step-done': step === 'review' || step === 'payment'}">
+      <span class="gm-checkout-step-num"><i class="pi pi-check" *ngIf="step === 'review' || step === 'payment'"></i><ng-container *ngIf="step === 'select'">1</ng-container></span>
+      <span>Izbor paketa</span>
+    </div>
+    <div class="gm-checkout-step-line"></div>
+    <div class="gm-checkout-step" [ngClass]="{'gm-step-active': step === 'review', 'gm-step-done': step === 'payment'}">
+      <span class="gm-checkout-step-num"><i class="pi pi-check" *ngIf="step === 'payment'"></i><ng-container *ngIf="step !== 'payment'">2</ng-container></span>
+      <span>Pregled podataka</span>
+    </div>
+    <div class="gm-checkout-step-line"></div>
+    <div class="gm-checkout-step" [ngClass]="{'gm-step-active': step === 'payment'}">
+      <span class="gm-checkout-step-num">3</span>
+      <span>Plaćanje</span>
+    </div>
+  </div>
+
+  <!-- korak 1: izbor paketa -->
+  <ng-container *ngIf="step === 'select'">
+    <ng-container *ngIf="loadingPackages; else izborPaketa">
+      <div class="gm-pricing-grid">
+        <div class="gm-pricing-card" *ngFor="let i of [1,2,3]">
+          <div class="gm-skeleton-line" style="width: 50%; height: 22px;"></div>
+          <div class="gm-skeleton-line mt-3"></div>
+          <div class="gm-skeleton-line mt-2" style="width: 70%;"></div>
         </div>
-      </ng-container>
-      <ng-template #izborPaketa>
-        <div class="row" *ngIf="packages.length === 0">
-          <span>Trenutno nema dostupnih paketa.</span>
-        </div>
-        <div class="row" *ngFor="let paket of packages" style="margin-bottom: 12px;">
-          <p-card [header]="paket.naziv">
-            <p>{{paket.opis}}</p>
-            <ul>
-              <li *ngFor="let pokrice of paket.glavnaPokrica">{{pokrice}}</li>
-            </ul>
-            <p><strong>{{paket.cena}} {{paket.valuta}}</strong> / {{paket.trajanjeDana}} dana</p>
-            <div class="flex" style="gap: 8px;">
-              <button pButton pRipple type="button" label="Detaljna pokrića" class="p-button-sm p-button-outlined"
-                (click)="openDetails(paket)"></button>
-              <button pButton pRipple type="button" label="Izaberi paket" class="p-button-sm"
-                (click)="choosePackage(paket)"></button>
-            </div>
-          </p-card>
-        </div>
-      </ng-template>
+      </div>
     </ng-container>
-
-    <!-- korak 2: pregled osiguranika -->
-    <ng-container *ngIf="step === 'review' && selectedPackage">
-      <div class="row">
-        <p-card header="Izabrani paket">
-          <p><strong>{{selectedPackage.naziv}}</strong></p>
-          <p>{{selectedPackage.cena}} {{selectedPackage.valuta}} / {{selectedPackage.trajanjeDana}} dana</p>
-        </p-card>
+    <ng-template #izborPaketa>
+      <div class="gm-empty-state" *ngIf="packages.length === 0">
+        <i class="pi pi-inbox"></i>
+        <p>Trenutno nema dostupnih paketa.</p>
       </div>
+      <div class="gm-pricing-grid">
+        <div class="gm-pricing-card" *ngFor="let paket of packages"
+          [ngClass]="{'gm-pricing-featured': paket.naziv?.toUpperCase()?.includes('PREMIUM')}">
+          <div class="gm-pricing-featured-tag" *ngIf="paket.naziv?.toUpperCase()?.includes('PREMIUM')">Preporučeno</div>
+          <h3 class="gm-pricing-name">{{paket.naziv}}</h3>
+          <p class="gm-pricing-desc">{{paket.opis}}</p>
+          <div class="gm-pricing-price">
+            <span class="gm-pricing-amount">{{paket.cena}}</span>
+            <span class="gm-pricing-currency">{{paket.valuta}}</span>
+          </div>
+          <p class="gm-muted gm-pricing-duration">na {{paket.trajanjeDana}} dana</p>
 
-      <div class="row" style="margin-top: 12px;">
-        <p-card header="Podaci osiguranika">
-          <p><strong>Ime i prezime:</strong> {{user?.ime}} {{user?.prezime}}</p>
-          <p><strong>Email:</strong> {{user?.email}}</p>
-          <p><strong>JMBG:</strong> {{user?.jmbg || '—'}}</p>
-          <p><strong>Datum rođenja:</strong> {{user?.datumRodjenja ? (user?.datumRodjenja | date:'dd.MM.yyyy') : '—'}}</p>
-          <p><strong>Telefon:</strong> {{user?.telefon || '—'}}</p>
-        </p-card>
+          <ul class="gm-pricing-features">
+            <li *ngFor="let pokrice of paket.glavnaPokrica"><i class="pi pi-check-circle"></i> {{pokrice}}</li>
+          </ul>
+
+          <div class="gm-pricing-actions">
+            <button pButton pRipple type="button" label="Detalji" class="p-button-sm p-button-outlined"
+              (click)="openDetails(paket)"></button>
+            <button pButton pRipple type="button" label="Izaberi paket" class="p-button-sm"
+              [ngClass]="{'p-button-success': paket.naziv?.toUpperCase()?.includes('PREMIUM')}"
+              (click)="choosePackage(paket)"></button>
+          </div>
+        </div>
       </div>
+    </ng-template>
+  </ng-container>
 
-      <div class="row" style="margin-top: 12px;" *ngIf="!profileComplete">
-        <small class="p-error">Profil nije kompletan. Dopunite profil pre nego što nastavite na plaćanje.</small>
+  <!-- korak 2: pregled osiguranika -->
+  <ng-container *ngIf="step === 'review' && selectedPackage">
+    <div class="gm-checkout-summary">
+      <p-card header="Izabrani paket" styleClass="gm-checkout-card">
+        <p class="gm-checkout-line"><strong>{{selectedPackage.naziv}}</strong></p>
+        <p class="gm-checkout-line gm-muted">{{selectedPackage.cena}} {{selectedPackage.valuta}} / {{selectedPackage.trajanjeDana}} dana</p>
+      </p-card>
+
+      <p-card header="Podaci osiguranika" styleClass="gm-checkout-card">
+        <div class="gm-checkout-data-grid">
+          <div><span class="gm-muted">Ime i prezime</span><strong>{{user?.ime}} {{user?.prezime}}</strong></div>
+          <div><span class="gm-muted">Email</span><strong>{{user?.email}}</strong></div>
+          <div><span class="gm-muted">JMBG</span><strong>{{user?.jmbg || '—'}}</strong></div>
+          <div><span class="gm-muted">Datum rođenja</span><strong>{{user?.datumRodjenja ? (user?.datumRodjenja | date:'dd.MM.yyyy') : '—'}}</strong></div>
+          <div><span class="gm-muted">Telefon</span><strong>{{user?.telefon || '—'}}</strong></div>
+        </div>
+      </p-card>
+
+      <div class="gm-alert gm-alert-warning" *ngIf="!profileComplete">
+        <i class="pi pi-exclamation-triangle"></i>
         <div>
+          <p>Profil nije kompletan. Dopunite profil pre nego što nastavite na plaćanje.</p>
           <button pButton pRipple type="button" label="Dopuni profil" class="p-button-sm p-button-warning"
             (click)="goToProfile()"></button>
         </div>
       </div>
 
-      <div class="row" style="margin-top: 12px;">
-        <button pButton pRipple type="button" label="Nazad" class="p-button-sm p-button-secondary"
+      <div class="gm-checkout-nav">
+        <button pButton pRipple type="button" label="Nazad" icon="pi pi-arrow-left" class="p-button-sm p-button-text"
           (click)="backToSelect()"></button>
-        <button pButton pRipple type="button" label="Nastavi na plaćanje" class="p-button-sm"
+        <button pButton pRipple type="button" label="Nastavi na plaćanje" icon="pi pi-arrow-right" iconPos="right" class="p-button-sm"
           [disabled]="!profileComplete" (click)="continueToPayment()"></button>
       </div>
-    </ng-container>
+    </div>
+  </ng-container>
 
-    <!-- korak 3: placanje -->
-    <ng-container *ngIf="step === 'payment' && selectedPackage">
-      <form [formGroup]="cardForm" (ngSubmit)="pay()">
-        <div class="flex flex-column mt-1">
-          <div class="row">
-            <p>Paket: <strong>{{selectedPackage.naziv}}</strong></p>
-            <p>Iznos za plaćanje: <strong>{{selectedPackage.cena}} {{selectedPackage.valuta}}</strong></p>
-          </div>
+  <!-- korak 3: placanje -->
+  <ng-container *ngIf="step === 'payment' && selectedPackage">
+    <div class="gm-payment-layout">
+      <form [formGroup]="cardForm" (ngSubmit)="pay()" class="gm-payment-card">
+        <div class="gm-payment-card-brand">
+          <i class="pi pi-credit-card"></i>
+          <span>Podaci o kartici</span>
+        </div>
 
-          <div class="row">
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="pi pi-credit-card"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" pInputText formControlName="brojKartice" maxlength="19"
-                  placeholder="0000 0000 0000 0000" (input)="onCardNumberInput($event)" />
-                <label for="brojKartice">Broj kartice</label>
-              </span>
-            </div>
+        <div class="flex flex-column">
+          <div class="gm-payment-field">
+            <span class="p-float-label">
+              <input type="text" pInputText formControlName="brojKartice" maxlength="19"
+                placeholder="0000 0000 0000 0000" (input)="onCardNumberInput($event)" />
+              <label for="brojKartice">Broj kartice</label>
+            </span>
             <small class="p-error"
               *ngIf="cardForm.get('brojKartice').touched && cardForm.get('brojKartice').invalid">
               Broj kartice nije ispravan.
             </small>
           </div>
 
-          <div class="row">
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="pi pi-calendar"></i>
-              </span>
+          <div class="gm-payment-field-row">
+            <div class="gm-payment-field">
               <span class="p-float-label">
                 <input type="text" pInputText formControlName="vaziDo" maxlength="5" placeholder="MM/YY"
                   (input)="onExpiryInput($event)" />
                 <label for="vaziDo">Važi do (MM/YY)</label>
               </span>
+              <small class="p-error" *ngIf="cardForm.get('vaziDo').touched && cardForm.get('vaziDo').invalid">
+                Datum isteka nije ispravan.
+              </small>
             </div>
-            <small class="p-error" *ngIf="cardForm.get('vaziDo').touched && cardForm.get('vaziDo').invalid">
-              Datum isteka nije ispravan.
-            </small>
 
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="pi pi-lock"></i>
-              </span>
+            <div class="gm-payment-field">
               <span class="p-float-label">
                 <input type="password" pInputText formControlName="cvv" maxlength="3" placeholder="CVV" />
                 <label for="cvv">CVV</label>
               </span>
+              <small class="p-error" *ngIf="cardForm.get('cvv').touched && cardForm.get('cvv').invalid">
+                CVV mora imati tačno 3 cifre.
+              </small>
             </div>
-            <small class="p-error" *ngIf="cardForm.get('cvv').touched && cardForm.get('cvv').invalid">
-              CVV mora imati tačno 3 cifre.
-            </small>
           </div>
 
-          <div class="row">
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="pi pi-user"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" pInputText formControlName="imeNaKartici" />
-                <label for="imeNaKartici">Ime na kartici</label>
-              </span>
-            </div>
+          <div class="gm-payment-field">
+            <span class="p-float-label">
+              <input type="text" pInputText formControlName="imeNaKartici" />
+              <label for="imeNaKartici">Ime na kartici</label>
+            </span>
             <small class="p-error"
               *ngIf="cardForm.get('imeNaKartici').touched && cardForm.get('imeNaKartici').invalid">
               Ime na kartici je obavezno.
             </small>
           </div>
+        </div>
 
-          <div class="row" style="margin-top: 12px;">
-            <button pButton pRipple type="button" label="Nazad" class="p-button-sm p-button-secondary"
-              (click)="backToReview()"></button>
-            <button pButton pRipple type="submit" [label]="'PLATI ' + selectedPackage.cena + ' ' + selectedPackage.valuta"
-              class="p-button-sm p-button-success"></button>
-          </div>
+        <div class="gm-checkout-nav">
+          <button pButton pRipple type="button" label="Nazad" icon="pi pi-arrow-left" class="p-button-sm p-button-text"
+            (click)="backToReview()"></button>
+          <button pButton pRipple type="submit" [label]="'PLATI ' + selectedPackage.cena + ' ' + selectedPackage.valuta"
+            icon="pi pi-lock" class="p-button-sm p-button-success"></button>
         </div>
       </form>
-    </ng-container>
 
-    <!-- korak 4: obrada placanja -->
-    <ng-container *ngIf="step === 'processing'">
-      <div class="row" style="text-align: center;">
-        <p-progressSpinner></p-progressSpinner>
-        <p>{{processingMessage}}</p>
+      <div class="gm-payment-summary">
+        <h4>Pregled porudžbine</h4>
+        <div class="gm-payment-summary-row"><span>Paket</span><strong>{{selectedPackage.naziv}}</strong></div>
+        <div class="gm-payment-summary-row"><span>Trajanje</span><strong>{{selectedPackage.trajanjeDana}} dana</strong></div>
+        <hr>
+        <div class="gm-payment-summary-row gm-payment-summary-total"><span>Ukupno</span><strong>{{selectedPackage.cena}} {{selectedPackage.valuta}}</strong></div>
+        <p class="gm-muted gm-payment-secure-note"><i class="pi pi-shield"></i> Plaćanje je sigurno i enkriptovano.</p>
       </div>
-    </ng-container>
+    </div>
+  </ng-container>
 
-  </p-fieldset>
+  <!-- korak 4: obrada placanja -->
+  <ng-container *ngIf="step === 'processing'">
+    <div class="gm-processing-state">
+      <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+      <p>{{processingMessage}}</p>
+    </div>
+  </ng-container>
 </div>
 
 <!-- dijalog detaljnih pokrića -->
-<p-dialog [header]="'Detaljna pokrića'" [modal]="true" [(visible)]="showDetailsDialog" [style]="{width: '70vw'}">
+<p-dialog [header]="'Detaljna pokrića'" [modal]="true" [(visible)]="showDetailsDialog" [style]="{width: '70vw', maxWidth: '900px'}">
   <ng-container *ngIf="loadingDetails; else detaljiPokrica">
-    <p-skeleton></p-skeleton>
+    <div class="gm-skeleton-line"></div>
   </ng-container>
   <ng-template #detaljiPokrica>
     <div *ngIf="packageDetails">
-      <p>{{packageDetails.opis}}</p>
-      <div *ngFor="let pokrice of packageDetails.glavnaPokrica" style="margin-bottom: 16px;">
-        <h4>{{pokrice.nazivPokrice}}</h4>
-        <p *ngIf="pokrice.sumaOsiguranja">Suma osiguranja: {{pokrice.sumaOsiguranja}}</p>
-        <p *ngIf="pokrice.ucesceProcenat">Učešće osiguranika: {{pokrice.ucesceProcenat}}%</p>
-        <p-table [value]="pokrice.podpokrica" styleClass="p-datatable-sm">
+      <p class="gm-muted">{{packageDetails.opis}}</p>
+      <div class="gm-details-coverage" *ngFor="let pokrice of packageDetails.glavnaPokrica">
+        <h4 class="gm-section-title">{{pokrice.nazivPokrice}}</h4>
+        <p *ngIf="pokrice.sumaOsiguranja" class="gm-muted">Suma osiguranja: <strong class="gm-text">{{pokrice.sumaOsiguranja}}</strong></p>
+        <p *ngIf="pokrice.ucesceProcenat" class="gm-muted">Učešće osiguranika: <strong class="gm-text">{{pokrice.ucesceProcenat}}%</strong></p>
+        <p-table [value]="pokrice.podpokrica" styleClass="p-datatable-sm" responsiveLayout="scroll">
           <ng-template pTemplate="header">
             <tr>
               <th>Podpokriće</th>
@@ -180,7 +206,7 @@
           </ng-template>
           <ng-template pTemplate="body" let-podpokrice>
             <tr>
-              <td>{{podpokrice.nazivPodpokrica}}</td>
+              <td [pTooltip]="podpokrice.nazivPodpokrica" tooltipPosition="top">{{podpokrice.nazivPodpokrica}}</td>
               <td>{{podpokrice.vrstaLimita}}</td>
               <td>{{podpokrice.limitVrednost || podpokrice.sumaOsiguranja || '—'}}</td>
             </tr>

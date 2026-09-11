@@ -128,6 +128,7 @@ export interface PurchaseCompleteResult {
 
 export interface ForgotPasswordRequest {
   email: string;
+  brKartice?: string | null;
 }
 
 export interface ResetPasswordRequest {

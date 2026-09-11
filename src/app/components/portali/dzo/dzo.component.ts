@@ -120,27 +120,26 @@ export class DzoComponent implements OnInit, OnChanges {
   }
 
   savePDF(): void {
-    //this.loadingPDF = true;
-    // this.dzoService.getMedUstanovePDF().subscribe(
-    //   (response: Blob) => {
-    //     const filename = 'spisakMedicinskihUstanova.pdf';
-    //     const blobURL = URL.createObjectURL(response);
+    this.loadingPDF = true;
+    this.dzoService.getMedUstanovePDF().subscribe(
+      (response: Blob) => {
+        const filename = 'spisakMedicinskihUstanova.pdf';
+        const blobURL = URL.createObjectURL(response);
 
-    //     const anchor = document.createElement('a');
-    //     anchor.href = blobURL;
-    //     anchor.download = filename;
+        const anchor = document.createElement('a');
+        anchor.href = blobURL;
+        anchor.download = filename;
 
-    //     anchor.style.display = 'none';
-    //     document.body.appendChild(anchor);
-    //     anchor.click();
-    //     document.body.removeChild(anchor);
-    //     this.loadingPDF = false;
-    //   },
-    //   (error: any) => {
-    //     this.toster.error(error.message, 'Globos osiguranje');
-    //   }
-    // );
-    // this.router.navigateByUrl('https://servisiapi.globos.rs/api/DZO/DZO_ExportMedUstanovePDF');
-    window.open('https://servisiapi.globos.rs/api/DZO/DZO_ExportMedUstanovePDF', '_blank');
+        anchor.style.display = 'none';
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        this.loadingPDF = false;
+      },
+      (error: any) => {
+        this.loadingPDF = false;
+        this.toster.error(error.message, 'Globos osiguranje');
+      }
+    );
   }
 }

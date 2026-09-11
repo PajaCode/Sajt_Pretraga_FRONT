@@ -1,132 +1,95 @@
-::ng-deep {
+:host {
+  display: block;
+}
 
-  p-accordion {
-    width: 50%;
+.gm-profile-page {
+  max-width: 760px;
+}
 
-    p-accordiontab {
-      .p-accordion-tab {
-        // .p-accordion-header {}
+.gm-profile-card {
+  background: var(--gm-surface);
+  border: 1px solid var(--gm-border);
+  border-radius: var(--gm-radius-lg);
+  box-shadow: var(--gm-shadow-sm);
+  padding: var(--gm-space-4);
+  margin-bottom: var(--gm-space-4);
+}
 
-        .p-accordion-content {
-          padding-top: 2rem;
+.gm-profile-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gm-space-2);
+  margin-bottom: var(--gm-space-3);
 
-          p-skeleton {
-            width: 50%;
-            margin: auto;
+  h3 {
+    margin: 0;
+    font-family: 'AvenirNextDemi', sans-serif;
+    color: var(--gm-primary-dark);
+    font-size: 1.05rem;
+  }
+}
 
-            .p-skeleton {
-              height: 3rem !important;
-              margin-bottom: 1.5em;
-            }
-          }
+.gm-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gm-space-3);
+}
 
-          .flex-column {
-            .row {
-              padding: 0;
-              margin: 0;
-              width: 100%;
-              justify-content: center;
+.gm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 
-              .p-inputgroup {
-                margin-bottom: 1.5em;
-                width: 50%;
-                justify-content: center;
-                text-align: center;
-
-                input,
-                p-inputmask,
-                p-checkbox,
-                .p-password {
-                  width: 100% !important;
-                  border-top-left-radius: 0;
-                  border-bottom-left-radius: 0;
-                  white-space: break-spaces;
-                  //overflow: auto;
-                  //text-overflow: ellipsis;
-
-                  eyeicon:hover {
-                    color: black;
-                    opacity: 0.7;
-                  }
-                }
-
-                .responsive-ikonice-in {
-                  display: none
-                }
-
-                .responsive-ikonice-out {
-                  display: inline;
-                }
-              }
-
-              p-button {
-                width: auto;
-              }
-            }
-          }
-        }
-      }
-    }
+  label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gm-text-muted);
   }
 
-  @media screen and (max-width: 540px) {
-    p-accordion {
-      width: 90% !important;
-    }
+  input {
+    width: 100%;
+  }
+}
 
+.gm-field-readonly {
+  input {
+    background: var(--gm-surface-muted);
+    color: var(--gm-text-muted);
+    cursor: default;
+  }
+}
+
+.gm-field-error {
+  color: var(--gm-danger);
+}
+
+:host ::ng-deep {
+  .gm-field .p-password,
+  .gm-field .p-password input,
+  .gm-field p-inputmask,
+  .gm-field .p-inputmask,
+  .gm-field .p-inputmask input {
+    width: 100%;
+  }
+}
+
+.gm-profile-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--gm-space-4);
+}
+
+@media screen and (max-width: 620px) {
+  .gm-profile-grid {
+    grid-template-columns: 1fr;
   }
 
-  @media screen and (min-width: 540px) and (max-width: 768px) {
-    p-accordion {
-      width: 80% !important;
-    }
-  }
-
-  @media screen and (min-width: 768px) and (max-width: 1024px) {
-    p-accordion {
-      width: 60% !important;
-    }
-  }
-
-  @media screen and (min-width: 1024px) and (max-width: 1200px) {
-    p-accordion {
-      width: 50% !important;
-    }
-  }
-
-  @media screen and (max-width: 992px) {
-
-    .p-fieldset-legend-text {
-      font-size: 1em !important;
-    }
-
-    p-skeleton {
-      width: 100% !important;
-    }
-
-    .p-inputgroup {
-      width: 100% !important;
-
-      .responsive-ikonice-in {
-        display: inline !important;
-      }
-
-      .responsive-ikonice-out {
-        display: none !important;
-      }
-    }
-
-    .row.buttons {
-      justify-content: center;
-      padding: 0;
-
-      p-button {
-        margin: auto;
-
-        button {
-          width: 100% !important;
-        }
-      }
-    }
+  .gm-profile-card-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

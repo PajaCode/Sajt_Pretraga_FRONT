@@ -1,3 +1,9 @@
+:host {
+  display: block;
+  min-height: calc(100vh - 60px);
+  background: linear-gradient(180deg, var(--gm-primary-bg) 0%, var(--gm-surface-muted) 320px);
+}
+
 :host ::ng-deep {
   .row {
     width: 100%;
@@ -8,27 +14,47 @@
       margin: 3rem auto;
       padding: 0;
       width: 40%;
+      border-radius: var(--gm-radius-lg) !important;
+      box-shadow: var(--gm-shadow-lg) !important;
+      border: 1px solid var(--gm-border);
 
       .p-card-header {
-        width: 80% !important;
+        width: 100% !important;
         margin: auto;
-        padding-top: 1rem;
+        padding: 1.5rem 1.5rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
       }
 
       .p-card-body {
+        padding: 1.5rem !important;
+
+        .p-card-title {
+          text-align: center;
+          margin-bottom: 0.5rem;
+          font-family: 'CamptonMedium', sans-serif;
+          color: var(--gm-primary-dark);
+        }
+
         .p-card-content {
           padding: 0;
           margin-top: 1rem;
 
-          h3 {
-            text-align: center;
-            margin-bottom: 1rem;
-            font-weight: 600 !important;
-          }
+          form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--gm-space-3);
+            margin-bottom: var(--gm-space-2);
 
-          p {
-            text-align: center;
-            margin: 0;
+            .flex-column {
+              width: 100%;
+
+              input {
+                width: 100%;
+              }
+            }
           }
         }
 
@@ -37,29 +63,11 @@
           padding: 0;
 
           .p-button-link {
-            letter-spacing: 1px;
-            text-decoration: none;
-            color: #3393e3;
+            color: var(--gm-primary);
 
             &:hover {
-              letter-spacing: 2px;
-              border: 1px solid #3393e3;
               text-decoration: underline;
-              transition: all 0.1s ease-in-out;
-              transform: scale(1.1);
-              background-color: #3393e3;
-              color: white;
-            }
-          }
-
-          a {
-            letter-spacing: 1px;
-            text-decoration: none;
-
-            &:hover {
-              letter-spacing: 2px;
-              font-weight: bold;
-              text-decoration: underline;
+              color: var(--gm-primary-dark);
             }
           }
         }
@@ -81,23 +89,36 @@
 
   @media screen and (min-width: 768px) and (max-width: 1024px) {
     p-card.p-element {
-      width: 60% !important;
+      width: 65% !important;
     }
   }
 
-  @media screen and (min-width: 1024px) and (max-width: 1200px) {
+  @media screen and (min-width: 1024px) and (max-width: 1300px) {
     p-card.p-element {
-      width: 50% !important;
+      width: 55% !important;
     }
   }
+}
 
-  @media screen and (min-width: 1300px) {
-    .p-card-content .row {
-      justify-content: space-between;
+.gm-confirm-intro {
+  text-align: center;
+}
 
-      .ime-prezime-column {
-        width: 45% !important;
-      }
-    }
+.gm-confirm-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--gm-space-2);
+  padding: var(--gm-space-3) 0;
+
+  i {
+    font-size: 2.5rem;
+    color: var(--gm-success);
+  }
+
+  h3 {
+    margin: 0;
+    color: var(--gm-primary-dark);
   }
 }

@@ -1,136 +1,128 @@
-::ng-deep {
+:host {
+  display: block;
+}
 
-  .p-fieldset {
-    background-color: rgba(#afd1ebe3, 0.5);
-    .p-fieldset-legend {
-      background-color: rgba(#afd1ebe3, 0.5);
+.gm-refund-applicant {
+  margin-bottom: var(--gm-space-3);
+}
 
-      .p-fieldset-legend-text {
-        font-family: 'Montserrat', sans-serif;
-        line-height: 1.2;
-        font-size: 1.75rem;
-        letter-spacing: 2px;
-      }
-    }
+.gm-refund-layout {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: var(--gm-space-4);
+  align-items: start;
+}
 
-    p-skeleton {
-      width: 30%;
-      margin: auto;
+.gm-refund-card {
+  background: var(--gm-surface);
+  border: 1px solid var(--gm-border);
+  border-radius: var(--gm-radius-lg);
+  box-shadow: var(--gm-shadow-sm);
+  padding: var(--gm-space-4);
 
-      .p-skeleton {
-        height: 3rem !important;
-        margin-bottom: 1.5em;
-      }
-    }
+  h3 {
+    margin-top: 0;
+    font-family: 'AvenirNextDemi', sans-serif;
+    color: var(--gm-primary-dark);
+    font-size: 1.05rem;
+  }
+}
 
-    .flex-column {
-      .row {
-        padding: 0;
-        margin: 0;
-        width: 100%;
-        justify-content: center;
-        gap: 10%;
+.gm-refund-info {
+  ul {
+    padding-left: 1.2em;
+    margin-bottom: var(--gm-space-3);
 
-        .p-inputgroup {
-          margin-bottom: 1.5em;
-          width: 17%;
-          justify-content: center;
-          text-align: center;
-          label {
-            transition: none !important;
-          }
-
-          input {
-            width: 100% !important;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            white-space: break-spaces;
-            overflow: auto;
-            text-overflow: ellipsis;
-
-          }
-
-          .responsive-ikonice-in {
-            display: none
-          }
-
-          .responsive-ikonice-out {
-            display: inline;
-          }
-        }
-      }
+    li {
+      margin-bottom: var(--gm-space-2);
     }
   }
+}
 
+.gm-refund-terms {
+  color: var(--gm-text-muted);
+  font-size: 0.9rem;
+}
 
-  @media screen and (max-width: 992px) {
+.gm-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  border: 2px dashed var(--gm-border);
+  border-radius: var(--gm-radius);
+  padding: var(--gm-space-5) var(--gm-space-3);
+  cursor: pointer;
+  color: var(--gm-text-muted);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 
-    .p-fieldset-legend-text {
-      font-size: 1em !important;
-    }
-
-    p-skeleton {
-      width: 100% !important;
-    }
-
-    .p-inputgroup {
-      width: 100% !important;
-    }
-
-    .p-dialog {
-      .p-dialog-content {
-        padding: 0 !important;
-      }
-    }
-
-    tbody {
-      td {
-        &:hover {
-          background-color: rgba(#3393e3, 0.1);
-        }
-      }
-    }
-    
-
-    .p-button-secondary,
-    .p-button-primary {
-      margin-top: 5px;
-    }
-
-    .logoMedic {
-
-      max-width: 30%;
-      height: auto;
-      margin-top: 35px;
-    }
-
-    .toast-bottom-right {
-      top: 1600px;
-      max-width: 100%;
-    }
-
+  i {
+    font-size: 2rem;
+    color: var(--gm-primary-light);
   }
 
-  @media screen and (max-width: 993px) {
-    .p-datatable-wrapper {
-      max-height: 47vh !important;
-    }
+  p {
+    margin: 0;
+    font-size: 0.9rem;
   }
 
-  @media screen and (min-width: 993px) {
-    tbody {
-      td {
-        max-width: 200px !important;
-      }
-    }
+  &:hover,
+  &.gm-dropzone-active {
+    border-color: var(--gm-primary);
+    background: var(--gm-primary-bg);
+  }
+}
+
+.gm-dropzone-link {
+  color: var(--gm-primary);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.gm-file-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--gm-space-2);
+  padding: 6px 10px;
+  background: var(--gm-surface-muted);
+  border: 1px solid var(--gm-border);
+  border-radius: var(--gm-radius-sm);
+  font-size: 0.88rem;
+
+  span {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  .dugme {
-    color: #ffffff;
-    background: #3393e3;
-    border: #3393e3;
-    &:hover {
-      background: #158aeb;
-    }
+  i.pi-file {
+    color: var(--gm-primary);
+  }
+}
+
+.gm-file-chip-remove {
+  border: none;
+  background: transparent;
+  color: var(--gm-text-muted);
+  cursor: pointer;
+  padding: 2px 4px;
+
+  &:hover {
+    color: var(--gm-danger);
+  }
+}
+
+.gm-refund-send {
+  margin-top: var(--gm-space-3);
+  width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+  .gm-refund-layout {
+    grid-template-columns: 1fr;
   }
 }

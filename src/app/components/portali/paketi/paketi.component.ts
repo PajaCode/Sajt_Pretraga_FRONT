@@ -111,11 +111,19 @@ export class PaketiComponent implements OnInit {
       idPaketa: pokrice.id,
       nazivPokrice: pokrice.nazivPokrice,
       iskorisceno: pokrice.iskorisceno ?? 0,
+      rezervisano: pokrice.rezervisano ?? 0,
       preostalo: pokrice.sumaOsiguranja == null ? 'Bez limita' : (pokrice.preostalo ?? 0),
       suma_osiguranja: pokrice.sumaOsiguranja ?? 0,
       ucesceOsiguranika: pokrice.ucesceProcenat ?? 0,
       podpokrica: pokrice.podpokrica,
     };
+  }
+
+  // Samo za progress-bar prikaz (used/reserved/remaining) - ne dira izracunatu
+  // vrednost pokrica, vec samo pretvara vec izracunate iznose u procenat sirine.
+  pct(part: number, total: number): number {
+    if (!total) return 0;
+    return Math.max(0, Math.min(100, (part / total) * 100));
   }
 
   private vrstaLimitaLabel(vrstaLimita: string): string {
@@ -138,6 +146,7 @@ export class PaketiComponent implements OnInit {
       vrsta_Limita: this.vrstaLimitaLabel(pod.vrstaLimita),
       limit: pod.limitVrednost,
       iskorisceno: pod.iskorisceno ?? 0,
+      rezervisano: pod.rezervisano ?? 0,
       preostalo: pod.sumaOsiguranja == null ? 'Bez limita' : (pod.preostalo ?? 0),
       usluge: pod.usluge,
     }));

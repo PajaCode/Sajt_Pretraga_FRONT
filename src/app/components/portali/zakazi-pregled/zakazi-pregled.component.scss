@@ -1,6 +1,160 @@
-.row {
+:host {
+  display: block;
+}
+
+.gm-booking-page {
+  max-width: 760px;
+}
+
+.gm-booking-form {
+  background: var(--gm-surface);
+  border: 1px solid var(--gm-border);
+  border-radius: var(--gm-radius-lg);
+  box-shadow: var(--gm-shadow);
+  padding: var(--gm-space-4);
+}
+
+.gm-booking-step {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 12px;
+  gap: var(--gm-space-3);
+  padding-bottom: var(--gm-space-4);
+  margin-bottom: var(--gm-space-4);
+  border-bottom: 1px solid var(--gm-border);
+
+  &:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.gm-booking-step-badge {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--gm-primary-bg);
+  color: var(--gm-primary);
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gm-booking-step-body {
+  flex: 1;
+  min-width: 0;
+
+  label {
+    display: block;
+    font-weight: 700;
+    color: var(--gm-text);
+    margin-bottom: 6px;
+  }
+}
+
+.gm-booking-datetime {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gm-space-3);
+}
+
+.gm-institution-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gm-space-3);
+  background: var(--gm-surface-muted);
+  border: 1px solid var(--gm-border);
+  border-radius: var(--gm-radius);
+  padding: 12px 14px;
+}
+
+.gm-institution-picker-name {
+  font-weight: 700;
+  color: var(--gm-primary-dark);
+}
+
+.gm-institution-picker-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  color: var(--gm-text-muted);
+  font-size: 0.85rem;
+  margin-top: 4px;
+
+  i {
+    color: var(--gm-primary-light);
+    margin-right: 4px;
+  }
+}
+
+.gm-working-hours {
+  margin-top: 8px;
+
+  i {
+    margin-right: 4px;
+  }
+}
+
+.gm-booking-review {
+  background: var(--gm-primary-bg);
+  border-radius: var(--gm-radius);
+  padding: var(--gm-space-3);
+  margin-bottom: var(--gm-space-4);
+
+  h4 {
+    margin: 0 0 var(--gm-space-2);
+    color: var(--gm-primary-dark);
+    font-family: 'AvenirNextDemi', sans-serif;
+
+    i {
+      color: var(--gm-success);
+      margin-right: 6px;
+    }
+  }
+}
+
+.gm-booking-review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gm-space-2) var(--gm-space-4);
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 0.9rem;
+  }
+
+  span.gm-muted {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+}
+
+.gm-booking-submit {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 640px) {
+  .gm-booking-datetime,
+  .gm-booking-review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gm-institution-picker {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .gm-booking-submit {
+    justify-content: stretch;
+
+    button {
+      width: 100%;
+    }
+  }
 }

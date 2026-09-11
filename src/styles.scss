@@ -29,6 +29,51 @@
   src: url('./fonts/Metropolis-Medium.otf') format('truetype');
 }
 
+// =============================================================================
+// GlobosMedic design tokens - jedinstven vizuelni identitet za ceo portal.
+// Sve komponente treba da koriste ove varijable umesto hardkodovanih vrednosti,
+// da bi razmak/radius/senka/tipografija bili konzistentni na celom sajtu.
+// =============================================================================
+:root {
+  --gm-primary: #0b5aa8;
+  --gm-primary-dark: #08417a;
+  --gm-primary-light: #3393e3;
+  --gm-primary-bg: #eaf3fc;
+  --gm-accent: #3393e3;
+
+  --gm-text: #1f2933;
+  --gm-text-muted: #5b6b79;
+  --gm-border: #dfe6ee;
+  --gm-surface: #ffffff;
+  --gm-surface-muted: #f6f9fc;
+
+  --gm-success: #1e8e5a;
+  --gm-success-bg: #e7f6ef;
+  --gm-warning: #b8790a;
+  --gm-warning-bg: #fbf1de;
+  --gm-danger: #c62839;
+  --gm-danger-bg: #fbe9eb;
+  --gm-info-bg: #eaf3fc;
+
+  --gm-radius: 12px;
+  --gm-radius-sm: 8px;
+  --gm-radius-lg: 18px;
+
+  --gm-shadow-sm: 0 1px 3px rgba(16, 42, 67, 0.08);
+  --gm-shadow: 0 4px 16px rgba(16, 42, 67, 0.08);
+  --gm-shadow-lg: 0 12px 32px rgba(16, 42, 67, 0.14);
+
+  --gm-control-height: 46px;
+  --gm-content-max-width: 1180px;
+
+  --gm-space-1: 4px;
+  --gm-space-2: 8px;
+  --gm-space-3: 16px;
+  --gm-space-4: 24px;
+  --gm-space-5: 32px;
+  --gm-space-6: 48px;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -37,6 +82,174 @@ body {
   width: 100%;
   font-family: 'Nunito', sans-serif;
   margin: 0;
+  color: var(--gm-text);
+  background-color: var(--gm-surface-muted);
+}
+
+// -----------------------------------------------------------------------------
+// Zajednicki layout helper - koristi se u komponentama umesto random margina/width.
+// -----------------------------------------------------------------------------
+.gm-page {
+  max-width: var(--gm-content-max-width);
+  margin: 0 auto;
+  padding: var(--gm-space-5) var(--gm-space-3) var(--gm-space-6);
+}
+
+.gm-section-title {
+  font-family: 'AvenirNextDemi', sans-serif;
+  color: var(--gm-primary-dark);
+  margin-bottom: var(--gm-space-2);
+}
+
+.gm-muted {
+  color: var(--gm-text-muted);
+}
+
+.gm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.6;
+
+  &.gm-badge-success { background: var(--gm-success-bg); color: var(--gm-success); }
+  &.gm-badge-warning { background: var(--gm-warning-bg); color: var(--gm-warning); }
+  &.gm-badge-danger { background: var(--gm-danger-bg); color: var(--gm-danger); }
+  &.gm-badge-info { background: var(--gm-info-bg); color: var(--gm-primary); }
+  &.gm-badge-neutral { background: var(--gm-surface-muted); color: var(--gm-text-muted); border: 1px solid var(--gm-border); }
+}
+
+.gm-alert {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border-radius: var(--gm-radius);
+  padding: var(--gm-space-3);
+
+  p {
+    margin: 0;
+  }
+
+  &.gm-alert-warning {
+    background: var(--gm-warning-bg);
+    color: var(--gm-warning);
+    border: 1px solid rgba(184, 121, 10, 0.25);
+
+    i { color: var(--gm-warning); font-size: 1.2rem; }
+  }
+
+  &.gm-alert-danger {
+    background: var(--gm-danger-bg);
+    color: var(--gm-danger);
+    border: 1px solid rgba(198, 40, 57, 0.25);
+
+    i { color: var(--gm-danger); font-size: 1.2rem; }
+  }
+
+  &.gm-alert-info {
+    background: var(--gm-info-bg);
+    color: var(--gm-primary-dark);
+    border: 1px solid rgba(11, 90, 168, 0.2);
+
+    i { color: var(--gm-primary); font-size: 1.2rem; }
+  }
+}
+
+.gm-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--gm-space-2);
+  padding: var(--gm-space-6) var(--gm-space-3);
+  color: var(--gm-text-muted);
+
+  i {
+    font-size: 2.5rem;
+    color: var(--gm-primary-light);
+    opacity: 0.6;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+  }
+}
+
+.gm-skeleton-line {
+  height: 14px;
+  border-radius: var(--gm-radius-sm);
+  background: linear-gradient(90deg, var(--gm-border) 25%, #eef3f8 37%, var(--gm-border) 63%);
+  background-size: 400% 100%;
+  animation: gm-skeleton-shimmer 1.4s ease infinite;
+}
+
+@keyframes gm-skeleton-shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+// -----------------------------------------------------------------------------
+// PrimeNG globalni overrides - jedinstven radius/senka/visina za input/dugme/karticu
+// umesto podesavanja iz komponente u komponentu.
+// -----------------------------------------------------------------------------
+.p-component {
+  font-family: 'Nunito', sans-serif;
+}
+
+.p-button {
+  border-radius: var(--gm-radius-sm) !important;
+  min-height: var(--gm-control-height);
+  font-weight: 700;
+  box-shadow: none !important;
+
+  &.p-button-rounded {
+    border-radius: 999px !important;
+  }
+}
+
+.p-inputtext,
+.p-dropdown,
+.p-calendar .p-inputtext,
+.p-password input {
+  border-radius: var(--gm-radius-sm) !important;
+  min-height: var(--gm-control-height);
+}
+
+.p-card {
+  border-radius: var(--gm-radius) !important;
+  box-shadow: var(--gm-shadow) !important;
+  border: 1px solid var(--gm-border);
+}
+
+.p-dialog {
+  border-radius: var(--gm-radius) !important;
+  overflow: hidden;
+  box-shadow: var(--gm-shadow-lg) !important;
+
+  .p-dialog-header {
+    background: var(--gm-primary-bg);
+    padding: var(--gm-space-3) var(--gm-space-4);
+  }
+
+  .p-dialog-content {
+    padding: var(--gm-space-4);
+  }
+}
+
+.p-progressbar {
+  border-radius: 999px !important;
+  overflow: hidden;
+  height: 10px !important;
+}
+
+.p-toast .p-toast-message {
+  border-radius: var(--gm-radius-sm);
+  box-shadow: var(--gm-shadow-lg);
 }
 
 h1 {

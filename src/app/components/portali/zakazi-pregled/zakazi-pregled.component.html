@@ -1,48 +1,74 @@
-<div class="row">
-  <p-fieldset legend="Zakaži pregled" class="mb-3">
-    <form [formGroup]="zakaziForm" (ngSubmit)="zakazi()">
-      <div class="flex flex-column mt-1">
+<div class="gm-page gm-booking-page">
+  <h2 class="gm-section-title">Zakaži pregled</h2>
 
-        <div class="row">
-          <label for="medUslugaId">Pokrivena usluga</label>
-          <p-dropdown formControlName="medUslugaId" [options]="coveredServices" optionLabel="nazivUsluge"
-            optionValue="medUslugaId" [filter]="true" filterBy="nazivUsluge" placeholder="Izaberite uslugu"
-            [style]="{width: '100%'}" [disabled]="loadingUsluge"></p-dropdown>
-          <small class="p-error"
-            *ngIf="zakaziForm.get('medUslugaId').touched && zakaziForm.get('medUslugaId').invalid">
-            Usluga je obavezna.
-          </small>
-          <small *ngIf="!loadingUsluge && coveredServices.length === 0">
-            Vaš paket trenutno ne pokriva nijednu uslugu.
-          </small>
+  <form [formGroup]="zakaziForm" (ngSubmit)="zakazi()" class="gm-booking-form">
+
+    <!-- 1. Usluga -->
+    <div class="gm-booking-step">
+      <div class="gm-booking-step-badge">1</div>
+      <div class="gm-booking-step-body">
+        <label for="medUslugaId">Pokrivena usluga</label>
+        <p-dropdown formControlName="medUslugaId" [options]="coveredServices" optionLabel="nazivUsluge"
+          optionValue="medUslugaId" [filter]="true" filterBy="nazivUsluge" placeholder="Izaberite uslugu"
+          [style]="{width: '100%'}" [disabled]="loadingUsluge"></p-dropdown>
+        <small class="p-error"
+          *ngIf="zakaziForm.get('medUslugaId').touched && zakaziForm.get('medUslugaId').invalid">
+          Usluga je obavezna.
+        </small>
+        <small class="gm-muted" *ngIf="!loadingUsluge && coveredServices.length === 0">
+          Vaš paket trenutno ne pokriva nijednu uslugu.
+        </small>
+      </div>
+    </div>
+
+    <!-- 2. Ustanova -->
+    <div class="gm-booking-step">
+      <div class="gm-booking-step-badge">2</div>
+      <div class="gm-booking-step-body">
+        <label for="medUstanovaId">Zdravstvena ustanova</label>
+
+        <div class="gm-institution-picker" *ngIf="izabranaUstanova; else noInstitution">
+          <div class="gm-institution-picker-info">
+            <div class="gm-institution-picker-name">{{izabranaUstanova.nazivUstanove}}</div>
+            <div class="gm-institution-picker-meta">
+              <span *ngIf="izabranaUstanova.adresa"><i class="pi pi-map-marker"></i> {{izabranaUstanova.adresa}}</span>
+              <span *ngIf="izabranaUstanova.grad"><i class="pi pi-building"></i> {{izabranaUstanova.grad}}</span>
+              <span *ngIf="izabranaUstanova.cena != null"><i class="pi pi-tag"></i> {{izabranaUstanova.cena}} {{izabranaUstanova.valuta}}</span>
+            </div>
+          </div>
+          <button pButton pRipple type="button" label="Promeni" icon="pi pi-refresh" class="p-button-sm p-button-outlined"
+            (click)="openInstitutionModal()"></button>
         </div>
 
-        <div class="row">
-          <label for="medUstanovaId">Ustanova</label>
-          <div class="p-inputgroup">
-            <input type="text" pInputText readonly [value]="izabranaUstanovaPrikaz">
-            <button pButton pRipple type="button" label="Izaberi ustanovu" class="p-button-sm"
-              [disabled]="!zakaziForm.get('medUslugaId').value" (click)="openInstitutionModal()"></button>
-          </div>
-          <small *ngIf="!zakaziForm.get('medUslugaId').value">
+        <ng-template #noInstitution>
+          <button pButton pRipple type="button" label="Izaberi ustanovu" icon="pi pi-search" class="p-button-sm"
+            [disabled]="!zakaziForm.get('medUslugaId').value" (click)="openInstitutionModal()"></button>
+          <small class="gm-muted d-block mt-1" *ngIf="!zakaziForm.get('medUslugaId').value">
             Prvo izaberite pokrivenu uslugu da biste mogli da izaberete ustanovu.
           </small>
-          <small class="p-error"
-            *ngIf="zakaziForm.get('medUstanovaId').touched && zakaziForm.get('medUstanovaId').invalid">
-            Morate izabrati zdravstvenu ustanovu.
-          </small>
-        </div>
+        </ng-template>
 
-        <div class="row" *ngIf="izabranaUstanova">
-          <small *ngIf="loadingRadnoVreme">Učitavanje radnog vremena...</small>
-          <small *ngIf="!loadingRadnoVreme && radnoVremePrikaz">{{radnoVremePrikaz}}</small>
-        </div>
+        <small class="p-error d-block mt-1"
+          *ngIf="zakaziForm.get('medUstanovaId').touched && zakaziForm.get('medUstanovaId').invalid">
+          Morate izabrati zdravstvenu ustanovu.
+        </small>
 
-        <div class="row">
+        <div class="gm-working-hours" *ngIf="izabranaUstanova">
+          <small class="gm-muted" *ngIf="loadingRadnoVreme"><i class="pi pi-spin pi-spinner"></i> Učitavanje radnog vremena...</small>
+          <small class="gm-muted" *ngIf="!loadingRadnoVreme && radnoVremePrikaz"><i class="pi pi-clock"></i> {{radnoVremePrikaz}}</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 & 4. Datum i vreme -->
+    <div class="gm-booking-step">
+      <div class="gm-booking-step-badge">3</div>
+      <div class="gm-booking-step-body gm-booking-datetime">
+        <div>
           <label for="datum">Datum pregleda</label>
           <p-calendar formControlName="datum" id="datum" dateFormat="dd.mm.yy" placeholder="dd.mm.gggg"
             [showIcon]="true" [minDate]="minDate" [keepInvalid]="true" dataType="date"
-            (onBlur)="onDatumBlur()" (onSelect)="onDatumBlur()" [style]="{width: '60%'}">
+            (onBlur)="onDatumBlur()" (onSelect)="onDatumBlur()" [style]="{width: '100%'}">
           </p-calendar>
           <small class="p-error" *ngIf="zakaziForm.get('datum').touched && zakaziForm.get('datum').hasError('required')">
             Datum je obavezan.
@@ -55,12 +81,12 @@
           </small>
         </div>
 
-        <div class="row">
+        <div>
           <label for="vreme">Vreme pregleda</label>
           <p-calendar formControlName="vreme" id="vreme" [timeOnly]="true" hourFormat="24" placeholder="HH:mm"
             [keepInvalid]="true" dataType="date" (onBlur)="onVremeBlur()" (onSelect)="onVremeBlur()"
             [disabled]="!izabranaUstanova || (zakaziForm.get('datum').valid && !!zakaziForm.get('datum').value && !radnoVremeZaIzabranDan)"
-            [style]="{width: '60%'}">
+            [style]="{width: '100%'}">
           </p-calendar>
           <small class="p-error" *ngIf="zakaziForm.get('vreme').touched && zakaziForm.get('vreme').hasError('required')">
             Vreme je obavezno.
@@ -72,39 +98,41 @@
             {{vremeGreska}}
           </small>
         </div>
-
-        <div class="row" style="margin-top: 12px;" *ngIf="pregledSpreman">
-          <p-card header="Pregled izbora">
-            <p><strong>Usluga:</strong> {{izabranaUsluga?.nazivUsluge}}</p>
-            <p><strong>Ustanova:</strong> {{izabranaUstanova?.nazivUstanove}}</p>
-            <p *ngIf="izabranaUstanova?.cena != null"><strong>Cena:</strong> {{izabranaUstanova?.cena}} {{izabranaUstanova?.valuta}}</p>
-            <p *ngIf="izabranaUsluga?.vrstaLimita === 'Iznos' && izabranaUsluga?.remainingAmount != null">
-              <strong>Preostalo pokriće:</strong> {{izabranaUsluga?.remainingAmount}}
-            </p>
-            <p *ngIf="izabranaUsluga?.vrstaLimita === 'BrojOdlazaka' && izabranaUsluga?.remainingVisits != null">
-              <strong>Preostalo odlazaka:</strong> {{izabranaUsluga?.remainingVisits}}
-            </p>
-            <p><strong>Datum:</strong> {{datumPrikaz}}</p>
-            <p><strong>Vreme:</strong> {{vremeString}}</p>
-          </p-card>
-        </div>
-
-        <div class="row" style="margin-top: 12px;">
-          <button pButton pRipple type="submit" label="Zakaži pregled" class="p-button-sm"
-            [disabled]="submitting || !pregledSpreman"></button>
-        </div>
-
       </div>
-    </form>
+    </div>
 
-    <p-dialog header="Izbor zdravstvene ustanove" [(visible)]="institutionModalVisible" [modal]="true"
-      [style]="{width: '70rem'}" [dismissableMask]="true">
-      <app-dzo *ngIf="institutionModalVisible" [selectionMode]="true" [institutions]="institutions"
-        (institutionSelected)="onInstitutionSelected($event)"></app-dzo>
-      <ng-template pTemplate="footer">
-        <button pButton pRipple type="button" label="Zatvori" icon="pi pi-times" class="p-button-text"
-          (click)="institutionModalVisible = false"></button>
-      </ng-template>
-    </p-dialog>
-  </p-fieldset>
+    <!-- 5. Pregled izbora -->
+    <div class="gm-booking-review" *ngIf="pregledSpreman">
+      <h4><i class="pi pi-check-circle"></i> Pregled izbora</h4>
+      <div class="gm-booking-review-grid">
+        <div><span class="gm-muted">Usluga</span><strong>{{izabranaUsluga?.nazivUsluge}}</strong></div>
+        <div><span class="gm-muted">Ustanova</span><strong>{{izabranaUstanova?.nazivUstanove}}</strong></div>
+        <div *ngIf="izabranaUstanova?.cena != null"><span class="gm-muted">Cena</span><strong>{{izabranaUstanova?.cena}} {{izabranaUstanova?.valuta}}</strong></div>
+        <div *ngIf="izabranaUsluga?.vrstaLimita === 'Iznos' && izabranaUsluga?.remainingAmount != null">
+          <span class="gm-muted">Preostalo pokriće</span><strong>{{izabranaUsluga?.remainingAmount}}</strong>
+        </div>
+        <div *ngIf="izabranaUsluga?.vrstaLimita === 'BrojOdlazaka' && izabranaUsluga?.remainingVisits != null">
+          <span class="gm-muted">Preostalo odlazaka</span><strong>{{izabranaUsluga?.remainingVisits}}</strong>
+        </div>
+        <div><span class="gm-muted">Datum</span><strong>{{datumPrikaz}}</strong></div>
+        <div><span class="gm-muted">Vreme</span><strong>{{vremeString}}</strong></div>
+      </div>
+    </div>
+
+    <!-- 6. Zakazi -->
+    <div class="gm-booking-submit">
+      <button pButton pRipple type="submit" label="Zakaži pregled" icon="pi pi-calendar-plus" class="p-button-lg"
+        [loading]="submitting" [disabled]="submitting || !pregledSpreman"></button>
+    </div>
+  </form>
+
+  <p-dialog header="Izbor zdravstvene ustanove" [(visible)]="institutionModalVisible" [modal]="true"
+    [style]="{width: '70rem'}" [dismissableMask]="true" styleClass="gm-institution-dialog">
+    <app-dzo *ngIf="institutionModalVisible" [selectionMode]="true" [institutions]="institutions"
+      (institutionSelected)="onInstitutionSelected($event)"></app-dzo>
+    <ng-template pTemplate="footer">
+      <button pButton pRipple type="button" label="Zatvori" icon="pi pi-times" class="p-button-text"
+        (click)="institutionModalVisible = false"></button>
+    </ng-template>
+  </p-dialog>
 </div>

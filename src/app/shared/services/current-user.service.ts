@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, finalize, map, shareReplay, tap } from 'rxjs/operators';
 import { CurrentUser } from '../models/current-user';
 import { AuthService } from './auth.service';
 import { MasterService } from './master.service';
@@ -16,6 +16,12 @@ export class CurrentUserService {
   private state$ = new BehaviorSubject<CurrentUserState>(undefined);
 
   readonly user$: Observable<CurrentUserState> = this.state$.asObservable();
+
+  // FIX J - AppComponent.ngOnInit() i prvi route guard oba pozivaju ensureLoaded()
+  // u istom tick-u na bootstrap/refresh (state$ je oboma jos undefined), sto je bez
+  // ovoga slalo 2 paralelna GET /Master/me poziva za isto ucitavanje. Deljenje istog
+  // in-flight Observable-a svodi to na jedan HTTP poziv.
+  private pending$: Observable<CurrentUser | null> | null = null;
 
   constructor(
     private masterService: MasterService,
@@ -33,7 +39,16 @@ export class CurrentUserService {
       return of(this.state$.value);
     }
 
-    return this.fetch();
+    if (this.pending$) {
+      return this.pending$;
+    }
+
+    this.pending$ = this.fetch().pipe(
+      finalize(() => this.pending$ = null),
+      shareReplay(1),
+    );
+
+    return this.pending$;
   }
 
   refresh(): Observable<CurrentUser | null> {

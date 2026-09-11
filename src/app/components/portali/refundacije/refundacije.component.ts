@@ -15,6 +15,7 @@ export class RefundacijeComponent implements OnInit {
   fileToUpload: File[] = [];
   nazivFajla: string[] = [];
   sending: boolean = false;
+  dragOver: boolean = false;
 
   // Prefill iz CurrentUserService (trusted /me) - backend ionako ignorise ove
   // vrednosti iz FormData i uvek ih prepisuje trenutnim korisnikom, ali ih
@@ -61,14 +62,37 @@ export class RefundacijeComponent implements OnInit {
 
   handleFileInput(event: Event) {
     const target = event.target as HTMLInputElement;
-    const files: FileList | null = target.files;
+    this.addFiles(target.files);
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.dragOver = true;
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.dragOver = false;
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.dragOver = false;
+    this.addFiles(event.dataTransfer?.files ?? null);
+  }
+
+  private addFiles(files: FileList | null) {
+    if (!files) {
+      return;
+    }
     for (let index = 0; index < files.length; index++) {
-      if (files && files.length > 0) {
-        const file: File = files[index];
-        if (!this.nazivFajla.includes(file.name)) {
-          this.fileToUpload.push(file);
-          this.nazivFajla.push(file.name);
-        }
+      const file: File = files[index];
+      if (!this.nazivFajla.includes(file.name)) {
+        this.fileToUpload.push(file);
+        this.nazivFajla.push(file.name);
       }
     }
   }

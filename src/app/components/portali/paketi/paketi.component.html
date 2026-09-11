@@ -1,326 +1,192 @@
-<div class="row">
-  <!-- fieldset za detalje korisnika -->
-  <p-fieldset legend="Informacije o ugovorenom pokriću" class="mb-3">
-    <img src="/assets/images/GlobosMedicIseceno.png" alt="Slika" height="40px"
-      style="position: relative; bottom: 85px; left: 25px;" class="logoMedic">
-    <!-- skeleteon za ucitavanje -->
-    <ng-container *ngIf="skeleton; else userUpdate">
-      <div class="row">
-        <p-skeleton></p-skeleton>
-        <p-skeleton></p-skeleton>
-        <p-skeleton></p-skeleton>
+<div class="gm-page">
+
+  <!-- Kartica sa podacima o polisi -->
+  <div class="gm-policy-hero">
+    <div class="gm-policy-hero-header">
+      <img src="/assets/images/GlobosMedicIseceno.png" alt="GlobosMedic" height="32px" class="gm-policy-hero-logo">
+      <div>
+        <h2 class="gm-section-title mb-0">Moje osiguranje</h2>
+        <p class="gm-muted mb-0">Poslovno ime osiguravača: GLOBOS osiguranje a.d.o.</p>
       </div>
-      <div class="row">
-        <p-skeleton></p-skeleton>
+    </div>
+
+    <!-- skeleton za ucitavanje -->
+    <ng-container *ngIf="skeleton; else userUpdate">
+      <div class="gm-policy-grid">
+        <div class="gm-skeleton-line" *ngFor="let i of [1,2,3,4,5,6,7,8,9]"></div>
       </div>
     </ng-container>
+
     <!-- polja za detalje korisnika -->
     <ng-template #userUpdate>
-      <form [formGroup]="detaljiPolise">
-        <div class="flex flex-column mt-1">
-          <!-- prvi red -->
-          <div class="row">
-            <!-- ime -->
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="pi pi-user"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" pInputText formControlName="Ime" />
-                <label for="Ime">Ime</label>
-              </span>
-            </div>
-            <!-- prezime -->
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="pi pi-user"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" pInputText formControlName="Prezime" />
-                <label for="Prezime">Prezime</label>
-              </span>
-            </div>
-            <!-- broj polise -->
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="fa fa-align-justify"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" pInputText formControlName="brojPolise" />
-                <label for="brojPolise">Broj polise</label>
-              </span>
-            </div>
-            <!-- broj kartice -->
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="fa fa-align-justify"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" pInputText formControlName="BrKartice" />
-                <label for="BrKartice">Broj kartice</label>
-              </span>
-            </div>
-          </div>
-          <!-- drugi red -->
-          <div class="row">
-            <!-- pocetak osiguranja -->
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="pi pi-calendar"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" id="ime" pInputText formControlName="pocetakOsiguranja" />
-                <label for="pocetakOsiguranja">Početak osiguranja</label>
-              </span>
-            </div>
-            <!-- kraj osiguranja -->
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="pi pi-calendar"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" pInputText formControlName="krajOsiguranja" />
-                <label for="krajOsiguranja">Kraj osiguranja</label>
-              </span>
-            </div>
-            <!-- datum rođenja -->
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="pi pi-calendar"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" pInputText formControlName="datRodjenja" />
-                <label for="datRodjenja">Datum rođenja</label>
-              </span>
-            </div>
-            <!-- broj telefona -->
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon">
-                <i class="pi pi-phone"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" pInputText formControlName="brTelefona" />
-                <label for="brTelefona">Broj telefona</label>
-              </span>
-            </div>
-            <!-- firma -->
-            <div class="p-inputgroup" style="width: 44%;">
-              <span class="p-inputgroup-addon">
-                <i class="far fa-building"></i>
-              </span>
-              <span class="p-float-label">
-                <input type="text" id="ime" pInputText formControlName="firma" />
-                <label for="firma">Ugovarač osiguranja</label>
-              </span>
-            </div>
-          </div>
+      <form [formGroup]="detaljiPolise" class="gm-policy-grid">
+        <div class="gm-policy-field">
+          <label>Ime</label>
+          <div class="gm-policy-value gm-policy-value-readonly"><i class="pi pi-user"></i> {{detaljiPolise.get('Ime').value ?? '/'}}</div>
+        </div>
+        <div class="gm-policy-field">
+          <label>Prezime</label>
+          <div class="gm-policy-value gm-policy-value-readonly"><i class="pi pi-user"></i> {{detaljiPolise.get('Prezime').value ?? '/'}}</div>
+        </div>
+        <div class="gm-policy-field">
+          <label>Broj polise</label>
+          <div class="gm-policy-value gm-policy-value-readonly"><i class="fa fa-address-card"></i> {{detaljiPolise.get('brojPolise').value ?? '/'}}</div>
+        </div>
+        <div class="gm-policy-field">
+          <label>Broj kartice</label>
+          <div class="gm-policy-value gm-policy-value-readonly"><i class="fa fa-address-card"></i> {{detaljiPolise.get('BrKartice').value ?? '/'}}</div>
+        </div>
+        <div class="gm-policy-field">
+          <label>Početak osiguranja</label>
+          <div class="gm-policy-value gm-policy-value-readonly"><i class="pi pi-calendar"></i> {{detaljiPolise.get('pocetakOsiguranja').value ?? '/'}}</div>
+        </div>
+        <div class="gm-policy-field">
+          <label>Kraj osiguranja</label>
+          <div class="gm-policy-value gm-policy-value-readonly"><i class="pi pi-calendar"></i> {{detaljiPolise.get('krajOsiguranja').value ?? '/'}}</div>
+        </div>
+        <div class="gm-policy-field">
+          <label>Datum rođenja</label>
+          <div class="gm-policy-value gm-policy-value-readonly"><i class="pi pi-calendar"></i> {{detaljiPolise.get('datRodjenja').value ?? '/'}}</div>
+        </div>
+        <div class="gm-policy-field">
+          <label>Broj telefona</label>
+          <div class="gm-policy-value gm-policy-value-readonly"><i class="pi pi-phone"></i> {{detaljiPolise.get('brTelefona').value ?? '/'}}</div>
+        </div>
+        <div class="gm-policy-field">
+          <label>Ugovarač osiguranja</label>
+          <div class="gm-policy-value gm-policy-value-readonly"><i class="far fa-building"></i> {{detaljiPolise.get('firma').value ?? '/'}}</div>
         </div>
       </form>
     </ng-template>
-    <div class="col">
-      Poslovno ime osiguravača: GLOBOS osiguranje a.d.o.
+  </div>
+
+  <!-- Pokrica kao kartice sa progress indikatorom -->
+  <h3 class="gm-section-title mt-4">Pokrića</h3>
+
+  <div class="gm-coverage-grid" *ngIf="!loadingPokrica; else coverageSkeleton">
+    <div class="gm-empty-state" *ngIf="paketiPokrica.length === 0">
+      <i class="pi pi-shield"></i>
+      <p>Nema ugovorenih pokrića na ovom paketu.</p>
     </div>
-  </p-fieldset>
-  <p-card>
-    <!-- tabela pokrića -->
 
-    <!-- <p-table [value]="paketiPokrica" [tableStyle]="{'min-width': '50rem'}" [(selection)]="selectedPaket"
-      styleClass="p-datatable-sm" [loading]="loadingPokrica" selectionMode="single" (onRowSelect)="selectProduct()"> -->
-    <p-table [value]="paketiPokrica" [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-sm"
-      [loading]="loadingPokrica" selectionMode="single">
-      <!-- head -->
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th pSortableColumn="nazivPokrice" style="width: 32%;">
-            <span> Naziv pokrića </span>
-            <p-sortIcon field="nazivPokrice"></p-sortIcon>
-          </th>
-          <th pSortableColumn="iskorisceno" style="width: 15%;">
-            <span> Iskorišćeno </span>
-            <p-sortIcon field="iskorisceno"></p-sortIcon>
-          </th>
-          <th pSortableColumn="preostalo" style="width: 15%;">
-            <span> Preostalo </span>
-            <p-sortIcon field="preostalo"></p-sortIcon>
-          </th>
-          <th pSortableColumn="suma_osiguranja" style="width: 15%;">
-            <span> Suma </span>
-            <p-sortIcon field="suma_osiguranja"></p-sortIcon>
-          </th>
-          <th pSortableColumn="ucesceOsiguranika" style="width: 15%;">
-            <span> Učešće </span>
-            <p-sortIcon field="ucesceOsiguranika"></p-sortIcon>
-          </th>
-          <th style="width: 8%;">
-            <span> Detalji </span>
-            <!-- <p-header></p-header> -->
-          </th>
-        </tr>
-      </ng-template>
-      <!-- body -->
-      <ng-template pTemplate="body" let-product let-columns="columns">
-        <tr [pSelectableRow]="product" pTooltip="Kliknite na dugme za detalje podpokrića" tooltipPosition="right">
-          <td>
-            <span> {{product.nazivPokrice}} </span>
-          </td>
-          <td>
-            <span> {{product.iskorisceno}} &euro; </span>
-          </td>
-          <td>
-            <span *ngIf="product.preostalo === 'Bez limita'"> Bez limita </span>
-            <span *ngIf="product.preostalo !== 'Bez limita'"> {{product.preostalo}} &euro; </span>
-          </td>
-          <td>
-            <span> {{product.suma_osiguranja}} &euro; </span>
-          </td>
-          <td>
-            <span> {{product.ucesceOsiguranika}} % </span>
-          </td>
-          <td>
-            <p-button class="p-button-sm" icon="pi pi-file"
-              (onClick)="selectProductOnClick(product, product.nazivPokrice)"></p-button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </p-card>
+    <div class="gm-coverage-card" *ngFor="let pokrice of paketiPokrica">
+      <div class="gm-coverage-card-header">
+        <span class="gm-coverage-name" [pTooltip]="pokrice.nazivPokrice" tooltipPosition="top">{{pokrice.nazivPokrice}}</span>
+        <span class="gm-badge gm-badge-info">Učešće {{pokrice.ucesceOsiguranika}}%</span>
+      </div>
 
-  <!-- dijalog sa tabelom podpokrića -->
-  <p-dialog [header]="'Detalji paketa ' + ' : ' + selectedPaket" [resizable]="false" [modal]="true" [draggable]="false"
-    appendTo="body" [(visible)]="tabelaPodPokrica" [style]="{width: '90vw'}">
-    <!-- tabela podpokrica -->
-    <p-table [value]="paketiPodPokrica" scrollHeight="flex" styleClass="p-datatable-sm p-datatable-striped"
-      [loading]="loadingPodPokrica" [rows]="10" [showCurrentPageReport]="true" [paginator]="true"
-      currentPageReportTemplate="Prikaz {first} do {last} od {totalRecords}" [pageLinks]="3">
-      <!-- head -->
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th pSortableColumn="paket" style="width: 15%;">
-            <span> Naziv paketa </span>
-            <p-sortIcon field="paket"></p-sortIcon>
-          </th>
-          <th style="width: 12%;">
-            <span> Suma osiguranja </span>
-          </th>
-          <th pSortableColumn="nazivPodpokrice" style="width: 23%;">
-            <span> Naziv podpokrića </span>
-            <p-sortIcon field="nazivPodpokrice"></p-sortIcon>
-          </th>
-          <th style="width: 15%;">
-            <span> Vrsta limita </span>
-          </th>
-          <th style="width: 11%;">
-            <span> Limit </span>
-          </th>
-          <th style="width: 12%;">
-            <span> Iskorišćeno </span>
-          </th>
-          <th style="width: 12%;">
-            <span> Preostalo </span>
-          </th>
-          <th style="width: 20%;">
-            <span> Pokrivene usluge </span>
-          </th>
-        </tr>
-      </ng-template>
-      <!-- body -->
+      <ng-container *ngIf="pokrice.preostalo !== 'Bez limita'; else bezLimita">
+        <div class="gm-coverage-sum">Suma osiguranja: <strong>{{pokrice.suma_osiguranja}} &euro;</strong></div>
 
-      <ng-template pTemplate="body" let-customer>
-        <div *ngIf="customer.vrsta_Limita ==='Broj odlazaka'; then thenBlock else elseBlock"></div>
-        <ng-template #thenBlock>
-          <tr>
-            <td>
-              <span class="p-column-title">Naziv paketa</span>
-              <span class="p-column-text"> {{customer.paket}} </span>
-            </td>
-            <td>
-              <span class="p-column-title">Suma osiguranja</span>
-              <span class="p-column-text"> {{customer.suma_Osiguranja.toFixed(2)}} &euro; </span>
-            </td>
-            <td pTooltip={{customer.nazivPodpokrica}}>
-              <span class="p-column-title">Naziv podpokrića</span>
-              <span class="p-column-text"> {{customer.nazivPodpokrica}} </span>
-            </td>
-            <td>
-              <span class="p-column-title">Vrsta limita</span>
-              <span class="p-column-text"> {{customer.vrsta_Limita}} </span>
-            </td>
-            <td>
-              <span class="p-column-title">Limit</span>
-              <span class="p-column-text"> {{customer.limit.toFixed(2)}} </span>
-            </td>
-            <td>
-              <span class="p-column-title">Iskorišćeno</span>
-              <span class="p-column-text"> {{customer.iskorisceno.toFixed(2)}}</span>
-            </td>
-            <td>
-              <span class="p-column-title">Preostalo</span>
-              <span class="p-column-text"> {{customer.preostalo}}</span>
-            </td>
-            <td>
-              <span class="p-column-title">Pokrivene usluge</span>
-              <span class="p-column-text" *ngFor="let usluga of customer.usluge">
-                {{usluga.nazivUsluge}} ({{usluga.brojUstanova}} ustanova<span *ngIf="usluga.cenaMin != null">, {{usluga.cenaMin}}&ndash;{{usluga.cenaMax}} RSD</span>)<br>
-              </span>
-            </td>
-          </tr>
-        </ng-template>
-        <ng-template #elseBlock>
-          <tr>
-            <td>
-              <span class="p-column-title">Naziv paketa</span>
-              <span class="p-column-text"> {{customer.paket}} </span>
-            </td>
-            <td>
-              <span class="p-column-title">Suma osiguranja</span>
-              <span class="p-column-text"> {{customer.suma_Osiguranja.toFixed(2)}} &euro; </span>
-            </td>
-            <td pTooltip={{customer.nazivPodpokrica}}>
-              <span class="p-column-title">Naziv podpokrića</span>
-              <span class="p-column-text"> {{customer.nazivPodpokrica}} </span>
-            </td>
-            <td>
-              <span class="p-column-title">Vrsta limita</span>
-              <span class="p-column-text"> {{customer.vrsta_Limita}} </span>
-            </td>
-            <td>
-              <span class="p-column-title">Limit</span>
-              <span class="p-column-text"> {{customer.limit ? customer.limit.toFixed(2) + ' €' : '/' }} </span>
-            </td>
-            <td>
-              <span class="p-column-title">Iskorišćeno</span>
-              <span class="p-column-text"> {{customer.iskorisceno === 'Nema limita' ? customer.iskorisceno :
-                formatNumber(customer.iskorisceno)}}</span>
-            </td>
-            <td>
-              <span class="p-column-title">Preostalo</span>
-              <span class="p-column-text"> {{customer.preostalo === 'Bez limita' ? customer.preostalo :
-                formatNumber(customer.preostalo)}}</span>
-            </td>
-            <td>
-              <span class="p-column-title">Pokrivene usluge</span>
-              <span class="p-column-text" *ngFor="let usluga of customer.usluge">
-                {{usluga.nazivUsluge}} ({{usluga.brojUstanova}} ustanova<span *ngIf="usluga.cenaMin != null">, {{usluga.cenaMin}}&ndash;{{usluga.cenaMax}} RSD</span>)<br>
-              </span>
-            </td>
-          </tr>
-        </ng-template>
+        <div class="gm-progress-stack">
+          <div class="gm-progress-used" [style.width.%]="pct(pokrice.iskorisceno, pokrice.suma_osiguranja)"></div>
+          <div class="gm-progress-reserved" [style.width.%]="pct(pokrice.rezervisano, pokrice.suma_osiguranja)"></div>
+        </div>
+
+        <div class="gm-coverage-legend">
+          <span><i class="gm-legend-dot gm-legend-used"></i> Iskorišćeno {{pokrice.iskorisceno}} &euro;</span>
+          <span><i class="gm-legend-dot gm-legend-reserved"></i> Rezervisano {{pokrice.rezervisano}} &euro;</span>
+          <span><i class="gm-legend-dot gm-legend-remaining"></i> Preostalo {{pokrice.preostalo}} &euro;</span>
+        </div>
+      </ng-container>
+      <ng-template #bezLimita>
+        <div class="gm-coverage-sum">
+          <span class="gm-badge gm-badge-success">Bez limita</span>
+        </div>
+        <div class="gm-coverage-legend">
+          <span><i class="gm-legend-dot gm-legend-used"></i> Iskorišćeno {{pokrice.iskorisceno}} &euro;</span>
+          <span><i class="gm-legend-dot gm-legend-reserved"></i> Rezervisano {{pokrice.rezervisano}} &euro;</span>
+        </div>
       </ng-template>
 
-    </p-table>
-    <!-- footer -->
+      <button pButton pRipple type="button" label="Detalji" icon="pi pi-file"
+        class="p-button-outlined p-button-sm gm-coverage-details-btn"
+        (click)="selectProductOnClick(pokrice, pokrice.nazivPokrice)"></button>
+    </div>
+  </div>
+
+  <ng-template #coverageSkeleton>
+    <div class="gm-coverage-grid">
+      <div class="gm-coverage-card" *ngFor="let i of [1,2,3]">
+        <div class="gm-skeleton-line" style="width: 60%; height: 20px;"></div>
+        <div class="gm-skeleton-line mt-3"></div>
+        <div class="gm-skeleton-line mt-2" style="width: 40%;"></div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- dijalog sa detaljima podpokrića -->
+  <p-dialog [header]="'Detalji pokrića — ' + selectedPaket" [resizable]="false" [modal]="true" [draggable]="false"
+    appendTo="body" [(visible)]="tabelaPodPokrica" [style]="{width: '90vw', maxWidth: '1100px'}" styleClass="gm-coverage-dialog">
+
+    <div class="gm-subcoverage-list" *ngIf="!loadingPodPokrica; else subSkeleton">
+      <div class="gm-empty-state" *ngIf="paketiPodPokrica.length === 0">
+        <i class="pi pi-inbox"></i>
+        <p>Nema podpokrića za ovo pokriće.</p>
+      </div>
+
+      <div class="gm-subcoverage-card" *ngFor="let sub of paketiPodPokrica">
+        <div class="gm-subcoverage-header">
+          <span class="gm-subcoverage-name" [pTooltip]="sub.nazivPodpokrica" tooltipPosition="top">{{sub.nazivPodpokrica}}</span>
+          <span class="gm-badge gm-badge-neutral">{{sub.vrsta_Limita}}</span>
+        </div>
+
+        <div class="gm-subcoverage-stats">
+          <div class="gm-subcoverage-stat">
+            <span class="gm-muted">Suma osiguranja</span>
+            <strong>{{sub.suma_Osiguranja.toFixed(2)}} &euro;</strong>
+          </div>
+          <div class="gm-subcoverage-stat">
+            <span class="gm-muted">Limit</span>
+            <strong>{{sub.limit != null ? (sub.limit.toFixed ? sub.limit.toFixed(2) : sub.limit) + ' €' : '/'}}</strong>
+          </div>
+          <div class="gm-subcoverage-stat">
+            <span class="gm-muted">Iskorišćeno</span>
+            <strong>{{sub.iskorisceno === 'Nema limita' ? sub.iskorisceno : formatNumber(sub.iskorisceno)}}</strong>
+          </div>
+          <div class="gm-subcoverage-stat">
+            <span class="gm-muted">Rezervisano</span>
+            <strong>{{sub.rezervisano === 'Nema limita' ? sub.rezervisano : formatNumber(sub.rezervisano)}}</strong>
+          </div>
+          <div class="gm-subcoverage-stat">
+            <span class="gm-muted">Preostalo</span>
+            <strong>{{sub.preostalo === 'Bez limita' ? sub.preostalo : formatNumber(sub.preostalo)}}</strong>
+          </div>
+        </div>
+
+        <p-accordion *ngIf="sub.usluge?.length" styleClass="gm-usluge-accordion">
+          <p-accordionTab [header]="'Pokrivene usluge (' + sub.usluge.length + ')'">
+            <ul class="gm-usluge-list">
+              <li *ngFor="let usluga of sub.usluge">
+                <span [pTooltip]="usluga.nazivUsluge" tooltipPosition="top">{{usluga.nazivUsluge}}</span>
+                <span class="gm-muted">{{usluga.brojUstanova}} ustanova<span *ngIf="usluga.cenaMin != null">, {{usluga.cenaMin}}&ndash;{{usluga.cenaMax}} RSD</span></span>
+              </li>
+            </ul>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+
+    <ng-template #subSkeleton>
+      <div class="gm-subcoverage-list">
+        <div class="gm-subcoverage-card" *ngFor="let i of [1,2]">
+          <div class="gm-skeleton-line" style="width: 50%; height: 18px;"></div>
+          <div class="gm-skeleton-line mt-3"></div>
+        </div>
+      </div>
+    </ng-template>
+
     <ng-template pTemplate="footer">
-      <!-- dugme za zatvaranje -->
       <button type="button" pButton pRipple icon="pi pi-times" (click)="tabelaPodPokrica = false" label="Zatvori"
-        class="p-button-sm p-button-danger"></button>
+        class="p-button-sm p-button-text"></button>
     </ng-template>
   </p-dialog>
 
   <!-- Istorija koriscenja (FIX G3, stavka 7) -->
-  <p-card header="Istorija korišćenja" class="mt-3">
+  <p-card header="Istorija korišćenja" class="mt-4">
     <p-table [value]="istorijaKoriscenja" styleClass="p-datatable-sm p-datatable-striped" [loading]="loadingIstorija"
       [rows]="10" [paginator]="true" [showCurrentPageReport]="true"
-      currentPageReportTemplate="Prikaz {first} do {last} od {totalRecords}">
+      currentPageReportTemplate="Prikaz {first} do {last} od {totalRecords}" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
           <th> Datum </th>
@@ -343,7 +209,12 @@
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td colspan="6">Nema zabeleženih pregleda.</td>
+          <td colspan="6">
+            <div class="gm-empty-state">
+              <i class="pi pi-history"></i>
+              <p>Nema zabeleženih pregleda.</p>
+            </div>
+          </td>
         </tr>
       </ng-template>
     </p-table>

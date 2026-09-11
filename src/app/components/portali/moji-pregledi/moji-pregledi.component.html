@@ -1,19 +1,20 @@
-<div class="row">
-  <p-fieldset legend="Moji pregledi" class="mb-3">
+<div class="gm-page">
+  <h2 class="gm-section-title">Moji pregledi</h2>
 
+  <p-card styleClass="gm-appointments-card">
     <ng-container *ngIf="loading; else sadrzaj">
-      <p-skeleton></p-skeleton>
-      <p-skeleton></p-skeleton>
+      <div class="gm-skeleton-line" *ngFor="let i of [1,2,3]"></div>
     </ng-container>
 
     <ng-template #sadrzaj>
-      <div *ngIf="appointments.length === 0; else tabela">
+      <div class="gm-empty-state" *ngIf="appointments.length === 0; else tabela">
+        <i class="pi pi-calendar-times"></i>
         <p>Trenutno nemate zakazanih pregleda.</p>
-        <a routerLink="/zakazi-pregled">Zakažite pregled</a>
+        <a routerLink="/zakazi-pregled" class="p-button p-button-sm p-component" style="text-decoration:none; display:inline-block;">Zakažite pregled</a>
       </div>
 
       <ng-template #tabela>
-        <p-table [value]="appointments" styleClass="p-datatable-sm">
+        <p-table [value]="appointments" styleClass="p-datatable-sm" responsiveLayout="scroll">
           <ng-template pTemplate="header">
             <tr>
               <th>Broj uputa</th>
@@ -28,25 +29,24 @@
           <ng-template pTemplate="body" let-pregled>
             <tr>
               <td>{{pregled.uputBroj}}</td>
-              <td>{{pregled.nazivUsluge}}</td>
-              <td>{{pregled.nazivUstanove}}</td>
+              <td [pTooltip]="pregled.nazivUsluge" tooltipPosition="top">{{pregled.nazivUsluge}}</td>
+              <td [pTooltip]="pregled.nazivUstanove" tooltipPosition="top">{{pregled.nazivUstanove}}</td>
               <td>{{pregled.datumPregleda ? (pregled.datumPregleda | date:'dd.MM.yyyy') : '—'}}</td>
               <td>{{pregled.vreme || '—'}}</td>
               <td><p-tag [value]="pregled.status" [severity]="statusSeverity(pregled.status)"></p-tag></td>
               <td class="akcije">
-                <button pButton type="button" label="Osveži status" class="p-button-text p-button-sm"
-                  *ngIf="mozeOsvezitiStatus(pregled)" [disabled]="syncing" (click)="osveziStatus()"></button>
-                <button pButton type="button" label="Dokumenta" class="p-button-text p-button-sm"
+                <button pButton type="button" label="Osveži status" icon="pi pi-refresh" class="p-button-text p-button-sm"
+                  *ngIf="mozeOsvezitiStatus(pregled)" [loading]="syncing" [disabled]="syncing" (click)="osveziStatus()"></button>
+                <button pButton type="button" label="Dokumenta" icon="pi pi-folder-open" class="p-button-text p-button-sm"
                   *ngIf="pregled.canDownloadDocuments" (click)="otvoriDokumenta(pregled)"></button>
-                <span *ngIf="!mozeOsvezitiStatus(pregled) && !pregled.canDownloadDocuments">—</span>
+                <span class="gm-muted" *ngIf="!mozeOsvezitiStatus(pregled) && !pregled.canDownloadDocuments">—</span>
               </td>
             </tr>
           </ng-template>
         </p-table>
       </ng-template>
     </ng-template>
-
-  </p-fieldset>
+  </p-card>
 </div>
 
 <p-dialog header="Dokumentacija pregleda" [(visible)]="documentsDialogVisible" [modal]="true" [style]="{width: '40rem'}">
@@ -55,17 +55,22 @@
   </ng-container>
 
   <ng-container *ngIf="documentsLoading; else documentsSadrzaj">
-    <p-skeleton></p-skeleton>
-    <p-skeleton></p-skeleton>
+    <div class="gm-skeleton-line" *ngFor="let i of [1,2]"></div>
   </ng-container>
 
   <ng-template #documentsSadrzaj>
-    <p *ngIf="documentsError" class="text-danger">{{documentsError}}</p>
+    <div class="gm-alert gm-alert-danger" *ngIf="documentsError">
+      <i class="pi pi-exclamation-circle"></i>
+      <p>{{documentsError}}</p>
+    </div>
 
     <ng-container *ngIf="!documentsError">
-      <p *ngIf="documents.length === 0">Za ovaj pregled trenutno nema dostupnih dokumenata.</p>
+      <div class="gm-empty-state" *ngIf="documents.length === 0">
+        <i class="pi pi-file"></i>
+        <p>Za ovaj pregled trenutno nema dostupnih dokumenata.</p>
+      </div>
 
-      <p-table *ngIf="documents.length > 0" [value]="documents" styleClass="p-datatable-sm">
+      <p-table *ngIf="documents.length > 0" [value]="documents" styleClass="p-datatable-sm" responsiveLayout="scroll">
         <ng-template pTemplate="header">
           <tr>
             <th>Naziv</th>
@@ -76,12 +81,12 @@
         </ng-template>
         <ng-template pTemplate="body" let-doc>
           <tr>
-            <td>{{doc.nazivFajla}}</td>
+            <td [pTooltip]="doc.nazivFajla" tooltipPosition="top">{{doc.nazivFajla}}</td>
             <td>{{doc.tipDokumenta || '—'}}</td>
             <td>{{doc.createdAt | date:'dd.MM.yyyy'}}</td>
             <td>
               <button pButton type="button" icon="pi pi-download" label="Preuzmi" class="p-button-text p-button-sm"
-                [disabled]="downloadingId === doc.id" (click)="preuzmiDokument(doc)"></button>
+                [loading]="downloadingId === doc.id" [disabled]="downloadingId === doc.id" (click)="preuzmiDokument(doc)"></button>
             </td>
           </tr>
         </ng-template>

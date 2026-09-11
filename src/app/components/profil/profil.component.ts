@@ -100,6 +100,14 @@ export class ProfilComponent implements OnInit {
     }
   }
 
+  get accountStatusLabel(): string {
+    return this.user?.accountStatus === 'Blocked' ? 'Blokiran' : 'Aktivan';
+  }
+
+  get accountStatusBadgeClass(): string {
+    return this.user?.accountStatus === 'Blocked' ? 'gm-badge-danger' : 'gm-badge-success';
+  }
+
   private markAllFormControlsAsDirty(formGroup: FormGroup | FormArray): void {
     Object.keys(formGroup.controls).forEach((controlName) => {
       const control = formGroup.get(controlName);

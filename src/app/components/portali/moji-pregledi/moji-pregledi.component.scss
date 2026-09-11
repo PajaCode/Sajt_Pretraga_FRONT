@@ -1,11 +1,28 @@
-.row {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+:host {
+  display: block;
 }
 
 .akcije {
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+:host ::ng-deep {
+  .gm-appointments-card {
+    .p-card-body {
+      padding: 0 !important;
+    }
+
+    .p-datatable thead th {
+      background: var(--gm-primary-bg);
+      color: var(--gm-primary-dark);
+      font-family: 'AvenirNextDemi', sans-serif;
+    }
+
+    .p-datatable tbody td {
+      vertical-align: middle;
+    }
+  }
 }

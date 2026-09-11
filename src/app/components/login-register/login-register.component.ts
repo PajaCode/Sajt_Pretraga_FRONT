@@ -103,6 +103,7 @@ export class LoginRegisterComponent implements OnInit {
   formResetGrupa() {
     this.formReset = this.fb.group({
       emailReset: [null, [Validators.email, Validators.required]],
+      brKarticeReset: [null],
     })
   }
 
@@ -138,10 +139,11 @@ export class LoginRegisterComponent implements OnInit {
     }
 
     const email = (this.formReset.get('emailReset').value || '').trim();
+    const brKartice = (this.formReset.get('brKarticeReset').value || '').trim() || null;
 
     this.loadingSendEmail = true;
 
-    this.masterService.forgotPassword({ email }).subscribe({
+    this.masterService.forgotPassword({ email, brKartice }).subscribe({
       next: (res) => {
         this.loadingSendEmail = false;
         this.toster.success(res.message, 'Globos osiguranje');

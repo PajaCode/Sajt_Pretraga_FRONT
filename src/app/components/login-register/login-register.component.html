@@ -1,5 +1,4 @@
 <div class="row">
-  <!-- <p-card header="{{this.url === '/register' ? 'Registracija' : 'Logovanje'}}"> -->
   <p class="text-justify" id="note">
     Registrujte se sa e-mail adresom, korisničkim imenom i lozinkom. Nakon registracije potvrdite e-mail adresu<br>
     unosom aktivacionog koda, a zatim se prijavite i izaberite paket osiguranja. </p>
@@ -42,7 +41,6 @@
             <div class="flex flex-column">
               <span class="p-float-label">
                 <input pInputText type="email" formControlName="email" placeholder="Unesite e-mail" />
-                  <!-- (blur)="inputChecker(3,'email')"  -->
                 <label htmlFor="email">E-mail</label>
               </span>
               <small class="text-danger" *ngIf="registerSubmitted && form.hasError('email', 'email')">*E-mail
@@ -171,6 +169,14 @@
                 *ngIf="formReset.controls['emailReset'].dirty && formReset.hasError('required', 'emailReset')">*E-mail
                 je obavezno polje.</small>
             </div>
+            <div class="flex flex-column mt-3">
+              <span class="p-float-label">
+                <input pInputText type="text" formControlName="brKarticeReset"
+                  placeholder="Unesite broj kartice (ako ga imate)" />
+                <label htmlFor="brKarticeReset">Broj kartice</label>
+              </span>
+              <small>Ako još niste kupili paket i nemate karticu, ostavite polje prazno.</small>
+            </div>
           </form>
         </ng-template>
         <ng-template pTemplate="footer">
@@ -178,7 +184,6 @@
             icon="pi pi-send" styleClass="p-button-rounded p-button-sm"></p-button>
         </ng-template>
       </p-dialog>
-      <!-- <hr> -->
     </ng-template>
     <!-- footer -->
     <ng-template pTemplate="footer">
